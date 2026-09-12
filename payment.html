@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Life Skills Rwanda - Payment
+    </title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f2f7ff,
+                    #eef3fa
+                );
+
+            color: #172033;
+
+            min-height: 100vh;
+
+        }
+
+        .topbar {
+
+            background: white;
+
+            border-bottom:
+                1px solid #e3e8ef;
+
+            padding:
+                14px 25px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+        }
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+        }
+
+        .logo {
+
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1261d8,
+                    #073b8c
+                );
+
+            color: white;
+
+            font-weight: 900;
+
+        }
+
+        .brand h1 {
+
+            font-size: 19px;
+
+        }
+
+        .brand p {
+
+            color: #748095;
+
+            font-size: 12px;
+
+            margin-top: 3px;
+
+        }
+
+        .back-btn {
+
+            text-decoration: none;
+
+            color: #1261d8;
+
+            font-weight: 800;
+
+        }
+
+        .page {
+
+            max-width: 950px;
+
+            margin:
+                35px auto;
+
+            padding:
+                0 18px;
+
+        }
+
+        .hero {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+        .hero h2 {
+
+            font-size: 31px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .hero p {
+
+            color: #6c7789;
+
+        }
+
+        .payment-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+        .card {
+
+            background: white;
+
+            border:
+                1px solid #e0e6ef;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 10px 30px
+                rgba(24,48,86,.07);
+
+        }
+
+        .amount-card {
+
+            text-align: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1261d8,
+                    #073b8c
+                );
+
+            color: white;
+
+        }
+
+        .amount-card .icon {
+
+            font-size: 40px;
+
+            margin-bottom: 10px;
+
+        }
+
+        .amount {
+
+            font-size: 39px;
+
+            font-weight: 900;
+
+            margin: 12px 0;
+
+        }
+
+        .payment-method {
+
+            margin-top: 20px;
+
+            padding: 17px;
+
+            border-radius: 13px;
+
+            background: #f6f8fc;
+
+            border:
+                1px solid #e1e7ef;
+
+        }
+
+        .payment-method h3 {
+
+            margin-bottom: 7px;
+
+        }
+
+        .number {
+
+            font-size: 23px;
+
+            font-weight: 900;
+
+            color: #1261d8;
+
+            letter-spacing: .5px;
+
+            margin-top: 7px;
+
+            word-break: break-word;
+
+        }
+
+        .method-label {
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            color: #758096;
+
+            text-transform: uppercase;
+
+        }
+
+        .form-group {
+
+            margin-bottom: 17px;
+
+        }
+
+        label {
+
+            display: block;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+
+        }
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 13px;
+
+            border:
+                1px solid #d5dce7;
+
+            border-radius: 10px;
+
+            outline: none;
+
+            background: white;
+
+        }
+
+        input:focus,
+        select:focus {
+
+            border-color: #1261d8;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(18,97,216,.1);
+
+        }
+
+        .btn {
+
+            width: 100%;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            padding: 14px;
+
+            background: #1261d8;
+
+            color: white;
+
+            font-weight: 900;
+
+            cursor: pointer;
+
+        }
+
+        .btn:hover {
+
+            background: #0c4fae;
+
+        }
+
+        .btn:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+        }
+
+        .instruction {
+
+            margin-top: 20px;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            background: #fff8e2;
+
+            border:
+                1px solid #f1df9c;
+
+            color: #725b13;
+
+            line-height: 1.6;
+
+        }
+
+        .message {
+
+            margin-top: 17px;
+
+            padding: 13px;
+
+            border-radius: 10px;
+
+            font-weight: 700;
+
+            line-height: 1.5;
+
+        }
+
+        .success {
+
+            background: #e4f8ec;
+
+            color: #126d38;
+
+        }
+
+        .error {
+
+            background: #fde8ea;
+
+            color: #a9232c;
+
+        }
+
+        .status-card {
+
+            margin-top: 20px;
+
+        }
+
+        .status {
+
+            padding: 14px;
+
+            border-radius: 11px;
+
+            background: #f1f4f8;
+
+            font-weight: 800;
+
+            margin-top: 10px;
+
+        }
+
+        .status.pending {
+
+            background: #fff3cd;
+
+            color: #80620a;
+
+        }
+
+        .status.paid {
+
+            background: #dff7e8;
+
+            color: #11713a;
+
+        }
+
+        .status.rejected {
+
+            background: #fde4e6;
+
+            color: #a8222b;
+
+        }
+
+        .loading {
+
+            text-align: center;
+
+            padding: 50px;
+
+            color: #687386;
+
+        }
+
+        .hidden {
+
+            display: none !important;
+
+        }
+
+        @media (max-width: 750px) {
+
+            .payment-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .topbar {
+
+                padding:
+                    13px 15px;
+
+            }
+
+            .brand p {
+
+                display: none;
+
+            }
+
+            .hero h2 {
+
+                font-size: 25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="logo">
+            LS
+        </div>
+
+        <div>
+
+            <h1>
+                Life Skills Rwanda
+            </h1>
+
+            <p>
+                Learn • Practice • Grow
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="index.html"
+        class="back-btn"
+    >
+        ← Back
+    </a>
+
+</header>
+
+
+<main class="page">
+
+
+    <div class="hero">
+
+        <h2>
+            Quiz Payment
+        </h2>
+
+        <p>
+            Complete your payment before starting the quiz.
+        </p>
+
+    </div>
+
+
+    <div
+        id="loading"
+        class="loading"
+    >
+        Loading payment information...
+    </div>
+
+
+    <div
+        id="paymentPage"
+        class="hidden"
+    >
+
+
+        <div class="payment-grid">
+
+
+            <!-- =================================================
+                 PAYMENT INFORMATION
+            ================================================== -->
+
+            <div class="card">
+
+                <div class="amount-card"
+                     style="
+                        padding:22px;
+                        border-radius:15px;
+                     ">
+
+                    <div class="icon">
+                        💳
+                    </div>
+
+                    <h3>
+                        Quiz Fee
+                    </h3>
+
+                    <div
+                        id="fee"
+                        class="amount"
+                    >
+                        500 RWF
+                    </div>
+
+                    <p>
+                        One payment gives access
+                        according to the current
+                        quiz access rules.
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="mtnBox"
+                    class="payment-method hidden"
+                >
+
+                    <div class="method-label">
+                        MTN Mobile Money
+                    </div>
+
+                    <h3>
+                        Send payment to
+                    </h3>
+
+                    <div
+                        id="mtnNumber"
+                        class="number"
+                    ></div>
+
+                </div>
+
+
+                <div
+                    id="airtelBox"
+                    class="payment-method hidden"
+                >
+
+                    <div class="method-label">
+                        Airtel Money
+                    </div>
+
+                    <h3>
+                        Send payment to
+                    </h3>
+
+                    <div
+                        id="airtelNumber"
+                        class="number"
+                    ></div>
+
+                </div>
+
+
+                <div class="instruction">
+
+                    <strong>
+                        Important:
+                    </strong>
+
+                    <br>
+
+                    1. Choose your payment method.
+
+                    <br>
+
+                    2. Send the displayed amount to
+                    the displayed number.
+
+                    <br>
+
+                    3. Keep your transaction/reference
+                    code.
+
+                    <br>
+
+                    4. Enter that code in the form.
+
+                    <br>
+
+                    5. Admin/Owner will verify the payment.
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PAYMENT FORM
+            ================================================== -->
+
+            <div class="card">
+
+                <h2>
+                    Submit Payment
+                </h2>
+
+                <p
+                    style="
+                        margin-top:7px;
+                        color:#687386;
+                        margin-bottom:22px;
+                    "
+                >
+                    Enter the transaction code after
+                    sending the payment.
+                </p>
+
+
+                <form id="paymentForm">
+
+
+                    <div class="form-group">
+
+                        <label for="paymentMethod">
+                            Payment Method
+                        </label>
+
+                        <select
+                            id="paymentMethod"
+                            required
+                        >
+
+                            <option value="">
+                                Select method
+                            </option>
+
+                            <option value="MTN MoMo">
+                                MTN MoMo
+                            </option>
+
+                            <option value="Airtel Money">
+                                Airtel Money
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="reference">
+                            Transaction / Reference Code
+                        </label>
+
+                        <input
+                            id="reference"
+                            type="text"
+                            placeholder="Enter transaction code"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        id="submitBtn"
+                        type="submit"
+                        class="btn"
+                    >
+                        Submit Payment
+                    </button>
+
+
+                </form>
+
+
+                <div
+                    id="message"
+                    class="message hidden"
+                ></div>
+
+
+                <div class="status-card">
+
+                    <h3>
+                        Payment Status
+                    </h3>
+
+                    <div
+                        id="status"
+                        class="status"
+                    >
+                        No payment submitted yet.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+const SUPABASE_URL =
+    "https://wplqgmakucweidurbbjz.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
+
+
+const db =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+let currentUser = null;
+let settings = null;
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function money(value) {
+
+    return Number(value || 0).toLocaleString(
+        "en-US"
+    ) + " RWF";
+
+}
+
+
+function showMessage(
+    text,
+    type = "success"
+) {
+
+    const box =
+        document.getElementById(
+            "message"
+        );
+
+    box.textContent = text;
+
+    box.className =
+        "message " + type;
+
+}
+
+
+function showStatus(
+    text,
+    type = ""
+) {
+
+    const box =
+        document.getElementById(
+            "status"
+        );
+
+    box.textContent = text;
+
+    box.className =
+        "status " + type;
+
+}
+
+
+/* =========================================================
+   LOAD SESSION
+========================================================= */
+
+async function loadSession() {
+
+    const {
+        data,
+        error
+    } =
+        await db.auth.getSession();
+
+
+    if (error) {
+
+        throw error;
+
+    }
+
+
+    if (!data.session) {
+
+        document
+            .getElementById("loading")
+            .textContent =
+                "Please log in as a student first.";
+
+        return false;
+
+    }
+
+
+    currentUser =
+        data.session.user;
+
+
+    return true;
+
+}
+
+
+/* =========================================================
+   LOAD SETTINGS
+========================================================= */
+
+async function loadSettings() {
+
+    const {
+        data,
+        error
+    } =
+        await db
+            .from("app_settings")
+            .select(`
+                quiz_enabled,
+                payment_required,
+                quiz_fee,
+                mtn_payment_number,
+                airtel_payment_number
+            `)
+            .eq("id", 1)
+            .maybeSingle();
+
+
+    if (error) {
+
+        throw error;
+
+    }
+
+
+    settings =
+        data;
+
+
+    if (!settings) {
+
+        throw new Error(
+            "Payment settings have not been configured."
+        );
+
+    }
+
+
+    document
+        .getElementById("fee")
+        .textContent =
+            money(settings.quiz_fee);
+
+
+    /* MTN */
+
+    if (
+        settings.mtn_payment_number
+    ) {
+
+        document
+            .getElementById("mtnBox")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("mtnNumber")
+            .textContent =
+                settings.mtn_payment_number;
+
+    }
+
+
+    /* AIRTEL */
+
+    if (
+        settings.airtel_payment_number
+    ) {
+
+        document
+            .getElementById("airtelBox")
+            .classList.remove("hidden");
+
+        document
+            .getElementById("airtelNumber")
+            .textContent =
+                settings.airtel_payment_number;
+
+    }
+
+
+    if (
+        !settings.mtn_payment_number &&
+        !settings.airtel_payment_number
+    ) {
+
+        throw new Error(
+            "The Owner has not configured a payment number yet."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK EXISTING PAYMENT
+========================================================= */
+
+async function loadExistingPayment() {
+
+    const {
+        data,
+        error
+    } =
+        await db
+            .from("payments")
+            .select(`
+                amount,
+                method,
+                status,
+                reference,
+                created_at
+            `)
+            .eq(
+                "student_id",
+                currentUser.id
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            )
+            .limit(1);
+
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    if (
+        data &&
+        data.length
+    ) {
+
+        const payment =
+            data[0];
+
+
+        if (
+            payment.status === "paid" ||
+            payment.status === "demo_paid"
+        ) {
+
+            showStatus(
+                "Payment approved. You can access the quiz.",
+                "paid"
+            );
+
+        } else if (
+            payment.status === "rejected"
+        ) {
+
+            showStatus(
+                "Your latest payment was rejected. Please submit a valid transaction.",
+                "rejected"
+            );
+
+        } else {
+
+            showStatus(
+                "Payment submitted and waiting for Admin verification.",
+                "pending"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   SUBMIT PAYMENT
+========================================================= */
+
+document
+    .getElementById("paymentForm")
+    .addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+
+            if (!currentUser) {
+
+                showMessage(
+                    "Please log in first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const method =
+                document
+                    .getElementById(
+                        "paymentMethod"
+                    )
+                    .value;
+
+
+            const reference =
+                document
+                    .getElementById(
+                        "reference"
+                    )
+                    .value
+                    .trim();
+
+
+            if (!method) {
+
+                showMessage(
+                    "Select a payment method.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (!reference) {
+
+                showMessage(
+                    "Enter your transaction/reference code.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                method === "MTN MoMo" &&
+                !settings.mtn_payment_number
+            ) {
+
+                showMessage(
+                    "MTN MoMo has not been configured by the Owner.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                method === "Airtel Money" &&
+                !settings.airtel_payment_number
+            ) {
+
+                showMessage(
+                    "Airtel Money has not been configured by the Owner.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            const button =
+                document.getElementById(
+                    "submitBtn"
+                );
+
+
+            button.disabled = true;
+
+            button.textContent =
+                "Submitting...";
+
+
+            const {
+                data,
+                error
+            } =
+                await db.rpc(
+                    "submit_manual_payment",
+                    {
+                        p_method: method,
+                        p_reference: reference
+                    }
+                );
+
+
+            button.disabled = false;
+
+            button.textContent =
+                "Submit Payment";
+
+
+            if (error) {
+
+                console.error(error);
+
+                showMessage(
+                    error.message,
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            showMessage(
+                "Payment submitted successfully. Wait for Admin verification.",
+                "success"
+            );
+
+
+            showStatus(
+                "Pending — Admin is verifying your transaction.",
+                "pending"
+            );
+
+
+            document
+                .getElementById(
+                    "reference"
+                )
+                .value = "";
+
+        }
+    );
+
+
+/* =========================================================
+   START
+========================================================= */
+
+async function start() {
+
+    try {
+
+        const loggedIn =
+            await loadSession();
+
+
+        if (!loggedIn) {
+            return;
+        }
+
+
+        await loadSettings();
+
+        await loadExistingPayment();
+
+
+        document
+            .getElementById(
+                "loading"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+
+        document
+            .getElementById(
+                "paymentPage"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        document
+            .getElementById(
+                "loading"
+            )
+            .textContent =
+                error.message ||
+                "Unable to load payment information.";
+
+    }
+
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Life Skills Rwanda - Daily Quiz"
+    >
+
+    <title>Daily Quiz | Life Skills Rwanda</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .quiz-page {
+            min-height: 100vh;
+            background: #f5f7fb;
+        }
+
+        .quiz-container {
+            width: min(1000px, 94%);
+            margin: 40px auto;
+        }
+
+        .quiz-header-card,
+        .quiz-box {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+        }
+
+        .quiz-header-card {
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .quiz-header-card h1 {
+            margin-bottom: 8px;
+        }
+
+        .quiz-header-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .quiz-box {
+            padding: 30px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .quiz-alert {
+            padding: 15px 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .quiz-alert.info {
+            background: #eaf3ff;
+            color: #174a8b;
+        }
+
+        .quiz-alert.success {
+            background: #eaf8ef;
+            color: #176b38;
+        }
+
+        .quiz-alert.warning {
+            background: #fff6df;
+            color: #795b00;
+        }
+
+        .quiz-alert.error {
+            background: #ffecec;
+            color: #a40000;
+        }
+
+        .login-required {
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .login-required .icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .login-required p {
+            color: #666;
+            margin: 10px auto 25px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .payment-card {
+            border: 1px solid #e3e7ee;
+            border-radius: 15px;
+            padding: 25px;
+            background: #fafbfe;
+        }
+
+        .payment-price {
+            font-size: 34px;
+            font-weight: 800;
+            margin: 15px 0;
+        }
+
+        .payment-note {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .payment-method {
+            border: 1px solid #dce2eb;
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            text-align: left;
+            transition: .2s;
+        }
+
+        .payment-method:hover {
+            border-color: #1261d8;
+            background: #f7faff;
+        }
+
+        .payment-method.selected {
+            border: 2px solid #1261d8;
+            background: #eef4ff;
+        }
+
+        .payment-method strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .payment-method span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .payment-number-box {
+            background: #eef4ff;
+            border: 1px solid #cbdcff;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 18px 0;
+        }
+
+        .payment-number-label {
+            color: #555;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .payment-number {
+            font-size: 24px;
+            font-weight: 900;
+            color: #1261d8;
+            word-break: break-word;
+        }
+
+        .payment-reference {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccd3df;
+            border-radius: 9px;
+            margin-bottom: 15px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .payment-reference:focus {
+            border-color: #1261d8;
+        }
+
+        .payment-status {
+            padding: 15px;
+            border-radius: 10px;
+            background: #fff6df;
+            color: #795b00;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+
+        .start-card {
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        .start-card p {
+            color: #666;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 10px auto;
+        }
+
+        .quiz-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .quiz-info-item {
+            background: #f5f7fb;
+            border-radius: 12px;
+            padding: 18px;
+        }
+
+        .quiz-info-item strong {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .quiz-info-item span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quiz-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .question-counter {
+            font-weight: 700;
+        }
+
+        .timer {
+            background: #f1f4f9;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 800;
+        }
+
+        .timer.warning {
+            background: #fff0d6;
+            color: #795b00;
+        }
+
+        .timer.danger {
+            background: #ffe5e5;
+            color: #a40000;
+        }
+
+        .progress-bar {
+            height: 9px;
+            background: #e7ebf1;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: #1261d8;
+            transition: width .3s ease;
+        }
+
+        .question-title {
+            font-size: 23px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .answers {
+            display: grid;
+            gap: 13px;
+        }
+
+        .answer-btn {
+            width: 100%;
+            text-align: left;
+            border: 1px solid #dce2eb;
+            background: white;
+            padding: 16px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: .2s;
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-1px);
+            border-color: #777;
+            background: #f8f9fc;
+        }
+
+        .answer-btn.selected {
+            border: 2px solid #1261d8;
+            background: #eef4ff;
+        }
+
+        .answer-letter {
+            display: inline-flex;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-right: 10px;
+            font-weight: 800;
+            background: #eef1f6;
+        }
+
+        .quiz-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            gap: 15px;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 35px 20px;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 10px solid #e8ecf3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px auto;
+            font-size: 35px;
+            font-weight: 900;
+        }
+
+        .result-message {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 30px auto;
+            max-width: 700px;
+        }
+
+        .result-stat {
+            padding: 18px;
+            background: #f5f7fb;
+            border-radius: 12px;
+        }
+
+        .result-stat strong {
+            display: block;
+            font-size: 25px;
+        }
+
+        .result-stat span {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .certificate-notice {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 18px;
+            border-radius: 12px;
+            background: #edf8ef;
+            line-height: 1.6;
+        }
+
+        .quiz-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .loading-box {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading-spinner {
+            width: 45px;
+            height: 45px;
+            border: 5px solid #e5eaf2;
+            border-top-color: #1261d8;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .quiz-container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .quiz-box {
+                padding: 20px;
+            }
+
+            .quiz-header-card {
+                padding: 20px;
+            }
+
+            .quiz-info-grid,
+            .result-stats,
+            .payment-methods {
+                grid-template-columns: 1fr;
+            }
+
+            .question-title {
+                font-size: 19px;
+            }
+
+            .quiz-bottom {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .quiz-bottom button {
+                width: 100%;
+            }
+
+            .quiz-actions {
+                flex-direction: column;
+            }
+
+            .quiz-actions a,
+            .quiz-actions button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body class="quiz-page">
+
+<header class="topbar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            LS
+        </div>
+
+        <div>
+            <strong>Life Skills</strong>
+            <small>Rwanda</small>
+        </div>
+
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="lessons.html">Lessons</a>
+        <a href="quiz.html" class="active">Quiz</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="student.html">My Progress</a>
+    </nav>
+
+    <button
+        type="button"
+        class="lang-btn"
+        onclick="toggleLanguage()"
+    >
+        RW / EN
+    </button>
+
+</header>
+
+
+<main class="quiz-container">
+
+    <section class="quiz-header-card">
+
+        <h1>Daily Life Skills Quiz</h1>
+
+        <p>
+            Answer today's questions, submit your quiz,
+            receive your score and compete on the leaderboard.
+        </p>
+
+    </section>
+
+
+    <div
+        id="quizMessage"
+        class="quiz-alert hidden"
+    ></div>
+
+
+    <!-- LOGIN -->
+
+    <section
+        id="loginRequired"
+        class="quiz-box login-required hidden"
+    >
+
+        <div class="icon">
+            🔐
+        </div>
+
+        <h2>
+            Student account required
+        </h2>
+
+        <p>
+            Please log in or create a student account
+            before starting today's quiz.
+        </p>
+
+        <div class="quiz-actions">
+
+            <a
+                href="student.html"
+                class="btn btn-primary"
+            >
+                Login / Create Account
+            </a>
+
+            <a
+                href="index.html"
+                class="btn btn-secondary"
+            >
+                Back to Home
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- LOADING -->
+
+    <section
+        id="loadingBox"
+        class="quiz-box loading-box hidden"
+    >
+
+        <div class="loading-spinner"></div>
+
+        <h3 id="loadingText">
+            Checking your quiz access...
+        </h3>
+
+    </section>
+
+
+    <!-- PAYMENT -->
+
+    <section
+        id="paymentBox"
+        class="quiz-box hidden"
+    >
+
+        <h2>
+            Quiz Access
+        </h2>
+
+        <p>
+            Complete the manual payment below.
+            Your payment will be checked by the administrator
+            before the quiz is unlocked.
+        </p>
+
+        <br>
+
+        <div class="payment-card">
+
+            <h3>
+                Today's Quiz Fee
+            </h3>
+
+            <div
+                id="quizFee"
+                class="payment-price"
+            >
+                500 RWF
+            </div>
+
+
+            <div
+                id="paymentStatus"
+                class="payment-status hidden"
+            ></div>
+
+
+            <h3>
+                Select Payment Method
+            </h3>
+
+            <div class="payment-methods">
+
+                <button
+                    type="button"
+                    id="mtnMethod"
+                    class="payment-method selected"
+                    onclick="selectPaymentMethod('MTN MoMo')"
+                >
+
+                    <strong>
+                        📱 MTN MoMo
+                    </strong>
+
+                    <span>
+                        Send the quiz fee to the MTN number below.
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="airtelMethod"
+                    class="payment-method"
+                    onclick="selectPaymentMethod('Airtel Money')"
+                >
+
+                    <strong>
+                        📱 Airtel Money
+                    </strong>
+
+                    <span>
+                        Send the quiz fee to the Airtel number below.
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="paymentNumberBox"
+                class="payment-number-box"
+            >
+
+                <div class="payment-number-label">
+                    Send payment to:
+                </div>
+
+                <div
+                    id="paymentNumber"
+                    class="payment-number"
+                >
+                    Not configured
+                </div>
+
+            </div>
+
+
+            <p class="payment-note">
+
+                <strong>
+                    Manual payment:
+                </strong>
+
+                Send the displayed amount using the selected
+                mobile-money method.
+
+                <br><br>
+
+                After sending the money, enter the transaction
+                reference below.
+
+                <br><br>
+
+                The website does not transfer money itself.
+                The administrator manually verifies the transaction
+                and approves or rejects your request.
+
+            </p>
+
+
+            <input
+                id="paymentReference"
+                type="text"
+                class="payment-reference"
+                placeholder="Enter transaction reference"
+                maxlength="100"
+                autocomplete="off"
+            >
+
+
+            <button
+                id="paymentButton"
+                type="button"
+                class="btn btn-primary"
+                onclick="submitPaymentRequest()"
+            >
+                Submit Payment Request
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- START -->
+
+    <section
+        id="startBox"
+        class="quiz-box start-card hidden"
+    >
+
+        <h2>
+            Today's Quiz is Ready
+        </h2>
+
+        <p>
+            Your quiz access has been confirmed.
+            You have one daily quiz with 10 questions.
+        </p>
+
+        <div class="quiz-info-grid">
+
+            <div class="quiz-info-item">
+
+                <strong>
+                    10
+                </strong>
+
+                <span>
+                    Questions
+                </span>
+
+            </div>
+
+            <div class="quiz-info-item">
+
+                <strong>
+                    150s
+                </strong>
+
+                <span>
+                    Total Time
+                </span>
+
+            </div>
+
+            <div class="quiz-info-item">
+
+                <strong>
+                    100
+                </strong>
+
+                <span>
+                    Maximum Score
+                </span>
+
+            </div>
+
+        </div>
+
+        <button
+            id="startQuizButton"
+            type="button"
+            class="btn btn-primary"
+            onclick="startDailyQuiz()"
+        >
+            Start Today's Quiz
+        </button>
+
+    </section>
+
+
+    <!-- QUIZ -->
+
+    <section
+        id="quizBox"
+        class="quiz-box hidden"
+    >
+
+        <div class="quiz-top">
+
+            <div
+                id="questionCounter"
+                class="question-counter"
+            >
+                Question 1 of 10
+            </div>
+
+            <div
+                id="timer"
+                class="timer"
+            >
+                150s
+            </div>
+
+        </div>
+
+
+        <div class="progress-bar">
+
+            <div
+                id="progressFill"
+                class="progress-fill"
+            ></div>
+
+        </div>
+
+
+        <div
+            id="questionTitle"
+            class="question-title"
+        >
+            Question
+        </div>
+
+
+        <div
+            id="answers"
+            class="answers"
+        ></div>
+
+
+        <div class="quiz-bottom">
+
+            <span
+                id="answerStatus"
+                style="color:#666;"
+            >
+                Select an answer
+            </span>
+
+            <button
+                id="nextButton"
+                type="button"
+                class="btn btn-primary"
+                onclick="nextQuestion()"
+                disabled
+            >
+                Next Question
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESULT -->
+
+    <section
+        id="resultBox"
+        class="quiz-box result-card hidden"
+    >
+
+        <h2>
+            Quiz Completed
+        </h2>
+
+        <div
+            id="scoreCircle"
+            class="score-circle"
+        >
+            0%
+        </div>
+
+
+        <div
+            id="resultMessage"
+            class="result-message"
+        >
+            Your result is being prepared...
+        </div>
+
+
+        <div class="result-stats">
+
+            <div class="result-stat">
+
+                <strong id="correctResult">
+                    0
+                </strong>
+
+                <span>
+                    Correct
+                </span>
+
+            </div>
+
+
+            <div class="result-stat">
+
+                <strong id="totalResult">
+                    10
+                </strong>
+
+                <span>
+                    Total Questions
+                </span>
+
+            </div>
+
+
+            <div class="result-stat">
+
+                <strong id="timeResult">
+                    0s
+                </strong>
+
+                <span>
+                    Time Used
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="certificateNotice"
+            class="certificate-notice hidden"
+        >
+
+            🎓
+            <strong>
+                Certificate eligible!
+            </strong>
+
+            <br>
+
+            Your score has reached the current
+            certificate target.
+
+        </div>
+
+
+        <div class="quiz-actions">
+
+            <a
+                href="student.html"
+                class="btn btn-primary"
+            >
+                My Progress
+            </a>
+
+            <a
+                href="leaderboard.html"
+                class="btn btn-secondary"
+            >
+                Leaderboard
+            </a>
+
+            <a
+                href="certificate.html"
+                class="btn btn-secondary"
+            >
+                Certificate
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        © 2026 Life Skills Rwanda.
+        All rights reserved.
+    </p>
+
+    <p>
+        Program Director:
+        <strong>
+            TUYISENGE Patrick
+        </strong>
+    </p>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://wplqgmakucweidurbbjz.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
+
+
+let currentUser = null;
+let currentProfile = null;
+
+let quizQuestions = [];
+let currentQuestionIndex = 0;
+let selectedAnswer = null;
+let answers = [];
+
+let sessionId = null;
+let quizStartTime = null;
+let totalSeconds = 150;
+
+let timerInterval = null;
+let quizFinished = false;
+
+let quizSettings = {
+    quiz_enabled: true,
+    payment_required: true,
+    quiz_fee: 500,
+    mtn_payment_number: "",
+    airtel_payment_number: ""
+};
+
+let selectedPaymentMethod = "MTN MoMo";
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    initializeQuizPage
+);
+
+
+async function initializeQuizPage() {
+
+    showLoading(
+        "Checking your student account..."
+    );
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getUser();
+
+        if (
+            error ||
+            !data ||
+            !data.user
+        ) {
+
+            hideLoading();
+
+            document
+                .getElementById("loginRequired")
+                .classList.remove("hidden");
+
+            return;
+        }
+
+        currentUser =
+            data.user;
+
+
+        const {
+            data: profile,
+            error: profileError
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select(
+                    "id, full_name, role"
+                )
+                .eq(
+                    "id",
+                    currentUser.id
+                )
+                .single();
+
+
+        if (
+            profileError ||
+            !profile
+        ) {
+
+            throw new Error(
+                "Student profile could not be loaded."
+            );
+        }
+
+
+        currentProfile =
+            profile;
+
+
+        if (
+            profile.role !== "student"
+        ) {
+
+            throw new Error(
+                "Only student accounts can take the daily quiz."
+            );
+        }
+
+
+        const settings =
+            await loadQuizSettings();
+
+
+        if (!settings) {
+
+            throw new Error(
+                "Quiz settings could not be loaded."
+            );
+        }
+
+
+        quizSettings =
+            settings;
+
+
+        document
+            .getElementById("quizFee")
+            .textContent =
+                formatMoney(
+                    quizSettings.quiz_fee
+                );
+
+
+        updatePaymentNumber();
+
+
+        hideLoading();
+
+
+        if (
+            quizSettings.quiz_enabled === false
+        ) {
+
+            showQuizMessage(
+                "Today's quiz is currently disabled by the administrator.",
+                "warning"
+            );
+
+            return;
+        }
+
+
+        if (
+            quizSettings.payment_required === false
+        ) {
+
+            showStartBox();
+
+            return;
+        }
+
+
+        await checkAccessAfterPayment();
+
+    } catch (error) {
+
+        console.error(
+            "Initialization error:",
+            error
+        );
+
+        hideLoading();
+
+        showQuizMessage(
+            error.message ||
+            "Unable to initialize the quiz.",
+            "error"
+        );
+    }
+}
+
+
+async function loadQuizSettings() {
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .rpc(
+                "get_quiz_settings"
+            );
+
+
+    if (error) {
+
+        console.error(
+            "Settings error:",
+            error
+        );
+
+        throw new Error(
+            "Unable to load quiz settings."
+        );
+    }
+
+
+    const settings =
+        Array.isArray(data)
+            ? data[0]
+            : data;
+
+
+    if (!settings) {
+
+        throw new Error(
+            "Quiz settings are not configured."
+        );
+    }
+
+
+    return {
+
+        quiz_enabled:
+            settings.quiz_enabled !== false,
+
+        payment_required:
+            settings.payment_required !== false,
+
+        quiz_fee:
+            Number(
+                settings.quiz_fee || 500
+            ),
+
+        mtn_payment_number:
+            settings.mtn_payment_number ||
+            "",
+
+        airtel_payment_number:
+            settings.airtel_payment_number ||
+            ""
+
+    };
+}
+
+
+async function checkAccessAfterPayment() {
+
+    const fee =
+        Number(
+            quizSettings.quiz_fee || 500
+        );
+
+
+    const paid =
+        await checkTodayPayment(
+            fee
+        );
+
+
+    if (paid) {
+
+        showStartBox();
+
+        return;
+    }
+
+
+    const pending =
+        await checkTodayPendingPayment();
+
+
+    if (pending) {
+
+        showPaymentPendingState();
+
+    } else {
+
+        showPaymentBox();
+    }
+}
+
+
+function getRwandaDate() {
+
+    return new Intl.DateTimeFormat(
+        "en-CA",
+        {
+            timeZone: "Africa/Kigali",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        }
+    ).format(
+        new Date()
+    );
+}
+
+
+async function checkTodayPayment(
+    fee
+) {
+
+    const today =
+        getRwandaDate();
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("payments")
+            .select(
+                "id, amount, status, payment_date"
+            )
+            .eq(
+                "student_id",
+                currentUser.id
+            )
+            .eq(
+                "payment_date",
+                today
+            )
+            .in(
+                "status",
+                [
+                    "paid",
+                    "demo_paid"
+                ]
+            )
+            .gte(
+                "amount",
+                fee
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            )
+            .limit(1);
+
+
+    if (error) {
+
+        console.error(
+            "Payment check error:",
+            error
+        );
+
+        return false;
+    }
+
+
+    return (
+        Array.isArray(data) &&
+        data.length > 0
+    );
+}
+
+
+async function checkTodayPendingPayment() {
+
+    const today =
+        getRwandaDate();
+
+
+    const {
+        data,
+        error
+    } =
+        await supabaseClient
+            .from("payments")
+            .select(
+                "id, amount, status, method, reference, payment_date, created_at"
+            )
+            .eq(
+                "student_id",
+                currentUser.id
+            )
+            .eq(
+                "payment_date",
+                today
+            )
+            .eq(
+                "status",
+                "pending"
+            )
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            )
+            .limit(1);
+
+
+    if (error) {
+
+        console.error(
+            "Pending payment error:",
+            error
+        );
+
+        return null;
+    }
+
+
+    if (
+        Array.isArray(data) &&
+        data.length > 0
+    ) {
+
+        return data[0];
+    }
+
+
+    return null;
+}
+
+
+function selectPaymentMethod(
+    method
+) {
+
+    selectedPaymentMethod =
+        method;
+
+
+    const mtn =
+        document.getElementById(
+            "mtnMethod"
+        );
+
+    const airtel =
+        document.getElementById(
+            "airtelMethod"
+        );
+
+
+    mtn.classList.remove(
+        "selected"
+    );
+
+    airtel.classList.remove(
+        "selected"
+    );
+
+
+    if (
+        method === "MTN MoMo"
+    ) {
+
+        mtn.classList.add(
+            "selected"
+        );
+
+    } else {
+
+        airtel.classList.add(
+            "selected"
+        );
+    }
+
+
+    updatePaymentNumber();
+}
+
+
+function updatePaymentNumber() {
+
+    const numberBox =
+        document.getElementById(
+            "paymentNumber"
+        );
+
+
+    if (
+        selectedPaymentMethod ===
+        "MTN MoMo"
+    ) {
+
+        const number =
+            quizSettings
+                .mtn_payment_number;
+
+
+        numberBox.textContent =
+            number ||
+            "MTN number not configured";
+
+    } else {
+
+        const number =
+            quizSettings
+                .airtel_payment_number;
+
+
+        numberBox.textContent =
+            number ||
+            "Airtel number not configured";
+    }
+}
+
+
+function showPaymentBox() {
+
+    hideLoading();
+
+
+    document
+        .getElementById("startBox")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("paymentBox")
+        .classList.remove("hidden");
+
+
+    document
+        .getElementById("paymentStatus")
+        .classList.add("hidden");
+}
+
+
+function showPaymentPendingState() {
+
+    hideLoading();
+
+
+    document
+        .getElementById("startBox")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("paymentBox")
+        .classList.remove("hidden");
+
+
+    const statusBox =
+        document.getElementById(
+            "paymentStatus"
+        );
+
+
+    statusBox.textContent =
+        "Your payment request is pending administrator verification. After the administrator approves it, refresh this page to unlock today's quiz.";
+
+
+    statusBox.classList.remove(
+        "hidden"
+    );
+}
+
+
+async function submitPaymentRequest() {
+
+    if (!currentUser) {
+
+        showQuizMessage(
+            "Please log in first.",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    const reference =
+        document
+            .getElementById(
+                "paymentReference"
+            )
+            .value
+            .trim();
+
+
+    if (!reference) {
+
+        showQuizMessage(
+            "Enter your transaction reference first.",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    const paymentNumber =
+        selectedPaymentMethod === "MTN MoMo"
+            ? quizSettings.mtn_payment_number
+            : quizSettings.airtel_payment_number;
+
+
+    if (!paymentNumber) {
+
+        showQuizMessage(
+            "The selected payment number has not been configured by the administrator.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "paymentButton"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Submitting...";
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+                .rpc(
+                    "submit_payment_request",
+                    {
+                        p_reference:
+                            reference,
+
+                        p_method:
+                            selectedPaymentMethod
+                    }
+                );
+
+
+        if (error) {
+
+            throw new Error(
+                error.message
+            );
+        }
+
+
+        if (
+            !data ||
+            data.success !== true
+        ) {
+
+            throw new Error(
+                "Payment request was not confirmed."
+            );
+        }
+
+
+        document
+            .getElementById(
+                "paymentReference"
+            )
+            .value = "";
+
+
+        showPaymentPendingState();
+
+
+        showQuizMessage(
+            "Payment request submitted successfully. The administrator will verify your transaction.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Payment request error:",
+            error
+        );
+
+
+        showQuizMessage(
+            error.message ||
+            "Payment request could not be submitted.",
+            "error"
+        );
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Submit Payment Request";
+    }
+}
+
+
+async function startDailyQuiz() {
+
+    if (!currentUser) {
+
+        showQuizMessage(
+            "Please log in first.",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    const button =
+        document.getElementById(
+            "startQuizButton"
+        );
+
+
+    button.disabled = true;
+
+    button.textContent =
+        "Starting...";
+
+
+    showQuizMessage(
+        "Preparing today's questions...",
+        "info"
+    );
+
+
+    try {
+
+        const {
+            data: sessionData
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        const accessToken =
+            sessionData &&
+            sessionData.session
+                ? sessionData.session.access_token
+                : null;
+
+
+        if (!accessToken) {
+
+            throw new Error(
+                "Your login session has expired. Please log in again."
+            );
+        }
+
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/functions/v1/start-daily-quiz",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Authorization":
+                            "Bearer " +
+                            accessToken,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            SUPABASE_PUBLISHABLE_KEY
+                    },
+
+                    body:
+                        JSON.stringify({})
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            if (
+                response.status === 402
+            ) {
+
+                showQuizMessage(
+                    "Payment is required before starting today's quiz.",
+                    "warning"
+                );
+
+                await checkAccessAfterPayment();
+
+                return;
+            }
+
+
+            if (
+                result.code ===
+                "ALREADY_COMPLETED"
+            ) {
+
+                showQuizMessage(
+                    "You have already completed today's quiz.",
+                    "success"
+                );
+
+                return;
+            }
+
+
+            throw new Error(
+                result.error ||
+                "Unable to start today's quiz."
+            );
+        }
+
+
+        if (
+            !result.success ||
+            !result.session_id ||
+            !Array.isArray(
+                result.questions
+            )
+        ) {
+
+            throw new Error(
+                "The quiz server returned an invalid response."
+            );
+        }
+
+
+        sessionId =
+            result.session_id;
+
+
+        quizQuestions =
+            result.questions;
+
+
+        totalSeconds =
+            Number(
+                result.total_seconds ||
+                150
+            );
+
+
+        if (
+            quizQuestions.length !== 10
+        ) {
+
+            throw new Error(
+                "Today's quiz must contain 10 questions."
+            );
+        }
+
+
+        startQuizInterface();
+
+    } catch (error) {
+
+        console.error(
+            "Start quiz error:",
+            error
+        );
+
+
+        showQuizMessage(
+            error.message ||
+            "Unable to start today's quiz.",
+            "error"
+        );
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Start Today's Quiz";
+    }
+}
+
+
+function startQuizInterface() {
+
+    currentQuestionIndex = 0;
+    selectedAnswer = null;
+    answers = [];
+
+    quizFinished = false;
+
+    quizStartTime =
+        Date.now();
+
+
+    document
+        .getElementById("startBox")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("paymentBox")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("resultBox")
+        .classList.add("hidden");
+
+
+    document
+        .getElementById("quizBox")
+        .classList.remove("hidden");
+
+
+    hideQuizMessage();
+
+    showQuestion();
+
+    startGlobalTimer();
+}
+
+
+function showQuestion() {
+
+    const question =
+        quizQuestions[
+            currentQuestionIndex
+        ];
+
+
+    if (!question) {
+
+        finishQuiz();
+
+        return;
+    }
+
+
+    selectedAnswer =
+        null;
+
+
+    document
+        .getElementById(
+            "questionCounter"
+        )
+        .textContent =
+            "Question " +
+            (
+                currentQuestionIndex + 1
+            ) +
+            " of " +
+            quizQuestions.length;
+
+
+    const progress =
+        (
+            currentQuestionIndex /
+            quizQuestions.length
+        ) *
+        100;
+
+
+    document
+        .getElementById(
+            "progressFill"
+        )
+        .style.width =
+            progress + "%";
+
+
+    document
+        .getElementById(
+            "questionTitle"
+        )
+        .textContent =
+            question.question;
+
+
+    const answersBox =
+        document.getElementById(
+            "answers"
+        );
+
+
+    answersBox.innerHTML =
+        "";
+
+
+    const options = [
+        {
+            letter: "A",
+            text: question.option_a
+        },
+        {
+            letter: "B",
+            text: question.option_b
+        },
+        {
+            letter: "C",
+            text: question.option_c
+        },
+        {
+            letter: "D",
+            text: question.option_d
+        }
+    ];
+
+
+    options.forEach(
+        option => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.type =
+                "button";
+
+            button.className =
+                "answer-btn";
+
+
+            const letter =
+                document.createElement(
+                    "span"
+                );
+
+
+            letter.className =
+                "answer-letter";
+
+            letter.textContent =
+                option.letter;
+
+
+            const text =
+                document.createElement(
+                    "span"
+                );
+
+
+            text.textContent =
+                option.text || "";
+
+
+            button.appendChild(
+                letter
+            );
+
+            button.appendChild(
+                text
+            );
+
+
+            button.addEventListener(
+                "click",
+                () =>
+                    selectAnswer(
+                        option.letter,
+                        button
+                    )
+            );
+
+
+            answersBox.appendChild(
+                button
+            );
+        }
+    );
+
+
+    const nextButton =
+        document.getElementById(
+            "nextButton"
+        );
+
+
+    nextButton.disabled =
+        true;
+
+
+    nextButton.textContent =
+        currentQuestionIndex ===
+        quizQuestions.length - 1
+            ? "Submit Quiz"
+            : "Next Question";
+
+
+    document
+        .getElementById(
+            "answerStatus"
+        )
+        .textContent =
+            "Select an answer";
+}
+
+
+function selectAnswer(
+    letter,
+    clickedButton
+) {
+
+    if (quizFinished) return;
+
+
+    selectedAnswer =
+        letter;
+
+
+    document
+        .querySelectorAll(
+            ".answer-btn"
+        )
+        .forEach(
+            button =>
+                button.classList.remove(
+                    "selected"
+                )
+        );
+
+
+    clickedButton.classList.add(
+        "selected"
+    );
+
+
+    document
+        .getElementById(
+            "nextButton"
+        )
+        .disabled =
+            false;
+
+
+    document
+        .getElementById(
+            "answerStatus"
+        )
+        .textContent =
+            "Answer selected";
+}
+
+
+function nextQuestion() {
+
+    if (quizFinished) return;
+
+
+    if (!selectedAnswer) {
+
+        showQuizMessage(
+            "Please select an answer first.",
+            "warning"
+        );
+
+        return;
+    }
+
+
+    answers[
+        currentQuestionIndex
+    ] = {
+
+        question_number:
+            currentQuestionIndex + 1,
+
+        selected_answer:
+            selectedAnswer
+    };
+
+
+    if (
+        currentQuestionIndex ===
+        quizQuestions.length - 1
+    ) {
+
+        finishQuiz();
+
+        return;
+    }
+
+
+    currentQuestionIndex++;
+
+    showQuestion();
+}
+
+
+function startGlobalTimer() {
+
+    clearTimer();
+
+    updateTimer(
+        totalSeconds
+    );
+
+
+    timerInterval =
+        setInterval(
+            () => {
+
+                const elapsed =
+                    Math.floor(
+                        (
+                            Date.now() -
+                            quizStartTime
+                        ) / 1000
+                    );
+
+
+                const remaining =
+                    Math.max(
+                        0,
+                        totalSeconds -
+                        elapsed
+                    );
+
+
+                updateTimer(
+                    remaining
+                );
+
+
+                if (
+                    remaining <= 0
+                ) {
+
+                    clearTimer();
+
+                    autoSubmitOnTimeout();
+                }
+
+            },
+            500
+        );
+}
+
+
+function updateTimer(
+    remaining = totalSeconds
+) {
+
+    const timer =
+        document.getElementById(
+            "timer"
+        );
+
+
+    timer.textContent =
+        remaining + "s";
+
+
+    timer.classList.remove(
+        "warning",
+        "danger"
+    );
+
+
+    if (
+        remaining <= 30 &&
+        remaining > 10
+    ) {
+
+        timer.classList.add(
+            "warning"
+        );
+    }
+
+
+    if (
+        remaining <= 10
+    ) {
+
+        timer.classList.add(
+            "danger"
+        );
+    }
+}
+
+
+function clearTimer() {
+
+    if (timerInterval) {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval =
+            null;
+    }
+}
+
+
+function autoSubmitOnTimeout() {
+
+    if (quizFinished) return;
+
+
+    if (selectedAnswer) {
+
+        answers[
+            currentQuestionIndex
+        ] = {
+
+            question_number:
+                currentQuestionIndex + 1,
+
+            selected_answer:
+                selectedAnswer
+        };
+    }
+
+
+    for (
+        let i = 0;
+        i < quizQuestions.length;
+        i++
+    ) {
+
+        if (!answers[i]) {
+
+            answers[i] = {
+
+                question_number:
+                    i + 1,
+
+                selected_answer:
+                    null
+            };
+        }
+    }
+
+
+    showQuizMessage(
+        "Time is up. Submitting your quiz...",
+        "warning"
+    );
+
+
+    finishQuiz();
+}
+
+
+async function finishQuiz() {
+
+    if (quizFinished) return;
+
+
+    quizFinished =
+        true;
+
+
+    clearTimer();
+
+
+    if (
+        selectedAnswer &&
+        !answers[
+            currentQuestionIndex
+        ]
+    ) {
+
+        answers[
+            currentQuestionIndex
+        ] = {
+
+            question_number:
+                currentQuestionIndex + 1,
+
+            selected_answer:
+                selectedAnswer
+        };
+    }
+
+
+    for (
+        let i = 0;
+        i < quizQuestions.length;
+        i++
+    ) {
+
+        if (!answers[i]) {
+
+            answers[i] = {
+
+                question_number:
+                    i + 1,
+
+                selected_answer:
+                    null
+            };
+        }
+    }
+
+
+    document
+        .getElementById(
+            "nextButton"
+        )
+        .disabled =
+            true;
+
+
+    document
+        .getElementById(
+            "nextButton"
+        )
+        .textContent =
+            "Submitting...";
+
+
+    showQuizMessage(
+        "Submitting your answers securely...",
+        "info"
+    );
+
+
+    try {
+
+        const {
+            data: sessionData
+        } =
+            await supabaseClient.auth
+                .getSession();
+
+
+        const accessToken =
+            sessionData &&
+            sessionData.session
+                ? sessionData.session.access_token
+                : null;
+
+
+        if (!accessToken) {
+
+            throw new Error(
+                "Your login session has expired."
+            );
+        }
+
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/functions/v1/submit-daily-quiz",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Authorization":
+                            "Bearer " +
+                            accessToken,
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            SUPABASE_PUBLISHABLE_KEY
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            session_id:
+                                sessionId,
+
+                            answers:
+                                answers
+                        })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                "Quiz submission failed."
+            );
+        }
+
+
+        if (!result.success) {
+
+            throw new Error(
+                "Quiz submission was not confirmed."
+            );
+        }
+
+
+        showResult(
+            result
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Submit quiz error:",
+            error
+        );
+
+
+        quizFinished =
+            false;
+
+
+        document
+            .getElementById(
+                "nextButton"
+            )
+            .disabled =
+                false;
+
+
+        document
+            .getElementById(
+                "nextButton"
+            )
+            .textContent =
+                "Submit Quiz";
+
+
+        showQuizMessage(
+            error.message ||
+            "Your quiz could not be submitted.",
+            "error"
+        );
+    }
+}
+
+
+function showResult(
+    result
+) {
+
+    clearTimer();
+
+
+    document
+        .getElementById(
+            "quizBox"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "resultBox"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    const score =
+        Number(
+            result.score || 0
+        );
+
+
+    const correct =
+        Number(
+            result.correct || 0
+        );
+
+
+    const total =
+        Number(
+            result.total || 10
+        );
+
+
+    const serverTime =
+        Number(
+            result.time_seconds || 0
+        );
+
+
+    document
+        .getElementById(
+            "scoreCircle"
+        )
+        .textContent =
+            score + "%";
+
+
+    document
+        .getElementById(
+            "correctResult"
+        )
+        .textContent =
+            correct;
+
+
+    document
+        .getElementById(
+            "totalResult"
+        )
+        .textContent =
+            total;
+
+
+    document
+        .getElementById(
+            "timeResult"
+        )
+        .textContent =
+            serverTime + "s";
+
+
+    const message =
+        document.getElementById(
+            "resultMessage"
+        );
+
+
+    const certificateNotice =
+        document.getElementById(
+            "certificateNotice"
+        );
+
+
+    certificateNotice.classList.add(
+        "hidden"
+    );
+
+
+    if (
+        score >= 70
+    ) {
+
+        message.textContent =
+            "Excellent work! You reached the current certificate target. Your result has been securely saved.";
+
+        certificateNotice.classList.remove(
+            "hidden"
+        );
+
+    } else if (
+        score >= 50
+    ) {
+
+        message.textContent =
+            "Good effort! Your result has been saved. Continue learning and improve your score.";
+
+    } else {
+
+        message.textContent =
+            "Keep learning! Review your lessons and continue improving your knowledge.";
+    }
+
+
+    showQuizMessage(
+        "Quiz submitted successfully.",
+        "success"
+    );
+}
+
+
+function showStartBox() {
+
+    hideLoading();
+
+
+    document
+        .getElementById(
+            "loginRequired"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "paymentBox"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "startBox"
+        )
+        .classList.remove(
+            "hidden"
+        );
+}
+
+
+function showLoading(
+    text
+) {
+
+    const loadingBox =
+        document.getElementById(
+            "loadingBox"
+        );
+
+
+    document
+        .getElementById(
+            "loadingText"
+        )
+        .textContent =
+            text;
+
+
+    loadingBox.classList.remove(
+        "hidden"
+    );
+}
+
+
+function hideLoading() {
+
+    document
+        .getElementById(
+            "loadingBox"
+        )
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+function showQuizMessage(
+    message,
+    type = "info"
+) {
+
+    const box =
+        document.getElementById(
+            "quizMessage"
+        );
+
+
+    box.textContent =
+        message;
+
+
+    box.className =
+        "quiz-alert " +
+        type;
+
+
+    box.classList.remove(
+        "hidden"
+    );
+}
+
+
+function hideQuizMessage() {
+
+    document
+        .getElementById(
+            "quizMessage"
+        )
+        .classList.add(
+            "hidden"
+        );
+}
+
+
+function formatMoney(
+    amount
+) {
+
+    return (
+        Number(
+            amount || 0
+        ).toLocaleString(
+            "en-US"
+        ) +
+        " RWF"
+    );
+}
+
+
+function toggleLanguage() {
+
+    if (
+        typeof window.toggleLanguage ===
+            "function" &&
+        window.toggleLanguage !==
+            toggleLanguage
+    ) {
+
+        window.toggleLanguage();
+
+        return;
+    }
+
+
+    showQuizMessage(
+        "Language switching will be connected to the main website language system.",
+        "info"
+    );
+}
+
+</script>
+
+</body>
+</html>

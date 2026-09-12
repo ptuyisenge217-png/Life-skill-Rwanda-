@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lessons - Life Skills Rwanda</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="logo">
+        <div class="logo-mark">LS</div>
+        <div>
+            <strong>Life Skills Rwanda</strong>
+            <small>Learn • Practice • Grow</small>
+        </div>
+    </div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="lessons.html" class="active">Lessons</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="leaderboard.html">Leaderboard</a>
+        <a href="student.html">My Progress</a>
+        <a href="admin.html">Admin</a>
+    </nav>
+
+    <button class="lang-btn" onclick="toggleLanguage()">RW / EN</button>
+</header>
+
+<section class="page-header">
+    <span class="badge">LEARNING CENTER</span>
+    <h1>Life Skills Lessons</h1>
+    <p>Choose a lesson, learn something useful and mark your progress.</p>
+</section>
+
+<main class="container">
+
+    <div id="lessonGrid" class="grid"></div>
+
+</main>
+
+<footer>
+    <strong>Life Skills Rwanda</strong>
+    <p>Learn • Practice • Grow</p>
+</footer>
+
+<script src="script.js"></script>
+
+<script>
+const lessonGrid = document.getElementById("lessonGrid");
+const completed = getCompleted();
+
+defaultLessons.forEach((lesson, index) => {
+    const done = completed.includes(lesson.id);
+
+    lessonGrid.innerHTML += `
+        <article class="card">
+            <div class="card-icon">${lesson.icon}</div>
+            <span class="lesson-number">
+                LESSON ${String(index + 1).padStart(2, "0")}
+            </span>
+
+            <h3>${lesson.title}</h3>
+
+            <p>${lesson.description}</p>
+
+            <p class="mt">${lesson.content}</p>
+
+            <div class="progress">
+                <div class="progress-bar" style="width:${done ? 100 : 0}%"></div>
+            </div>
+
+            <button
+                class="btn ${done ? "secondary" : "primary"} mt"
+                onclick="completeLesson(${lesson.id})">
+                ${done ? "✓ Completed" : "Mark Complete"}
+            </button>
+        </article>
+    `;
+});
+
+function completeLesson(id) {
+    markLessonCompleted(id);
+    location.reload();
+}
+</script>
+
+</body>
+</html>

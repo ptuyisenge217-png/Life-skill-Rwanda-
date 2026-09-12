@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Life Skills Rwanda Student Certificate"
+    >
+
+    <title>Certificate | Life Skills Rwanda</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #eef1f6;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #222;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .certificate-page {
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+
+        .certificate-topbar {
+            min-height: 70px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 5%;
+            box-shadow: 0 3px 15px rgba(0,0,0,.08);
+        }
+
+        .certificate-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .certificate-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#1261d8,#0b3d91);
+            color: white;
+            font-weight: 900;
+        }
+
+        .certificate-brand-text strong {
+            display: block;
+            font-size: 17px;
+        }
+
+        .certificate-brand-text span {
+            display: block;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .certificate-nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .certificate-nav a {
+            text-decoration: none;
+            color: #333;
+            padding: 9px 13px;
+            border-radius: 8px;
+        }
+
+        .certificate-nav a:hover {
+            background: #f0f2f6;
+        }
+
+        /* PAGE */
+
+        .certificate-container {
+            width: min(1150px,94%);
+            margin: 35px auto 60px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: #666;
+        }
+
+        /* MESSAGE */
+
+        .certificate-message {
+            max-width: 700px;
+            margin: 30px auto;
+            background: white;
+            border-radius: 18px;
+            padding: 40px 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,.08);
+        }
+
+        .certificate-message-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .certificate-message h2 {
+            margin-bottom: 10px;
+        }
+
+        .certificate-message p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .message-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        /* CERTIFICATE */
+
+        .certificate-wrapper {
+            background: white;
+            padding: 18px;
+            border-radius: 18px;
+            box-shadow: 0 10px 35px rgba(0,0,0,.12);
+        }
+
+        .certificate {
+            position: relative;
+            min-height: 720px;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(201,162,39,.06),
+                    transparent 45%
+                ),
+                #fff;
+            border: 12px solid #172033;
+            padding: 42px 55px;
+            overflow: hidden;
+        }
+
+        .certificate-inner {
+            min-height: 610px;
+            border: 2px solid #c9a227;
+            position: relative;
+            padding: 42px;
+            text-align: center;
+        }
+
+        .corner {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-color: #c9a227;
+            border-style: solid;
+        }
+
+        .corner.top-left {
+            top: 14px;
+            left: 14px;
+            border-width: 4px 0 0 4px;
+        }
+
+        .corner.top-right {
+            top: 14px;
+            right: 14px;
+            border-width: 4px 4px 0 0;
+        }
+
+        .corner.bottom-left {
+            bottom: 14px;
+            left: 14px;
+            border-width: 0 0 4px 4px;
+        }
+
+        .corner.bottom-right {
+            bottom: 14px;
+            right: 14px;
+            border-width: 0 4px 4px 0;
+        }
+
+        .certificate-watermark {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: .035;
+            font-size: 170px;
+            font-weight: 900;
+            transform: rotate(-20deg);
+        }
+
+        .certificate-small-title {
+            font-size: 15px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #777;
+            margin-bottom: 12px;
+        }
+
+        .certificate-main-title {
+            font-size: 48px;
+            letter-spacing: 4px;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .certificate-subtitle {
+            margin-top: 8px;
+            color: #777;
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+
+        .certificate-line {
+            width: 130px;
+            height: 3px;
+            margin: 22px auto;
+            background: #c9a227;
+        }
+
+        .presented {
+            color: #666;
+            font-size: 16px;
+            margin-top: 25px;
+        }
+
+        .student-name {
+            margin: 15px 0;
+            font-size: 42px;
+            font-family: Georgia,"Times New Roman",serif;
+            font-weight: 700;
+            color: #172033;
+        }
+
+        .certificate-description {
+            max-width: 750px;
+            margin: 0 auto;
+            line-height: 1.7;
+            color: #444;
+            font-size: 16px;
+        }
+
+        /* STATS */
+
+        .certificate-stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px auto;
+        }
+
+        .certificate-stat {
+            min-width: 160px;
+            padding: 14px 20px;
+            border-radius: 10px;
+            background: #f7f8fb;
+            border: 1px solid #e6e8ed;
+        }
+
+        .certificate-stat strong {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #1261d8;
+        }
+
+        .certificate-stat span {
+            color: #777;
+            font-size: 13px;
+        }
+
+        /* BOTTOM */
+
+        .certificate-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 35px;
+            margin-top: 40px;
+        }
+
+        .signature-box {
+            min-width: 220px;
+            text-align: center;
+        }
+
+        .signature-line {
+            width: 210px;
+            border-top: 1px solid #333;
+            margin: 0 auto 8px;
+        }
+
+        .signature-box strong {
+            display: block;
+        }
+
+        .signature-box span {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .seal {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #c9a227;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 11px;
+            line-height: 1.4;
+            font-weight: 800;
+            color: #8c6b00;
+            background: #fffdf3;
+        }
+
+        .certificate-meta {
+            text-align: right;
+            min-width: 240px;
+        }
+
+        .certificate-meta div {
+            margin: 6px 0;
+            font-size: 13px;
+        }
+
+        .certificate-meta strong {
+            color: #222;
+        }
+
+        /* ACTIONS */
+
+        .certificate-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .certificate-actions button,
+        .certificate-actions a {
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:800px) {
+
+            .certificate-topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .certificate-nav {
+                width: 100%;
+            }
+
+            .certificate {
+                min-height: auto;
+                border-width: 7px;
+                padding: 18px;
+            }
+
+            .certificate-inner {
+                min-height: auto;
+                padding: 25px 15px;
+            }
+
+            .certificate-main-title {
+                font-size: 31px;
+                letter-spacing: 2px;
+            }
+
+            .student-name {
+                font-size: 29px;
+            }
+
+            .certificate-bottom {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .certificate-meta {
+                text-align: center;
+            }
+
+            .certificate-description {
+                font-size: 14px;
+            }
+
+            .certificate-watermark {
+                font-size: 90px;
+            }
+        }
+
+        /* PRINT */
+
+        @media print {
+
+            @page {
+                size: A4 landscape;
+                margin: 0;
+            }
+
+            html,
+            body {
+                width: 297mm;
+                height: 210mm;
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+
+            .certificate-topbar,
+            .page-title,
+            .certificate-actions,
+            footer,
+            .certificate-message {
+                display: none !important;
+            }
+
+            .certificate-container {
+                width: 297mm;
+                height: 210mm;
+                margin: 0;
+            }
+
+            #certificateContent {
+                display: block !important;
+            }
+
+            .certificate-wrapper {
+                width: 297mm;
+                height: 210mm;
+                padding: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .certificate {
+                width: 297mm;
+                height: 210mm;
+                min-height: 210mm;
+                border-radius: 0;
+                border-width: 7mm;
+                padding: 8mm;
+                box-shadow: none;
+            }
+
+            .certificate-inner {
+                min-height: 186mm;
+                padding: 10mm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="certificate-topbar">
+
+    <div class="certificate-brand">
+        <div class="certificate-logo">LS</div>
+
+        <div class="certificate-brand-text">
+            <strong>Life Skills Rwanda</strong>
+            <span>Student Certificate</span>
+        </div>
+    </div>
+
+    <nav class="certificate-nav">
+        <a href="index.html">Home</a>
+        <a href="quiz.html">Quiz</a>
+        <a href="student.html">My Progress</a>
+    </nav>
+
+</header>
+
+
+<main class="certificate-container">
+
+    <div class="page-title">
+        <h1>Certificate</h1>
+        <p>Your Life Skills Rwanda achievement certificate</p>
+    </div>
+
+
+    <!-- LOGIN -->
+
+    <section
+        id="loginMessage"
+        class="certificate-message hidden"
+    >
+
+        <div class="certificate-message-icon">🔐</div>
+
+        <h2>Student account required</h2>
+
+        <p>
+            Please log in to your student account to view
+            your certificate.
+        </p>
+
+        <div class="message-actions">
+
+            <a href="student.html" class="btn btn-primary">
+                Login / Create Account
+            </a>
+
+            <a href="index.html" class="btn btn-secondary">
+                Back to Home
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- NOT ELIGIBLE -->
+
+    <section
+        id="notEligibleMessage"
+        class="certificate-message hidden"
+    >
+
+        <div class="certificate-message-icon">🎓</div>
+
+        <h2>Certificate not available yet</h2>
+
+        <p id="notEligibleText">
+            Complete the quiz and reach at least 70%
+            to qualify for your certificate.
+        </p>
+
+        <div class="message-actions">
+
+            <a href="quiz.html" class="btn btn-primary">
+                Take Quiz
+            </a>
+
+            <a href="student.html" class="btn btn-secondary">
+                My Progress
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- CERTIFICATE -->
+
+    <section
+        id="certificateContent"
+        class="hidden"
+    >
+
+        <div class="certificate-wrapper">
+
+            <div class="certificate">
+
+                <div class="certificate-inner">
+
+                    <div class="corner top-left"></div>
+                    <div class="corner top-right"></div>
+                    <div class="corner bottom-left"></div>
+                    <div class="corner bottom-right"></div>
+
+                    <div class="certificate-watermark">
+                        LS
+                    </div>
+
+                    <div class="certificate-small-title">
+                        Life Skills Rwanda
+                    </div>
+
+                    <h1 class="certificate-main-title">
+                        Certificate
+                    </h1>
+
+                    <div class="certificate-subtitle">
+                        OF ACHIEVEMENT
+                    </div>
+
+                    <div class="certificate-line"></div>
+
+                    <div class="presented">
+                        This certificate is proudly presented to
+                    </div>
+
+                    <div
+                        id="certificateStudentName"
+                        class="student-name"
+                    >
+                        Student Name
+                    </div>
+
+                    <p class="certificate-description">
+                        In recognition of successful participation
+                        and achievement in the Life Skills Rwanda
+                        learning and assessment program.
+                    </p>
+
+                    <div class="certificate-stats">
+
+                        <div class="certificate-stat">
+
+                            <strong id="certificateScore">
+                                0%
+                            </strong>
+
+                            <span>
+                                Best Quiz Score
+                            </span>
+
+                        </div>
+
+                        <div class="certificate-stat">
+
+                            <strong id="certificateLessons">
+                                0
+                            </strong>
+
+                            <span>
+                                Lessons Completed
+                            </span>
+
+                        </div>
+
+                        <div class="certificate-stat">
+
+                            <strong id="certificateDate">
+                                —
+                            </strong>
+
+                            <span>
+                                Issue Date
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="certificate-bottom">
+
+                        <div class="signature-box">
+
+                            <div class="signature-line"></div>
+
+                            <strong>
+                                TUYISENGE Patrick
+                            </strong>
+
+                            <span>
+                                Program Director
+                            </span>
+
+                        </div>
+
+
+                        <div class="seal">
+                            LIFE SKILLS<br>
+                            RWANDA<br>
+                            ACHIEVEMENT
+                        </div>
+
+
+                        <div class="certificate-meta">
+
+                            <div>
+                                Certificate No:
+                                <strong id="certificateNumber">
+                                    —
+                                </strong>
+                            </div>
+
+                            <div>
+                                Student:
+                                <strong id="certificateEmail">
+                                    —
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="certificate-actions">
+
+            <button
+                type="button"
+                class="btn btn-primary"
+                onclick="printCertificate()"
+            >
+                Print Certificate
+            </button>
+
+            <a
+                href="student.html"
+                class="btn btn-secondary"
+            >
+                My Progress
+            </a>
+
+            <a
+                href="quiz.html"
+                class="btn btn-secondary"
+            >
+                Take Quiz Again
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer style="
+    text-align:center;
+    padding:25px;
+    background:#ffffff;
+    color:#666;
+">
+
+    <p>
+        © 2026 Life Skills Rwanda.
+        All rights reserved.
+    </p>
+
+    <p>
+        Program Director:
+        <strong>TUYISENGE Patrick</strong>
+    </p>
+
+</footer>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+    "https://wplqgmakucweidurbbjz.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    loadCertificatePage
+);
+
+
+async function loadCertificatePage() {
+
+    try {
+
+        const {
+            data: {
+                user
+            }
+        } =
+            await supabaseClient.auth.getUser();
+
+
+        if (!user) {
+
+            document
+                .getElementById("loginMessage")
+                .classList.remove("hidden");
+
+            return;
+        }
+
+
+        const {
+            data: profile
+        } =
+            await supabaseClient
+                .from("profiles")
+                .select("full_name,email")
+                .eq("id", user.id)
+                .maybeSingle();
+
+
+        const {
+            data: certificate,
+            error
+        } =
+            await supabaseClient.rpc(
+                "issue_my_certificate"
+            );
+
+
+        if (error) {
+
+            console.error(
+                "Certificate RPC error:",
+                error
+            );
+
+            showNotEligible(
+                "We could not load your certificate. Please try again."
+            );
+
+            return;
+        }
+
+
+        if (
+            !certificate ||
+            certificate.eligible !== true
+        ) {
+
+            const score =
+                Number(
+                    certificate?.score || 0
+                );
+
+            if (score > 0) {
+
+                showNotEligible(
+                    `Your current best quiz score is ${score}%. You need at least 70% to qualify for the certificate.`
+                );
+
+            } else {
+
+                showNotEligible(
+                    "Complete the Life Skills Rwanda quiz and reach at least 70% to qualify for the certificate."
+                );
+
+            }
+
+            return;
+        }
+
+
+        displayCertificate(
+            certificate,
+            profile,
+            user
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Certificate loading error:",
+            error
+        );
+
+        showNotEligible(
+            "There was a problem loading your certificate. Please try again."
+        );
+
+    }
+}
+
+
+function displayCertificate(
+    certificate,
+    profile,
+    user
+) {
+
+    const studentName =
+        profile?.full_name ||
+        user?.user_metadata?.full_name ||
+        user?.email?.split("@")[0] ||
+        "Student";
+
+
+    document
+        .getElementById(
+            "certificateStudentName"
+        )
+        .textContent =
+            studentName;
+
+
+    document
+        .getElementById(
+            "certificateScore"
+        )
+        .textContent =
+            `${Number(certificate.score || 0)}%`;
+
+
+    document
+        .getElementById(
+            "certificateLessons"
+        )
+        .textContent =
+            certificate.lessons_completed ?? 0;
+
+
+    document
+        .getElementById(
+            "certificateDate"
+        )
+        .textContent =
+            formatDate(
+                certificate.issue_date ||
+                certificate.created_at
+            );
+
+
+    document
+        .getElementById(
+            "certificateNumber"
+        )
+        .textContent =
+            certificate.certificate_number ||
+            "—";
+
+
+    document
+        .getElementById(
+            "certificateEmail"
+        )
+        .textContent =
+            profile?.email ||
+            user?.email ||
+            "—";
+
+
+    document
+        .getElementById(
+            "certificateContent"
+        )
+        .classList.remove("hidden");
+}
+
+
+function formatDate(value) {
+
+    if (!value) {
+        return "—";
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return String(value);
+    }
+
+    return date.toLocaleDateString(
+        "en-RW",
+        {
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+}
+
+
+function showNotEligible(message) {
+
+    document
+        .getElementById(
+            "notEligibleText"
+        )
+        .textContent =
+            message;
+
+    document
+        .getElementById(
+            "notEligibleMessage"
+        )
+        .classList.remove("hidden");
+}
+
+
+function printCertificate() {
+
+    window.print();
+
+}
+
+</script>
+
+</body>
+</html>

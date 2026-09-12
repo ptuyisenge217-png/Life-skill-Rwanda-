@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Life Skills Rwanda Leaderboard"
+    >
+
+    <title>Leaderboard | Life Skills Rwanda</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =====================================================
+           LIFE SKILLS RWANDA
+           LEADERBOARD V3
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =====================================================
+           NAVIGATION
+        ===================================================== */
+
+        .leaderboard-nav {
+            min-height: 70px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 5%;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            background: #111827;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 17px;
+        }
+
+        .brand-text span {
+            display: block;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #374151;
+            padding: 9px 13px;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: #eef2ff;
+            color: #111827;
+        }
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .leaderboard-container {
+            width: min(1150px, 94%);
+            margin: 35px auto 60px;
+        }
+
+        .hero-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero-title h1 {
+            margin: 0 0 8px;
+            font-size: 38px;
+        }
+
+        .hero-title p {
+            margin: 0;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-left h3 {
+            margin: 0 0 6px;
+        }
+
+        .status-left p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: #e8f7ee;
+            color: #177245;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .status-badge.closed {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        /* =====================================================
+           PRIZES
+        ===================================================== */
+
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .prize-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        .prize-icon {
+            font-size: 38px;
+            margin-bottom: 8px;
+        }
+
+        .prize-card h3 {
+            margin: 5px 0;
+        }
+
+        .prize-card p {
+            margin: 8px 0 0;
+            color: #6b7280;
+        }
+
+        .prize-amount {
+            font-size: 24px;
+            font-weight: 900;
+            margin-top: 10px;
+        }
+
+        /* =====================================================
+           MY RANK
+        ===================================================== */
+
+        .my-rank-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        .my-rank-card h2 {
+            margin-top: 0;
+        }
+
+        .rank-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .rank-item {
+            background: #f7f8fb;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+        }
+
+        .rank-item strong {
+            display: block;
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .rank-item span {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .login-note {
+            margin-top: 18px;
+            color: #6b7280;
+        }
+
+        .login-note a {
+            font-weight: 700;
+            color: #111827;
+        }
+
+        /* =====================================================
+           LEADERBOARD
+        ===================================================== */
+
+        .leaderboard-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+        }
+
+        .leaderboard-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .leaderboard-header h2 {
+            margin: 0;
+        }
+
+        .refresh-button {
+            border: none;
+            background: #111827;
+            color: white;
+            border-radius: 9px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .refresh-button:hover {
+            opacity: 0.9;
+        }
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        .leaderboard-table th {
+            text-align: left;
+            padding: 15px;
+            background: #f7f8fb;
+            color: #555;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .leaderboard-table td {
+            padding: 16px 15px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .leaderboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .leaderboard-table tr.current-user {
+            background: #f3f6ff;
+            font-weight: 700;
+        }
+
+        .rank-number {
+            font-weight: 900;
+            font-size: 17px;
+        }
+
+        .medal {
+            font-size: 23px;
+        }
+
+        .student-cell {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .student-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .student-info strong {
+            display: block;
+        }
+
+        .student-info span {
+            display: block;
+            color: #777;
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .score-value {
+            font-weight: 900;
+        }
+
+        .score-good {
+            color: #15803d;
+        }
+
+        .score-average {
+            color: #b45309;
+        }
+
+        .score-low {
+            color: #6b7280;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: #6b7280;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        .loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+
+        .spinner {
+            width: 38px;
+            height: 38px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #111827;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .page-message {
+            display: none;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background: #fff7ed;
+            color: #9a3412;
+        }
+
+        .page-message.show {
+            display: block;
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .site-footer {
+            background: #111827;
+            color: #ffffff;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .site-footer p {
+            margin: 6px 0;
+        }
+
+        .site-footer small {
+            color: #b9c0cb;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 800px) {
+
+            .leaderboard-nav {
+                position: static;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+            }
+
+            .nav-links a {
+                font-size: 14px;
+            }
+
+            .hero-title h1 {
+                font-size: 30px;
+            }
+
+            .prize-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rank-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .status-card {
+                align-items: flex-start;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .leaderboard-container {
+                width: 92%;
+                margin-top: 25px;
+            }
+
+            .leaderboard-card,
+            .my-rank-card,
+            .status-card {
+                padding: 18px;
+            }
+
+            .brand-text strong {
+                font-size: 15px;
+            }
+
+            .brand-text span {
+                font-size: 11px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         NAVIGATION
+    ====================================================== -->
+
+    <header class="leaderboard-nav">
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                LS
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    Life Skills Rwanda
+                </strong>
+
+                <span>
+                    Learn • Practice • Achieve
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="quiz.html">
+                Quiz
+            </a>
+
+            <a
+                href="leaderboard.html"
+                class="active"
+            >
+                Leaderboard
+            </a>
+
+            <a href="student.html">
+                My Progress
+            </a>
+
+            <a href="certificate.html">
+                Certificate
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="leaderboard-container">
+
+
+        <!-- =================================================
+             TITLE
+        ================================================== -->
+
+        <section class="hero-title">
+
+            <h1>
+                🏆 Leaderboard
+            </h1>
+
+            <p>
+                See the students with the highest quiz scores
+                in Life Skills Rwanda.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             MESSAGE
+        ================================================== -->
+
+        <div
+            id="pageMessage"
+            class="page-message"
+        ></div>
+
+
+        <!-- =================================================
+             COMPETITION STATUS
+        ================================================== -->
+
+        <section class="status-card">
+
+            <div class="status-left">
+
+                <h3 id="competitionTitle">
+                    Competition
+                </h3>
+
+                <p id="competitionText">
+                    Loading competition status...
+                </p>
+
+            </div>
+
+
+            <div
+                id="competitionBadge"
+                class="status-badge"
+            >
+                ● Loading...
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             PRIZES
+        ================================================== -->
+
+        <section class="prize-grid">
+
+
+            <div class="prize-card">
+
+                <div class="prize-icon">
+                    🥇
+                </div>
+
+                <h3>
+                    1st Prize
+                </h3>
+
+                <div
+                    id="firstPrize"
+                    class="prize-amount"
+                >
+                    20,000 RWF
+                </div>
+
+                <p>
+                    First place
+                </p>
+
+            </div>
+
+
+            <div class="prize-card">
+
+                <div class="prize-icon">
+                    🥈
+                </div>
+
+                <h3>
+                    2nd Prize
+                </h3>
+
+                <div
+                    id="secondPrize"
+                    class="prize-amount"
+                >
+                    10,000 RWF
+                </div>
+
+                <p>
+                    Second place
+                </p>
+
+            </div>
+
+
+            <div class="prize-card">
+
+                <div class="prize-icon">
+                    🥉
+                </div>
+
+                <h3>
+                    3rd Prize
+                </h3>
+
+                <div
+                    id="thirdPrize"
+                    class="prize-amount"
+                >
+                    5,000 RWF
+                </div>
+
+                <p>
+                    Third place
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =================================================
+             MY RANK
+        ================================================== -->
+
+        <section class="my-rank-card">
+
+            <h2>
+                📊 My Ranking
+            </h2>
+
+
+            <div
+                id="myRankLogin"
+                class="login-note hidden"
+            >
+
+                Please
+                <a href="student.html">
+                    log in
+                </a>
+                to see your personal ranking.
+
+            </div>
+
+
+            <div
+                id="myRankContent"
+                class="rank-grid hidden"
+            >
+
+                <div class="rank-item">
+
+                    <strong id="myRank">
+                        —
+                    </strong>
+
+                    <span>
+                        My Rank
+                    </span>
+
+                </div>
+
+
+                <div class="rank-item">
+
+                    <strong id="myScore">
+                        0%
+                    </strong>
+
+                    <span>
+                        Best Score
+                    </span>
+
+                </div>
+
+
+                <div class="rank-item">
+
+                    <strong id="myAttempts">
+                        0
+                    </strong>
+
+                    <span>
+                        Attempts
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             LEADERBOARD TABLE
+        ================================================== -->
+
+        <section class="leaderboard-card">
+
+            <div class="leaderboard-header">
+
+                <div>
+
+                    <h2>
+                        Top Students
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="refresh-button"
+                    onclick="loadLeaderboardPage()"
+                >
+                    ↻ Refresh
+                </button>
+
+            </div>
+
+
+            <!-- Loading -->
+
+            <div
+                id="leaderboardLoading"
+                class="loading"
+            >
+
+                <div class="spinner"></div>
+
+                <div>
+                    Loading leaderboard...
+                </div>
+
+            </div>
+
+
+            <!-- Table -->
+
+            <div
+                id="leaderboardTableContainer"
+                class="table-wrapper hidden"
+            >
+
+                <table class="leaderboard-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Rank
+                            </th>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                Best Score
+                            </th>
+
+                            <th>
+                                Attempts
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody
+                        id="leaderboardBody"
+                    ></tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- Empty -->
+
+            <div
+                id="leaderboardEmpty"
+                class="empty-state hidden"
+            >
+
+                <div class="empty-state-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    No scores yet
+                </h3>
+
+                <p>
+                    Be the first student to complete the quiz!
+                </p>
+
+                <a
+                    href="quiz.html"
+                    class="btn btn-primary"
+                >
+                    Take the Quiz
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="site-footer">
+
+        <p>
+            <strong>
+                Life Skills Rwanda
+            </strong>
+        </p>
+
+        <p>
+            Program Director:
+            <strong>
+                TUYISENGE Patrick
+            </strong>
+        </p>
+
+        <p>
+            <small>
+                © 2026 Life Skills Rwanda. All rights reserved.
+            </small>
+        </p>
+
+    </footer>
+
+
+    <!-- =====================================================
+         SCRIPT
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+
+    <!-- =====================================================
+         LEADERBOARD V3 JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /* =====================================================
+           INITIALIZE
+        ===================================================== */
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            async function () {
+
+                try {
+
+                    await initV3();
+
+                    await loadLeaderboardPage();
+
+                } catch (error) {
+
+                    console.error(
+                        "Leaderboard initialization error:",
+                        error
+                    );
+
+                    showPageMessage(
+                        "Unable to load the leaderboard. Please refresh the page."
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           MAIN LOAD
+        ===================================================== */
+
+        async function loadLeaderboardPage() {
+
+            showLoading();
+
+            try {
+
+                /* ---------------------------------------------
+                   Load settings
+                --------------------------------------------- */
+
+                const settings =
+                    await getSettings();
+
+
+                if (settings) {
+
+                    updateCompetitionSettings(
+                        settings
+                    );
+
+                }
+
+
+                /* ---------------------------------------------
+                   Load leaderboard
+                --------------------------------------------- */
+
+                const leaderboard =
+                    await getLeaderboard();
+
+
+                renderLeaderboard(
+                    leaderboard || []
+                );
+
+
+                /* ---------------------------------------------
+                   Load current student
+                --------------------------------------------- */
+
+                await loadMyRanking();
+
+
+            } catch (error) {
+
+                console.error(
+                    "Leaderboard loading error:",
+                    error
+                );
+
+                showPageMessage(
+                    "There was a problem loading the leaderboard."
+                );
+
+                showEmpty();
+
+            }
+
+        }
+
+
+        /* =====================================================
+           COMPETITION SETTINGS
+        ===================================================== */
+
+        function updateCompetitionSettings(
+            settings
+        ) {
+
+            const firstPrize =
+                Number(
+                    settings.first_prize || 20000
+                );
+
+            const secondPrize =
+                Number(
+                    settings.second_prize || 10000
+                );
+
+            const thirdPrize =
+                Number(
+                    settings.third_prize || 5000
+                );
+
+
+            document
+                .getElementById(
+                    "firstPrize"
+                )
+                .textContent =
+                    formatRWF(
+                        firstPrize
+                    );
+
+
+            document
+                .getElementById(
+                    "secondPrize"
+                )
+                .textContent =
+                    formatRWF(
+                        secondPrize
+                    );
+
+
+            document
+                .getElementById(
+                    "thirdPrize"
+                )
+                .textContent =
+                    formatRWF(
+                        thirdPrize
+                    );
+
+
+            /* ---------------------------------------------
+               Competition status
+            --------------------------------------------- */
+
+            const badge =
+                document.getElementById(
+                    "competitionBadge"
+                );
+
+            const title =
+                document.getElementById(
+                    "competitionTitle"
+                );
+
+            const text =
+                document.getElementById(
+                    "competitionText"
+                );
+
+
+            const enabled =
+                settings.competition_enabled === true;
+
+
+            if (!enabled) {
+
+                badge.textContent =
+                    "● Closed";
+
+                badge.classList.add(
+                    "closed"
+                );
+
+                title.textContent =
+                    "Competition";
+
+                text.textContent =
+                    "The competition is currently not active.";
+
+                return;
+
+            }
+
+
+            /* ---------------------------------------------
+               Check competition dates
+            --------------------------------------------- */
+
+            const start =
+                settings.competition_start
+                    ? new Date(
+                        settings.competition_start
+                    )
+                    : null;
+
+
+            const end =
+                settings.competition_end
+                    ? new Date(
+                        settings.competition_end
+                    )
+                    : null;
+
+
+            const now =
+                new Date();
+
+
+            if (
+                start &&
+                now < start
+            ) {
+
+                badge.textContent =
+                    "● Not Started";
+
+                badge.classList.add(
+                    "closed"
+                );
+
+                text.textContent =
+                    `Competition starts on ${formatDateTime(start)}.`;
+
+                return;
+
+            }
+
+
+            if (
+                end &&
+                now > end
+            ) {
+
+                badge.textContent =
+                    "● Ended";
+
+                badge.classList.add(
+                    "closed"
+                );
+
+                text.textContent =
+                    `Competition ended on ${formatDateTime(end)}.`;
+
+                return;
+
+            }
+
+
+            badge.textContent =
+                "● Active";
+
+            badge.classList.remove(
+                "closed"
+            );
+
+            text.textContent =
+                "The competition is currently active. Good luck!";
+
+        }
+
+
+        /* =====================================================
+           LOAD MY RANK
+        ===================================================== */
+
+        async function loadMyRanking() {
+
+            const user =
+                await getCurrentUser();
+
+
+            const loginBox =
+                document.getElementById(
+                    "myRankLogin"
+                );
+
+            const content =
+                document.getElementById(
+                    "myRankContent"
+                );
+
+
+            if (!user) {
+
+                loginBox.classList.remove(
+                    "hidden"
+                );
+
+                content.classList.add(
+                    "hidden"
+                );
+
+                return;
+
+            }
+
+
+            loginBox.classList.add(
+                "hidden"
+            );
+
+
+            try {
+
+                const rank =
+                    await getMyRank();
+
+
+                const bestScore =
+                    await getBestScore();
+
+
+                const attempts =
+                    await getMyQuizAttempts();
+
+
+                document
+                    .getElementById(
+                        "myRank"
+                    )
+                    .textContent =
+                        rank
+                            ? `#${rank}`
+                            : "—";
+
+
+                document
+                    .getElementById(
+                        "myScore"
+                    )
+                    .textContent =
+                        `${Number(bestScore || 0)}%`;
+
+
+                document
+                    .getElementById(
+                        "myAttempts"
+                    )
+                    .textContent =
+                        Array.isArray(
+                            attempts
+                        )
+                            ? attempts.length
+                            : 0;
+
+
+                content.classList.remove(
+                    "hidden"
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "My rank error:",
+                    error
+                );
+
+                content.classList.remove(
+                    "hidden"
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           RENDER LEADERBOARD
+        ===================================================== */
+
+        function renderLeaderboard(
+            data
+        ) {
+
+            const body =
+                document.getElementById(
+                    "leaderboardBody"
+                );
+
+
+            body.innerHTML = "";
+
+
+            if (
+                !Array.isArray(data) ||
+                data.length === 0
+            ) {
+
+                showEmpty();
+
+                return;
+
+            }
+
+
+            hideLoading();
+
+            document
+                .getElementById(
+                    "leaderboardTableContainer"
+                )
+                .classList.remove(
+                    "hidden"
+                );
+
+
+            document
+                .getElementById(
+                    "leaderboardEmpty"
+                )
+                .classList.add(
+                    "hidden"
+                );
+
+
+            data.forEach(
+                (student, index) => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+
+                    /* -----------------------------------------
+                       Rank
+                    ----------------------------------------- */
+
+                    const rank =
+                        Number(
+                            student.rank ||
+                            index + 1
+                        );
+
+
+                    let rankDisplay =
+                        rank;
+
+
+                    if (rank === 1) {
+
+                        rankDisplay =
+                            '<span class="medal">🥇</span>';
+
+                    } else if (rank === 2) {
+
+                        rankDisplay =
+                            '<span class="medal">🥈</span>';
+
+                    } else if (rank === 3) {
+
+                        rankDisplay =
+                            '<span class="medal">🥉</span>';
+
+                    } else {
+
+                        rankDisplay =
+                            `<span class="rank-number">#${rank}</span>`;
+
+                    }
+
+
+                    /* -----------------------------------------
+                       Student ID
+                    ----------------------------------------- */
+
+                    const studentId =
+                        student.student_id ||
+                        student.id ||
+                        "";
+
+
+                    /* -----------------------------------------
+                       Name
+                    ----------------------------------------- */
+
+                    const name =
+                        student.full_name ||
+                        student.name ||
+                        "Student";
+
+
+                    const initial =
+                        getInitial(
+                            name
+                        );
+
+
+                    /* -----------------------------------------
+                       Email
+                    ----------------------------------------- */
+
+                    const email =
+                        student.email ||
+                        "";
+
+
+                    /* -----------------------------------------
+                       Score
+                    ----------------------------------------- */
+
+                    const score =
+                        Number(
+                            student.score ||
+                            student.best_score ||
+                            0
+                        );
+
+
+                    /* -----------------------------------------
+                       Attempts
+                    ----------------------------------------- */
+
+                    const attempts =
+                        Number(
+                            student.attempts ||
+                            student.total_attempts ||
+                            1
+                        );
+
+
+                    /* -----------------------------------------
+                       Current user
+                    ----------------------------------------- */
+
+                    let isCurrent =
+                        false;
+
+
+                    if (
+                        window.currentLeaderboardUserId &&
+                        studentId
+                    ) {
+
+                        isCurrent =
+                            window.currentLeaderboardUserId ===
+                            studentId;
+
+                    }
+
+
+                    if (isCurrent) {
+
+                        row.classList.add(
+                            "current-user"
+                        );
+
+                    }
+
+
+                    /* -----------------------------------------
+                       Score class
+                    ----------------------------------------- */
+
+                    let scoreClass =
+                        "score-low";
+
+
+                    if (score >= 70) {
+
+                        scoreClass =
+                            "score-good";
+
+                    } else if (score >= 50) {
+
+                        scoreClass =
+                            "score-average";
+
+                    }
+
+
+                    /* -----------------------------------------
+                       Student cell
+                    ----------------------------------------- */
+
+                    const safeName =
+                        escapeHtml(
+                            name
+                        );
+
+                    const safeEmail =
+                        escapeHtml(
+                            email
+                        );
+
+
+                    row.innerHTML = `
+
+                        <td>
+                            ${rankDisplay}
+                        </td>
+
+                        <td>
+
+                            <div class="student-cell">
+
+                                <div class="student-avatar">
+                                    ${escapeHtml(initial)}
+                                </div>
+
+                                <div class="student-info">
+
+                                    <strong>
+                                        ${safeName}
+                                    </strong>
+
+                                    ${
+                                        isCurrent
+                                            ? `<span>My account</span>`
+                                            : (
+                                                email
+                                                    ? `<span>${safeEmail}</span>`
+                                                    : ""
+                                            )
+                                    }
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="score-value ${scoreClass}"
+                            >
+                                ${score}%
+                            </span>
+
+                        </td>
+
+                        <td>
+                            ${attempts}
+                        </td>
+
+                    `;
+
+
+                    body.appendChild(
+                        row
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           GET INITIAL
+        ===================================================== */
+
+        function getInitial(
+            name
+        ) {
+
+            if (!name) {
+
+                return "?";
+
+            }
+
+
+            const clean =
+                String(
+                    name
+                ).trim();
+
+
+            if (!clean) {
+
+                return "?";
+
+            }
+
+
+            return clean
+                .charAt(0)
+                .toUpperCase();
+
+        }
+
+
+        /* =====================================================
+           FORMAT RWF
+        ===================================================== */
+
+        function formatRWF(
+            amount
+        ) {
+
+            return Number(
+                amount || 0
+            ).toLocaleString(
+                "en-RW"
+            ) + " RWF";
+
+        }
+
+
+        /* =====================================================
+           FORMAT DATE
+        ===================================================== */
+
+        function formatDateTime(
+            value
+        ) {
+
+            if (!value) {
+
+                return "—";
+
+            }
+
+
+            const date =
+                new Date(
+                    value
+                );
+
+
+            if (
+                Number.isNaN(
+                    date.getTime()
+                )
+            ) {
+
+                return String(
+                    value
+                );
+
+            }
+
+
+            return date.toLocaleString(
+                "en-RW",
+                {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+        }
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ===================================================== */
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(
+                value ?? ""
+            )
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+        }
+
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        function showLoading() {
+
+            document
+                .getElementById(
+                    "leaderboardLoading"
+                )
+                .classList.remove(
+                    "hidden"
+                );
+
+
+            document
+                .getElementById(
+                    "leaderboardTableContainer"
+                )
+                .classList.add(
+                    "hidden"
+                );
+
+
+            document
+                .getElementById(
+                    "leaderboardEmpty"
+                )
+                .classList.add(
+                    "hidden"
+                );
+
+        }
+
+
+        function hideLoading() {
+
+            document
+                .getElementById(
+                    "leaderboardLoading"
+                )
+                .classList.add(
+                    "hidden"
+                );
+
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        function showEmpty() {
+
+            hideLoading();
+
+
+            document
+                .getElementById(
+                    "leaderboardTableContainer"
+                )
+                .classList.add(
+                    "hidden"
+                );
+
+
+            document
+                .getElementById(
+                    "leaderboardEmpty"
+                )
+                .classList.remove(
+                    "hidden"
+                );
+
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        function showPageMessage(
+            message
+        ) {
+
+            const box =
+                document.getElementById(
+                    "pageMessage"
+                );
+
+
+            box.textContent =
+                message;
+
+
+            box.classList.add(
+                "show"
+            );
+
+        }
+
+    </script>
+
+</body>
+</html>

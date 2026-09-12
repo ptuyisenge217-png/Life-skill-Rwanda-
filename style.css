@@ -1,0 +1,1635 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f8fc;
+    color: #172033;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.topbar {
+    min-height: 74px;
+    background: #ffffff;
+    border-bottom: 1px solid #e5eaf2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 5%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 210px;
+}
+
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1261d8, #24a1ff);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+}
+
+.logo strong {
+    display: block;
+    font-size: 15px;
+}
+
+.logo small {
+    color: #758198;
+    font-size: 11px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+nav a {
+    padding: 9px 11px;
+    border-radius: 8px;
+    color: #58657a;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+nav a:hover,
+nav a.active {
+    background: #eaf3ff;
+    color: #1261d8;
+}
+
+.lang-btn {
+    border: 1px solid #dce4ef;
+    background: white;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #1261d8;
+    font-weight: bold;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+    min-height: 530px;
+    padding: 80px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            #dcecff 0,
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #eef6ff
+        );
+}
+
+.hero-content {
+    max-width: 700px;
+}
+
+.badge {
+    display: inline-block;
+    background: #e7f1ff;
+    color: #1261d8;
+    padding: 6px 12px;
+    border-radius: 30px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .7px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.05;
+    margin: 18px 0;
+}
+
+.hero h1 span {
+    color: #1261d8;
+}
+
+.hero p {
+    color: #68758a;
+    font-size: 18px;
+    max-width: 650px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+.primary {
+    background: #1261d8;
+    color: white;
+}
+
+.primary:hover {
+    background: #0d4eaf;
+}
+
+.secondary {
+    background: white;
+    border: 1px solid #d8e1ed;
+    color: #1261d8;
+}
+
+
+/* =========================================================
+   HERO CARD
+========================================================= */
+
+.hero-card {
+    width: 320px;
+    min-height: 300px;
+    background: white;
+    border-radius: 25px;
+    padding: 35px;
+    box-shadow: 0 20px 60px rgba(25, 73, 130, .12);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-icon {
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+.hero-card h3 {
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.hero-card p {
+    font-size: 15px;
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    padding: 35px 7%;
+    background: white;
+}
+
+.stat-card {
+    padding: 22px;
+    border: 1px solid #e5eaf2;
+    border-radius: 14px;
+    text-align: center;
+}
+
+.stat-card strong {
+    display: block;
+    color: #1261d8;
+    font-size: 30px;
+}
+
+.stat-card span {
+    color: #718096;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+.section {
+    padding: 70px 7%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 36px;
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   FEATURE CARDS
+========================================================= */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    background: white;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid #e4eaf2;
+    transition: .2s;
+}
+
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 35px rgba(20, 60, 110, .09);
+}
+
+.feature-icon {
+    font-size: 35px;
+    margin-bottom: 12px;
+}
+
+.feature-card h3 {
+    margin-bottom: 7px;
+}
+
+.feature-card p {
+    color: #718096;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   COMPETITION
+========================================================= */
+
+.competition {
+    margin: 20px 7%;
+    padding: 35px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #0d55bd, #1683ed);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.competition .badge {
+    background: rgba(255,255,255,.16);
+    color: white;
+}
+
+.competition h2 {
+    margin: 8px 0;
+    font-size: 30px;
+}
+
+.competition p {
+    opacity: .9;
+}
+
+.competition .btn {
+    background: white;
+    color: #1261d8;
+}
+
+
+/* =========================================================
+   STEPS
+========================================================= */
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.step {
+    background: white;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid #e4eaf2;
+}
+
+.step > span {
+    font-size: 28px;
+    color: #1261d8;
+    font-weight: 900;
+}
+
+.step h3 {
+    margin: 10px 0 6px;
+}
+
+.step p {
+    color: #718096;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+========================================================= */
+
+.page-header {
+    padding: 55px 7%;
+    background: linear-gradient(135deg, #eef6ff, #f8fbff);
+}
+
+.page-header h1 {
+    font-size: 42px;
+    margin: 8px 0;
+}
+
+.page-header p {
+    color: #6b778a;
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.container {
+    max-width: 1150px;
+    margin: auto;
+    padding: 45px 20px;
+}
+
+
+/* =========================================================
+   GRID / CARDS
+========================================================= */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 25px;
+}
+
+.card h3 {
+    margin: 10px 0;
+}
+
+.card p {
+    color: #6b778a;
+    font-size: 14px;
+}
+
+.card-icon {
+    font-size: 35px;
+}
+
+.lesson-number {
+    color: #1261d8;
+    font-weight: 800;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   PROGRESS
+========================================================= */
+
+.progress {
+    height: 9px;
+    background: #e8edf4;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #1261d8;
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   FORMS
+========================================================= */
+
+.form-card {
+    max-width: 600px;
+    margin: auto;
+}
+
+label {
+    display: block;
+    font-weight: 700;
+    font-size: 13px;
+    margin: 14px 0 6px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #d9e1ec;
+    border-radius: 9px;
+    outline: none;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    border-color: #1261d8;
+}
+
+.form-actions {
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+.quiz-box {
+    max-width: 850px;
+    margin: auto;
+}
+
+.quiz-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.timer {
+    color: #1261d8;
+    font-weight: 800;
+}
+
+.question {
+    font-size: 25px;
+    margin: 25px 0;
+}
+
+.answers {
+    display: grid;
+    gap: 12px;
+}
+
+.answer {
+    border: 1px solid #dce4ee;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.answer:hover {
+    border-color: #1261d8;
+    background: #f2f7ff;
+}
+
+.answer.selected {
+    background: #e7f1ff;
+    border-color: #1261d8;
+}
+
+
+/* =========================================================
+   RESULT
+========================================================= */
+
+.result {
+    text-align: center;
+    padding: 35px;
+    background: white;
+    border-radius: 18px;
+}
+
+.big-score {
+    font-size: 60px;
+    color: #1261d8;
+    font-weight: 900;
+}
+
+
+/* =========================================================
+   ALERTS
+========================================================= */
+
+.alert {
+    padding: 15px;
+    border-radius: 10px;
+    background: #fff6df;
+    color: #7a5700;
+    margin-bottom: 20px;
+}
+
+.success {
+    background: #eaf9f0;
+    color: #14703b;
+}
+
+.danger {
+    background: #fff0f0;
+    color: #a72828;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.metric {
+    background: white;
+    border: 1px solid #e1e7ef;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.metric strong {
+    font-size: 27px;
+    display: block;
+    color: #1261d8;
+}
+
+.metric span {
+    color: #718096;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrap {
+    overflow-x: auto;
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 14px;
+    border-bottom: 1px solid #edf0f5;
+    text-align: left;
+    font-size: 14px;
+}
+
+th {
+    background: #f6f9fd;
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.checkbox-row input {
+    width: auto;
+}
+
+
+/* =========================================================
+   PRIZES
+========================================================= */
+
+.prize {
+    text-align: center;
+    padding: 22px;
+    border: 1px solid #e3e8ef;
+    border-radius: 15px;
+    background: white;
+}
+
+.prize strong {
+    font-size: 25px;
+    display: block;
+    color: #1261d8;
+}
+
+
+/* =========================================================
+   CERTIFICATE PAGE
+========================================================= */
+
+.certificate-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+}
+
+.certificate-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.certificate-actions .btn {
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.primary-btn {
+    background: #1261d8;
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #0d4eaf;
+}
+
+.secondary-btn {
+    background: #eef4ff;
+    color: #1261d8;
+    border: 1px solid #d8e1ed !important;
+}
+
+
+/* =========================================================
+   PROFESSIONAL CERTIFICATE
+========================================================= */
+
+.certificate {
+    position: relative;
+
+    max-width: 1000px;
+    min-height: 700px;
+
+    margin: 0 auto;
+
+    padding: 55px 70px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(18, 97, 216, 0.035),
+            transparent 55%
+        ),
+        #ffffff;
+
+    border: 12px solid #1261d8;
+
+    outline: 3px solid #d5a62a;
+    outline-offset: -22px;
+
+    text-align: center;
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.12);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CERTIFICATE WATERMARK
+========================================================= */
+
+.certificate-watermark {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 180px;
+    font-weight: 900;
+
+    color: rgba(18, 97, 216, 0.035);
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   DECORATIVE CORNERS
+========================================================= */
+
+.corner {
+    position: absolute;
+
+    width: 75px;
+    height: 75px;
+
+    border-color: #d5a62a;
+    border-style: solid;
+
+    z-index: 2;
+}
+
+.corner-top-left {
+    top: 25px;
+    left: 25px;
+
+    border-width: 4px 0 0 4px;
+}
+
+.corner-top-right {
+    top: 25px;
+    right: 25px;
+
+    border-width: 4px 4px 0 0;
+}
+
+.corner-bottom-left {
+    bottom: 25px;
+    left: 25px;
+
+    border-width: 0 0 4px 4px;
+}
+
+.corner-bottom-right {
+    bottom: 25px;
+    right: 25px;
+
+    border-width: 0 4px 4px 0;
+}
+
+
+/* =========================================================
+   CERTIFICATE LOGO
+========================================================= */
+
+.certificate-logo {
+    position: relative;
+    z-index: 3;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 14px;
+
+    margin-bottom: 8px;
+}
+
+.certificate-logo-circle {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #1261d8,
+        #083d91
+    );
+
+    color: white;
+
+    font-size: 24px;
+    font-weight: 900;
+
+    border: 5px solid white;
+
+    box-shadow:
+        0 0 0 3px #d5a62a,
+        0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.certificate-brand {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.certificate-brand strong {
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: #1261d8;
+}
+
+.certificate-brand span {
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #777;
+}
+
+
+/* =========================================================
+   CERTIFICATE SMALL TITLE
+========================================================= */
+
+.certificate-small-title {
+    position: relative;
+    z-index: 3;
+
+    margin-top: 12px;
+
+    color: #777;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 4px;
+}
+
+.certificate-line {
+    position: relative;
+    z-index: 3;
+
+    width: 180px;
+    height: 3px;
+
+    margin: 18px auto 25px;
+
+    background: #d5a62a;
+}
+
+
+/* =========================================================
+   CERTIFICATE MAIN TITLE
+========================================================= */
+
+.certificate h1 {
+    position: relative;
+    z-index: 3;
+
+    margin: 0;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 52px;
+    line-height: 1;
+
+    letter-spacing: 5px;
+
+    color: #1261d8;
+}
+
+.certificate h2 {
+    position: relative;
+    z-index: 3;
+
+    margin: 12px 0 25px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 25px;
+
+    letter-spacing: 7px;
+
+    color: #333;
+}
+
+.certificate-presented {
+    position: relative;
+    z-index: 3;
+
+    margin: 0;
+
+    color: #666;
+
+    font-size: 16px;
+}
+
+
+/* =========================================================
+   STUDENT NAME
+========================================================= */
+
+.student-certificate-name {
+    position: relative;
+    z-index: 3;
+
+    margin-top: 15px;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 42px;
+    font-weight: bold;
+
+    color: #111;
+
+    text-transform: capitalize;
+}
+
+.name-underline {
+    position: relative;
+    z-index: 3;
+
+    width: 430px;
+    max-width: 80%;
+
+    height: 2px;
+
+    margin: 8px auto 22px;
+
+    background: #d5a62a;
+}
+
+
+/* =========================================================
+   CERTIFICATE DESCRIPTION
+========================================================= */
+
+.certificate-description {
+    position: relative;
+    z-index: 3;
+
+    max-width: 720px;
+
+    margin: 0 auto;
+
+    color: #555;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   CERTIFICATE INFO
+========================================================= */
+
+.certificate-info {
+    position: relative;
+    z-index: 3;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+
+    max-width: 720px;
+
+    margin: 35px auto 30px;
+}
+
+.certificate-info-box {
+    padding: 15px 10px;
+
+    background: rgba(
+        238,
+        244,
+        255,
+        0.75
+    );
+
+    border: 1px solid #d9e5fb;
+
+    border-radius: 8px;
+}
+
+.info-label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+
+    color: #777;
+}
+
+.certificate-info-box strong {
+    font-size: 18px;
+
+    color: #1261d8;
+}
+
+
+/* =========================================================
+   CERTIFICATE BOTTOM
+========================================================= */
+
+.certificate-bottom {
+    position: relative;
+    z-index: 3;
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 150px 1fr;
+
+    align-items: end;
+
+    gap: 30px;
+
+    max-width: 760px;
+
+    margin: 15px auto 0;
+}
+
+
+/* =========================================================
+   SIGNATURE
+========================================================= */
+
+.signature-block {
+    text-align: center;
+}
+
+.signature-line {
+    width: 170px;
+
+    height: 1px;
+
+    margin: 0 auto 8px;
+
+    background: #333;
+}
+
+.signature-block strong {
+    display: block;
+
+    font-size: 13px;
+
+    color: #333;
+}
+
+.signature-block span {
+    display: block;
+
+    margin-top: 4px;
+
+    font-size: 11px;
+
+    color: #888;
+}
+
+
+/* =========================================================
+   GOLD SEAL
+========================================================= */
+
+.certificate-seal {
+    width: 120px;
+    height: 120px;
+
+    margin: 0 auto;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #f6d365,
+        #d5a62a,
+        #f8df82
+    );
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+.seal-inner {
+    width: 94px;
+    height: 94px;
+
+    border-radius: 50%;
+
+    border: 2px dashed white;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+}
+
+.seal-inner span {
+    font-size: 18px;
+}
+
+.seal-inner strong {
+    font-size: 25px;
+
+    letter-spacing: 2px;
+}
+
+.seal-inner small {
+    font-size: 7px;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CERTIFICATE NUMBER
+========================================================= */
+
+.certificate-number {
+    text-align: center;
+}
+
+.certificate-number span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    font-size: 10px;
+
+    color: #888;
+
+    letter-spacing: 1px;
+}
+
+.certificate-number strong {
+    font-size: 13px;
+
+    color: #1261d8;
+
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   CERTIFICATE FOOTER
+========================================================= */
+
+.certificate-footer {
+    position: absolute;
+
+    left: 70px;
+    right: 70px;
+    bottom: 20px;
+
+    z-index: 3;
+
+    padding-top: 10px;
+
+    border-top: 1px solid #e1e1e1;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+
+    color: #888;
+}
+
+
+/* =========================================================
+   GENERAL FOOTER
+========================================================= */
+
+footer {
+    background: #101a2b;
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
+    margin-top: 40px;
+}
+
+footer p {
+    color: #aeb9ca;
+    margin: 5px 0;
+}
+
+footer small {
+    color: #7f8ba0;
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+.hidden {
+    display: none !important;
+}
+
+.center {
+    text-align: center;
+}
+
+.mt {
+    margin-top: 20px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .topbar {
+        flex-wrap: wrap;
+    }
+
+    nav {
+        width: 100%;
+        order: 3;
+    }
+
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-card {
+        width: 100%;
+    }
+
+    .stats,
+    .feature-grid,
+    .grid,
+    .steps,
+    .dashboard,
+    .admin-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .certificate {
+        padding: 50px 45px;
+    }
+
+    .certificate-bottom {
+        gap: 15px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .hero {
+        padding: 55px 5%;
+    }
+
+    .section,
+    .container {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .stats,
+    .feature-grid,
+    .grid,
+    .steps,
+    .dashboard,
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .competition {
+        margin: 15px 5%;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .page-header h1 {
+        font-size: 34px;
+    }
+
+
+    /* Certificate mobile */
+
+    .certificate-page {
+        padding: 20px 10px 40px;
+    }
+
+    .certificate-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .certificate-actions .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .certificate {
+        min-height: auto;
+
+        padding: 50px 25px 65px;
+
+        border-width: 8px;
+
+        outline-offset: -17px;
+    }
+
+    .certificate h1 {
+        font-size: 34px;
+        letter-spacing: 3px;
+    }
+
+    .certificate h2 {
+        font-size: 18px;
+        letter-spacing: 4px;
+    }
+
+    .certificate-presented {
+        font-size: 13px;
+    }
+
+    .student-certificate-name {
+        font-size: 29px;
+    }
+
+    .name-underline {
+        max-width: 90%;
+    }
+
+    .certificate-description {
+        font-size: 13px;
+    }
+
+    .certificate-info {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .certificate-bottom {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-top: 25px;
+    }
+
+    .certificate-seal {
+        order: -1;
+    }
+
+    .certificate-footer {
+        left: 25px;
+        right: 25px;
+        font-size: 7px;
+    }
+
+    .corner {
+        width: 45px;
+        height: 45px;
+    }
+
+    .certificate-watermark {
+        font-size: 100px;
+    }
+}
+
+
+/* =========================================================
+   CERTIFICATE PRINTING
+   A4 LANDSCAPE
+========================================================= */
+
+@media print {
+
+    @page {
+        size: A4 landscape;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 297mm;
+        height: 210mm;
+        margin: 0;
+        padding: 0;
+        background: white !important;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Hide website navigation */
+    .topbar,
+    .certificate-actions,
+    footer {
+        display: none !important;
+    }
+
+    .certificate-page {
+        width: 297mm;
+        height: 210mm;
+
+        max-width: none;
+
+        margin: 0;
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Printed certificate */
+
+    .certificate {
+        width: 285mm;
+        height: 198mm;
+
+        max-width: none;
+        min-height: 0;
+
+        margin: 0;
+
+        padding: 15mm 20mm;
+
+        border: 4mm solid #1261d8;
+
+        outline: 1mm solid #d5a62a;
+        outline-offset: -7mm;
+
+        box-shadow: none;
+
+        overflow: hidden;
+
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .certificate-watermark {
+        display: block;
+        color: rgba(18, 97, 216, 0.035);
+    }
+
+    .certificate-logo-circle {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .certificate-seal {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .certificate h1 {
+        font-size: 42px;
+    }
+
+    .certificate h2 {
+        font-size: 22px;
+        margin: 8px 0 15px;
+    }
+
+    .certificate-presented {
+        font-size: 14px;
+    }
+
+    .student-certificate-name {
+        font-size: 35px;
+        margin-top: 8px;
+    }
+
+    .name-underline {
+        margin-bottom: 14px;
+    }
+
+    .certificate-description {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .certificate-info {
+        margin: 20px auto;
+        gap: 12px;
+    }
+
+    .certificate-info-box {
+        padding: 10px;
+    }
+
+    .certificate-bottom {
+        margin-top: 8px;
+    }
+
+    .certificate-seal {
+        width: 95px;
+        height: 95px;
+    }
+
+    .seal-inner {
+        width: 75px;
+        height: 75px;
+    }
+
+    .seal-inner strong {
+        font-size: 20px;
+    }
+
+    .certificate-footer {
+        bottom: 10px;
+        left: 20mm;
+        right: 20mm;
+    }
+
+}
