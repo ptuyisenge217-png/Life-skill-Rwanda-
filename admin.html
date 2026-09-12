@@ -786,7 +786,7 @@
                 id="roleBadge"
                 class="role-badge"
             >
-                ADMIN
+                OWNER
             </span>
 
             <span
@@ -838,9 +838,7 @@
 
         <main class="content">
 
-            <!-- =================================================
-                 DASHBOARD
-            ================================================== -->
+            <!-- DASHBOARD -->
 
             <section
                 id="dashboardPage"
@@ -932,9 +930,7 @@
                     </div>
 
                     <div id="dashboardSettings">
-
                         Loading...
-
                     </div>
 
                 </div>
@@ -942,9 +938,7 @@
             </section>
 
 
-            <!-- =================================================
-                 PAYMENTS
-            ================================================== -->
+            <!-- PAYMENTS -->
 
             <section
                 id="paymentsPage"
@@ -1024,33 +1018,13 @@
 
                                 <tr>
 
-                                    <th>
-                                        Student
-                                    </th>
-
-                                    <th>
-                                        Amount
-                                    </th>
-
-                                    <th>
-                                        Method
-                                    </th>
-
-                                    <th>
-                                        Transaction Code
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th>
-                                        Date
-                                    </th>
-
-                                    <th>
-                                        Action
-                                    </th>
+                                    <th>Student</th>
+                                    <th>Amount</th>
+                                    <th>Method</th>
+                                    <th>Transaction Code</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Action</th>
 
                                 </tr>
 
@@ -1078,9 +1052,7 @@
             </section>
 
 
-            <!-- =================================================
-                 SETTINGS
-            ================================================== -->
+            <!-- SETTINGS -->
 
             <section
                 id="settingsPage"
@@ -1098,8 +1070,10 @@
                 </div>
 
 
-                <div id="ownerOnlyMessage"
-                     class="card hidden">
+                <div
+                    id="ownerOnlyMessage"
+                    class="card hidden"
+                >
 
                     <h2>
                         Owner Access Required
@@ -1119,9 +1093,6 @@
                 >
 
                     <div class="settings-grid">
-
-
-                        <!-- PAYMENT -->
 
                         <div class="setting-box">
 
@@ -1188,8 +1159,6 @@
 
                         </div>
 
-
-                        <!-- ACCESS -->
 
                         <div class="setting-box">
 
@@ -1331,6 +1300,10 @@
 
 <script>
 
+/* =========================================================
+   SUPABASE
+========================================================= */
+
 const SUPABASE_URL =
     "https://wplqgmakucweidurbbjz.supabase.co";
 
@@ -1397,12 +1370,18 @@ function showPage(pageId) {
     document
         .querySelectorAll(".page")
         .forEach(page => {
+
             page.classList.remove("active");
+
         });
 
-    document
-        .getElementById(pageId)
-        .classList.add("active");
+
+    const page =
+        document.getElementById(pageId);
+
+    if (page) {
+        page.classList.add("active");
+    }
 
 
     document
@@ -1436,16 +1415,19 @@ document
 
             event.preventDefault();
 
+
             const email =
                 document
                     .getElementById("loginEmail")
                     .value
                     .trim();
 
+
             const password =
                 document
                     .getElementById("loginPassword")
                     .value;
+
 
             showMessage(
                 "loginMessage",
@@ -1453,14 +1435,18 @@ document
                 "success"
             );
 
+
             const {
                 data,
                 error
             } =
                 await db.auth.signInWithPassword({
+
                     email,
                     password
+
                 });
+
 
             if (error) {
 
@@ -1473,8 +1459,10 @@ document
                 return;
             }
 
+
             currentUser =
                 data.user;
+
 
             await initializeAdmin();
 
@@ -1483,7 +1471,9 @@ document
 
 
 /* =========================================================
-   INITIALIZE
+   INITIALIZE ADMIN
+   IMPORTANT:
+   profiles table uses "owner", NOT "role"
 ========================================================= */
 
 async function initializeAdmin() {
@@ -1499,16 +1489,28 @@ async function initializeAdmin() {
     } =
         await db
             .from("profiles")
-            .select("id,full_name,email,role")
-            .eq("id", currentUser.id)
+            .select(
+                "id,full_name,email,owner"
+            )
+            .eq(
+                "id",
+                currentUser.id
+            )
             .maybeSingle();
 
 
+    /* DATABASE ERROR */
+
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Profile loading error:",
+            error
+        );
+
 
         await db.auth.signOut();
+
 
         showMessage(
             "loginMessage",
@@ -1516,39 +1518,75 @@ async function initializeAdmin() {
             "error"
         );
 
+
         return;
     }
 
 
-    if (
-        !profile ||
-        !["admin", "owner"].includes(profile.role)
-    ) {
+    /* PROFILE NOT FOUND */
+
+    if (!profile) {
 
         await db.auth.signOut();
 
+
         showMessage(
             "loginMessage",
-            "Access denied. Admin or Owner account required.",
+            "Your profile was not found.",
             "error"
         );
+
 
         return;
     }
 
 
-    currentRole =
-        profile.role;
+    /*
+       SECURITY CHECK
 
+       Your profiles table has:
+       owner = true
+
+       So only the Owner account can enter
+       the admin dashboard for now.
+    */
+
+    if (profile.owner !== true) {
+
+        await db.auth.signOut();
+
+
+        showMessage(
+            "loginMessage",
+            "Access denied. Owner account required.",
+            "error"
+        );
+
+
+        return;
+    }
+
+
+    /* OWNER */
+
+    currentRole = "owner";
+
+
+    /* HIDE LOGIN */
 
     document
         .getElementById("loginScreen")
         .classList.add("hidden");
 
+
+    /* SHOW APP */
+
     document
         .getElementById("app")
         .classList.remove("hidden");
 
+
+    /* EMAIL */
 
     document
         .getElementById("userEmail")
@@ -1558,26 +1596,30 @@ async function initializeAdmin() {
             "";
 
 
+    /* ROLE */
+
     document
         .getElementById("roleBadge")
         .textContent =
-            profile.role.toUpperCase();
+            "OWNER";
 
 
-    if (currentRole !== "owner") {
+    /* OWNER SETTINGS */
 
-        document
-            .getElementById("settingsContent")
-            .classList.add("hidden");
+    document
+        .getElementById("settingsContent")
+        .classList.remove("hidden");
 
-        document
-            .getElementById("ownerOnlyMessage")
-            .classList.remove("hidden");
 
-    }
+    document
+        .getElementById("ownerOnlyMessage")
+        .classList.add("hidden");
 
+
+    /* LOAD DATA */
 
     await loadSettings();
+
     await loadPayments();
 
 }
@@ -1591,14 +1633,14 @@ async function checkSession() {
 
     const {
         data
-    } =
-        await db.auth.getSession();
+    } = await db.auth.getSession();
 
 
     if (data.session) {
 
         currentUser =
             data.session.user;
+
 
         await initializeAdmin();
 
@@ -1626,7 +1668,18 @@ async function loadSettings() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Settings error:",
+            error
+        );
+
+        document
+            .getElementById("dashboardSettings")
+            .innerHTML = `
+                <p style="color:#b5222b;">
+                    Could not load settings.
+                </p>
+            `;
 
         return;
     }
@@ -1644,7 +1697,8 @@ async function loadSettings() {
 
     document
         .getElementById("quizFee")
-        .value = fee;
+        .value =
+            fee;
 
 
     document
@@ -1780,7 +1834,10 @@ document
                     .trim();
 
 
-            if (!Number.isFinite(fee) || fee < 0) {
+            if (
+                !Number.isFinite(fee) ||
+                fee < 0
+            ) {
 
                 showMessage(
                     "settingsMessage",
@@ -1815,18 +1872,31 @@ document
                 await db.rpc(
                     "owner_update_payment_settings",
                     {
-                        p_quiz_fee: fee,
-                        p_payment_required: paymentRequired,
-                        p_quiz_enabled: quizEnabled,
-                        p_mtn_payment_number: mtn,
-                        p_airtel_payment_number: airtel
+                        p_quiz_fee:
+                            fee,
+
+                        p_payment_required:
+                            paymentRequired,
+
+                        p_quiz_enabled:
+                            quizEnabled,
+
+                        p_mtn_payment_number:
+                            mtn,
+
+                        p_airtel_payment_number:
+                            airtel
                     }
                 );
 
 
             if (error) {
 
-                console.error(error);
+                console.error(
+                    "Save settings error:",
+                    error
+                );
+
 
                 showMessage(
                     "settingsMessage",
@@ -1886,19 +1956,33 @@ async function loadPayments() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Payments error:",
+            error
+        );
+
 
         document
             .getElementById("paymentsBody")
             .innerHTML = `
 
                 <tr>
-                    <td colspan="7" class="empty">
-                        ${escapeHtml(error.message)}
+
+                    <td
+                        colspan="7"
+                        class="empty"
+                    >
+
+                        ${escapeHtml(
+                            error.message
+                        )}
+
                     </td>
+
                 </tr>
 
             `;
+
 
         return;
     }
@@ -1909,7 +1993,6 @@ async function loadPayments() {
 
 
     renderPayments();
-
 
     updatePaymentStats();
 
@@ -1943,42 +2026,52 @@ function renderPayments() {
 
 
     const filtered =
-        allPayments.filter(payment => {
+        allPayments.filter(
+            payment => {
 
-            const name =
-                payment.profiles?.full_name || "";
-
-            const email =
-                payment.profiles?.email || "";
-
-            const reference =
-                payment.reference || "";
+                const name =
+                    payment.profiles?.full_name || "";
 
 
-            const matchesSearch =
-                !search ||
-                name.toLowerCase().includes(search) ||
-                email.toLowerCase().includes(search) ||
-                reference.toLowerCase().includes(search);
+                const email =
+                    payment.profiles?.email || "";
 
 
-            const matchesStatus =
-                !status ||
-                payment.status === status;
+                const reference =
+                    payment.reference || "";
 
 
-            const matchesMethod =
-                !method ||
-                payment.method === method;
+                const matchesSearch =
+                    !search ||
+                    name
+                        .toLowerCase()
+                        .includes(search) ||
+                    email
+                        .toLowerCase()
+                        .includes(search) ||
+                    reference
+                        .toLowerCase()
+                        .includes(search);
 
 
-            return (
-                matchesSearch &&
-                matchesStatus &&
-                matchesMethod
-            );
+                const matchesStatus =
+                    !status ||
+                    payment.status === status;
 
-        });
+
+                const matchesMethod =
+                    !method ||
+                    payment.method === method;
+
+
+                return (
+                    matchesSearch &&
+                    matchesStatus &&
+                    matchesMethod
+                );
+
+            }
+        );
 
 
     const body =
@@ -1992,12 +2085,14 @@ function renderPayments() {
         body.innerHTML = `
 
             <tr>
+
                 <td
                     colspan="7"
                     class="empty"
                 >
                     No payments found.
                 </td>
+
             </tr>
 
         `;
@@ -2007,114 +2102,126 @@ function renderPayments() {
 
 
     body.innerHTML =
-        filtered.map(payment => {
+        filtered
+            .map(payment => {
 
-            const student =
-                payment.profiles?.full_name ||
-                "Unknown student";
-
-
-            const email =
-                payment.profiles?.email ||
-                "";
+                const student =
+                    payment.profiles?.full_name ||
+                    "Unknown student";
 
 
-            const date =
-                new Date(
-                    payment.created_at
-                ).toLocaleString();
+                const email =
+                    payment.profiles?.email ||
+                    "";
 
 
-            const statusClass =
-                payment.status;
+                const date =
+                    new Date(
+                        payment.created_at
+                    ).toLocaleString();
 
 
-            let actions = "-";
+                const statusClass =
+                    payment.status;
 
 
-            if (
-                payment.status ===
-                "pending"
-            ) {
+                let actions = "-";
 
-                actions = `
 
-                    <div class="action-buttons">
+                if (
+                    payment.status ===
+                    "pending"
+                ) {
 
-                        <button
-                            class="btn btn-success"
-                            onclick="approvePayment('${payment.id}')"
-                        >
-                            Approve
-                        </button>
+                    actions = `
 
-                        <button
-                            class="btn btn-danger"
-                            onclick="rejectPayment('${payment.id}')"
-                        >
-                            Reject
-                        </button>
+                        <div class="action-buttons">
 
-                    </div>
+                            <button
+                                class="btn btn-success"
+                                onclick="approvePayment('${payment.id}')"
+                            >
+                                Approve
+                            </button>
+
+                            <button
+                                class="btn btn-danger"
+                                onclick="rejectPayment('${payment.id}')"
+                            >
+                                Reject
+                            </button>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                return `
+
+                    <tr>
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(student)}
+                            </strong>
+
+                            <br>
+
+                            <small>
+                                ${escapeHtml(email)}
+                            </small>
+
+                        </td>
+
+                        <td>
+                            ${money(payment.amount)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(payment.method)}
+                        </td>
+
+                        <td>
+
+                            <strong>
+                                ${escapeHtml(
+                                    payment.reference
+                                )}
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            <span
+                                class="status ${escapeHtml(
+                                    statusClass
+                                )}"
+                            >
+                                ${escapeHtml(
+                                    payment.status
+                                )}
+                            </span>
+
+                        </td>
+
+                        <td>
+                            ${escapeHtml(date)}
+                        </td>
+
+                        <td>
+                            ${actions}
+                        </td>
+
+                    </tr>
 
                 `;
 
-            }
-
-
-            return `
-
-                <tr>
-
-                    <td>
-                        <strong>
-                            ${escapeHtml(student)}
-                        </strong>
-
-                        <br>
-
-                        <small>
-                            ${escapeHtml(email)}
-                        </small>
-                    </td>
-
-                    <td>
-                        ${money(payment.amount)}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(payment.method)}
-                    </td>
-
-                    <td>
-                        <strong>
-                            ${escapeHtml(payment.reference)}
-                        </strong>
-                    </td>
-
-                    <td>
-
-                        <span
-                            class="status ${escapeHtml(statusClass)}"
-                        >
-                            ${escapeHtml(payment.status)}
-                        </span>
-
-                    </td>
-
-                    <td>
-                        ${escapeHtml(date)}
-                    </td>
-
-                    <td>
-                        ${actions}
-                    </td>
-
-                </tr>
-
-            `;
-
-        }).join("");
+            })
+            .join("");
 
 }
 
@@ -2127,7 +2234,8 @@ function updatePaymentStats() {
 
     const pending =
         allPayments.filter(
-            p => p.status === "pending"
+            p =>
+                p.status === "pending"
         ).length;
 
 
@@ -2146,7 +2254,10 @@ function updatePaymentStats() {
     const amount =
         approvedPayments.reduce(
             (sum, p) =>
-                sum + Number(p.amount || 0),
+                sum +
+                Number(
+                    p.amount || 0
+                ),
             0
         );
 
@@ -2194,14 +2305,17 @@ async function approvePayment(id) {
         await db.rpc(
             "admin_approve_payment",
             {
-                p_payment_id: id
+                p_payment_id:
+                    id
             }
         );
 
 
     if (error) {
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
     }
@@ -2235,14 +2349,17 @@ async function rejectPayment(id) {
         await db.rpc(
             "admin_reject_payment",
             {
-                p_payment_id: id
+                p_payment_id:
+                    id
             }
         );
 
 
     if (error) {
 
-        alert(error.message);
+        alert(
+            error.message
+        );
 
         return;
     }
@@ -2326,22 +2443,33 @@ document
 ========================================================= */
 
 db.auth.onAuthStateChange(
-    async (event, session) => {
+    async (
+        event,
+        session
+    ) => {
 
         if (
-            event === "SIGNED_OUT"
+            event ===
+            "SIGNED_OUT"
         ) {
 
             currentUser = null;
+
             currentRole = null;
+
 
             document
                 .getElementById("app")
-                .classList.add("hidden");
+                .classList.add(
+                    "hidden"
+                );
+
 
             document
                 .getElementById("loginScreen")
-                .classList.remove("hidden");
+                .classList.remove(
+                    "hidden"
+                );
 
         }
 
