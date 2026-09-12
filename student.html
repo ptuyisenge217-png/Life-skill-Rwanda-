@@ -1,1107 +1,497 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Life Skills Rwanda - Student Portal</title>
+```
+<title>Life Skills Rwanda - Student Portal</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    .topbar{position:sticky;top:0;z-index:1000;background:#1261d8;color:#fff;padding:14px 20px;box-shadow:0 3px 15px rgba(0,0,0,.12)}
+    .nav-container{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
+    .logo-mark{width:42px;height:42px;border-radius:12px;background:#fff;color:#1261d8;display:grid;place-items:center;font-weight:900}
+    nav{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+    nav button{border:0;background:transparent;color:#fff;padding:9px 12px;border-radius:8px}
+    nav button:hover,nav button.active{background:rgba(255,255,255,.18)}
+    .logout-btn{background:#dc2626!important}
+    .container{width:min(1100px,94%);margin:30px auto}
+    .page{display:none}
+    .page.active{display:block}
+    .auth-wrapper{max-width:950px;margin:40px auto;display:grid;grid-template-columns:1fr 1fr;gap:25px}
+    .card{background:#fff;border-radius:16px;padding:25px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
+    .card h2,.card h3{margin-bottom:12px}
+    .muted{color:#64748b;line-height:1.6}
+    .form-group{margin-bottom:15px}
+    .form-group label{display:block;margin-bottom:7px;font-weight:700}
+    .form-group input{width:100%;padding:12px 14px;border:1px solid #d5dce7;border-radius:9px;outline:none}
+    .form-group input:focus{border-color:#1261d8;box-shadow:0 0 0 3px rgba(18,97,216,.1)}
+    .btn{border:0;border-radius:9px;padding:12px 18px;font-weight:700;transition:.2s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .btn-primary{background:#1261d8;color:#fff}
+    .btn-success{background:#16a34a;color:#fff}
+    .btn-warning{background:#f59e0b;color:#fff}
+    .btn-danger{background:#dc2626;color:#fff}
+    .btn-secondary{background:#64748b;color:#fff}
+    .alert{padding:12px 14px;border-radius:9px;margin-bottom:15px;display:none;line-height:1.5}
+    .alert.show{display:block}
+    .alert.error{background:#fee2e2;color:#991b1b}
+    .alert.success{background:#dcfce7;color:#166534}
+    .alert.info{background:#dbeafe;color:#1e40af}
+    .hero{background:linear-gradient(135deg,#1261d8,#0b3d91);color:#fff;padding:35px;border-radius:18px;margin-bottom:25px}
+    .hero h1{font-size:34px;margin-bottom:8px}
+    .hero p{opacity:.92}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
+    .metric{background:#fff;padding:22px;border-radius:15px;box-shadow:0 7px 25px rgba(15,23,42,.06)}
+    .metric strong{display:block;font-size:28px;color:#1261d8;margin-top:5px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+    .lesson{background:#fff;padding:22px;border-radius:14px;box-shadow:0 6px 20px rgba(15,23,42,.06)}
+    .lesson h3{color:#1261d8;margin-bottom:8px}
+    .quiz-box{background:#fff;padding:25px;border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
+    .question{font-size:20px;font-weight:700;margin-bottom:20px}
+    .answers{display:grid;gap:10px}
+    .answer-btn{text-align:left;border:1px solid #d8dee8;background:#fff;padding:13px;border-radius:9px}
+    .answer-btn:hover{background:#eff6ff;border-color:#1261d8}
+    .answer-btn.selected{background:#dbeafe;border-color:#1261d8}
+    .quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .timer{background:#fee2e2;color:#991b1b;padding:9px 13px;border-radius:8px;font-weight:800}
+    .payment-box{background:#fffbeb;border:1px solid #fde68a;padding:20px;border-radius:12px}
+    .payment-number{font-size:23px;font-weight:900;color:#111827;margin:12px 0}
+    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
+    th,td{padding:13px;border-bottom:1px solid #e5e7eb;text-align:left}
+    th{background:#1261d8;color:#fff}
+    tr.current-student{background:#eff6ff;font-weight:700}
+    .certificate-page{text-align:center}
+    .certificate{position:relative;background:#fff;border:12px solid #d4af37;min-height:600px;padding:65px 45px;margin:20px auto;max-width:950px;box-shadow:0 10px 35px rgba(0,0,0,.1);overflow:hidden}
+    .certificate-watermark{position:absolute;inset:0;display:grid;place-items:center;font-size:90px;font-weight:900;color:rgba(212,175,55,.07);transform:rotate(-25deg);pointer-events:none}
+    .certificate-content{position:relative;z-index:2}
+    .certificate h1{color:#1261d8;font-size:42px;margin-bottom:12px}
+    .certificate h2{font-size:34px;margin:25px 0;color:#111827}
+    .student-certificate-name{font-size:36px;font-weight:900;color:#1261d8;border-bottom:2px solid #d4af37;display:inline-block;padding:5px 25px;margin:15px 0}
+    .certificate-signatures{display:flex;justify-content:space-around;margin-top:65px;gap:40px}
+    .signature{min-width:220px}
+    .signature-line{border-top:1px solid #333;margin-bottom:8px}
+    .certificate-actions{display:flex;justify-content:center;gap:10px;margin:15px;flex-wrap:wrap}
+    .hidden{display:none!important}
+    .loading{text-align:center;padding:40px;color:#64748b}
+    .footer{text-align:center;padding:30px 15px;color:#64748b}
+
+    @media(max-width:800px){
+        .auth-wrapper,.grid{grid-template-columns:1fr}
+        .metrics{grid-template-columns:repeat(2,1fr)}
+        .nav-container{flex-direction:column}
+        nav{justify-content:center}
+        .hero h1{font-size:27px}
+        .certificate{padding:35px 20px}
+        .certificate h1{font-size:30px}
+        .student-certificate-name{font-size:25px}
+    }
+
+    @media(max-width:480px){
+        .metrics{grid-template-columns:1fr}
+        nav button{padding:8px;font-size:12px}
+        .card{padding:18px}
+        .certificate-signatures{flex-direction:column}
+    }
+
+    @media print{
+        body{background:#fff}
+        .topbar,.certificate-actions,.footer,.no-print{display:none!important}
+        .certificate{box-shadow:none;margin:0;max-width:none;width:100%;min-height:90vh}
+    }
+</style>
+```
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7fb;
-            color: #1f2937;
-        }
-
-        button,
-        input {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: #1261d8;
-            color: white;
-            padding: 14px 20px;
-            box-shadow: 0 3px 15px rgba(0,0,0,.12);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 800;
-            font-size: 20px;
-        }
-
-        .logo-mark {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: white;
-            color: #1261d8;
-            display: grid;
-            place-items: center;
-            font-weight: 900;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            flex-wrap: wrap;
-        }
-
-        nav button {
-            border: 0;
-            background: transparent;
-            color: white;
-            padding: 9px 12px;
-            border-radius: 8px;
-        }
-
-        nav button:hover,
-        nav button.active {
-            background: rgba(255,255,255,.18);
-        }
-
-        .logout-btn {
-            background: #dc2626 !important;
-        }
-
-        .container {
-            width: min(1100px, 94%);
-            margin: 30px auto;
-        }
-
-        .page {
-            display: none;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .auth-wrapper {
-            max-width: 950px;
-            margin: 40px auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 8px 30px rgba(15,23,42,.08);
-        }
-
-        .card h2,
-        .card h3 {
-            margin-bottom: 12px;
-        }
-
-        .muted {
-            color: #64748b;
-            line-height: 1.6;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 700;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #d5dce7;
-            border-radius: 9px;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: #1261d8;
-            box-shadow: 0 0 0 3px rgba(18,97,216,.1);
-        }
-
-        .btn {
-            border: 0;
-            border-radius: 9px;
-            padding: 12px 18px;
-            font-weight: 700;
-            transition: .2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .btn-primary {
-            background: #1261d8;
-            color: white;
-        }
-
-        .btn-success {
-            background: #16a34a;
-            color: white;
-        }
-
-        .btn-warning {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .btn-danger {
-            background: #dc2626;
-            color: white;
-        }
-
-        .btn-secondary {
-            background: #64748b;
-            color: white;
-        }
-
-        .alert {
-            padding: 12px 14px;
-            border-radius: 9px;
-            margin-bottom: 15px;
-            display: none;
-            line-height: 1.5;
-        }
-
-        .alert.show {
-            display: block;
-        }
-
-        .alert.error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .alert.success {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .alert.info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .hero {
-            background: linear-gradient(135deg,#1261d8,#0b3d91);
-            color: white;
-            padding: 35px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-        }
-
-        .hero h1 {
-            font-size: 34px;
-            margin-bottom: 8px;
-        }
-
-        .hero p {
-            opacity: .92;
-        }
-
-        .metrics {
-            display: grid;
-            grid-template-columns: repeat(4,1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .metric {
-            background: white;
-            padding: 22px;
-            border-radius: 15px;
-            box-shadow: 0 7px 25px rgba(15,23,42,.06);
-        }
-
-        .metric strong {
-            display: block;
-            font-size: 28px;
-            color: #1261d8;
-            margin-top: 5px;
-        }
-
-        .section-title {
-            margin: 25px 0 15px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(2,1fr);
-            gap: 18px;
-        }
-
-        .lesson {
-            background: white;
-            padding: 22px;
-            border-radius: 14px;
-            box-shadow: 0 6px 20px rgba(15,23,42,.06);
-        }
-
-        .lesson h3 {
-            color: #1261d8;
-            margin-bottom: 8px;
-        }
-
-        .quiz-box {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(15,23,42,.08);
-        }
-
-        .question {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
-        .answers {
-            display: grid;
-            gap: 10px;
-        }
-
-        .answer-btn {
-            text-align: left;
-            border: 1px solid #d8dee8;
-            background: white;
-            padding: 13px;
-            border-radius: 9px;
-        }
-
-        .answer-btn:hover {
-            background: #eff6ff;
-            border-color: #1261d8;
-        }
-
-        .answer-btn.selected {
-            background: #dbeafe;
-            border-color: #1261d8;
-        }
-
-        .quiz-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .timer {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 9px 13px;
-            border-radius: 8px;
-            font-weight: 800;
-        }
-
-        .payment-box {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            padding: 20px;
-            border-radius: 12px;
-        }
-
-        .payment-number {
-            font-size: 23px;
-            font-weight: 900;
-            color: #111827;
-            margin: 12px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        th,
-        td {
-            padding: 13px;
-            border-bottom: 1px solid #e5e7eb;
-            text-align: left;
-        }
-
-        th {
-            background: #1261d8;
-            color: white;
-        }
-
-        tr.current-student {
-            background: #eff6ff;
-            font-weight: 700;
-        }
-
-        .certificate-page {
-            text-align: center;
-        }
-
-        .certificate {
-            position: relative;
-            background: white;
-            border: 12px solid #d4af37;
-            min-height: 600px;
-            padding: 65px 45px;
-            margin: 20px auto;
-            max-width: 950px;
-            box-shadow: 0 10px 35px rgba(0,0,0,.1);
-            overflow: hidden;
-        }
-
-        .certificate-watermark {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            place-items: center;
-            font-size: 90px;
-            font-weight: 900;
-            color: rgba(212,175,55,.07);
-            transform: rotate(-25deg);
-            pointer-events: none;
-        }
-
-        .certificate-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .certificate h1 {
-            color: #1261d8;
-            font-size: 42px;
-            margin-bottom: 12px;
-        }
-
-        .certificate h2 {
-            font-size: 34px;
-            margin: 25px 0;
-            color: #111827;
-        }
-
-        .student-certificate-name {
-            font-size: 36px;
-            font-weight: 900;
-            color: #1261d8;
-            border-bottom: 2px solid #d4af37;
-            display: inline-block;
-            padding: 5px 25px;
-            margin: 15px 0;
-        }
-
-        .certificate-signatures {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 65px;
-            gap: 40px;
-        }
-
-        .signature {
-            min-width: 220px;
-        }
-
-        .signature-line {
-            border-top: 1px solid #333;
-            margin-bottom: 8px;
-        }
-
-        .certificate-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px;
-            flex-wrap: wrap;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #64748b;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px 15px;
-            color: #64748b;
-        }
-
-        @media(max-width:800px) {
-            .auth-wrapper,
-            .grid {
-                grid-template-columns: 1fr;
-            }
-
-            .metrics {
-                grid-template-columns: repeat(2,1fr);
-            }
-
-            .nav-container {
-                flex-direction: column;
-            }
-
-            nav {
-                justify-content: center;
-            }
-
-            .hero h1 {
-                font-size: 27px;
-            }
-
-            .certificate {
-                padding: 35px 20px;
-            }
-
-            .certificate h1 {
-                font-size: 30px;
-            }
-
-            .student-certificate-name {
-                font-size: 25px;
-            }
-        }
-
-        @media(max-width:480px) {
-            .metrics {
-                grid-template-columns: 1fr;
-            }
-
-            nav button {
-                padding: 8px;
-                font-size: 12px;
-            }
-
-            .card {
-                padding: 18px;
-            }
-
-            .certificate-signatures {
-                flex-direction: column;
-            }
-        }
-
-        @media print {
-            body {
-                background: white;
-            }
-
-            .topbar,
-            .certificate-actions,
-            .footer,
-            .no-print {
-                display: none !important;
-            }
-
-            .certificate {
-                box-shadow: none;
-                margin: 0;
-                max-width: none;
-                width: 100%;
-                min-height: 90vh;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
 <header class="topbar">
     <div class="nav-container">
-
         <div class="brand">
             <div class="logo-mark">LS</div>
             <div>
                 Life Skills Rwanda
-                <div style="font-size:11px;font-weight:400;opacity:.85;">
+                <div style="font-size:11px;font-weight:400;opacity:.85">
                     Learn • Practice • Grow
                 </div>
             </div>
         </div>
 
-        <nav id="mainNav" class="hidden">
-            <button onclick="showPage('dashboard',this)">Home</button>
-            <button onclick="showPage('lessons',this)">Lessons</button>
-            <button onclick="showPage('quiz',this)">Quiz</button>
-            <button onclick="showPage('leaderboard',this)">Leaderboard</button>
-            <button onclick="showPage('certificate',this)">Certificate</button>
-            <button class="logout-btn" onclick="logoutStudent()">Logout</button>
-        </nav>
+```
+    <nav id="mainNav" class="hidden">
+        <button onclick="showPage('dashboard',this)">Home</button>
+        <button onclick="showPage('lessons',this)">Lessons</button>
+        <button onclick="showPage('quiz',this)">Quiz</button>
+        <button onclick="showPage('leaderboard',this)">Leaderboard</button>
+        <button onclick="showPage('certificate',this)">Certificate</button>
+        <button class="logout-btn" onclick="logoutStudent()">Logout</button>
+    </nav>
+</div>
+```
 
-    </div>
 </header>
-
 
 <main class="container">
 
-    <!-- AUTH -->
+<section id="authPage" class="page active">
+    <div class="auth-wrapper">
 
-    <section id="authPage" class="page active">
-
-        <div class="auth-wrapper">
-
-            <!-- LOGIN -->
-
-            <div class="card" id="loginBox">
-
-                <h2>Student Login</h2>
-
-                <p class="muted">
-                    Login to continue to your Life Skills Rwanda account.
-                </p>
-
-                <br>
-
-                <div id="loginAlert" class="alert"></div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        id="loginEmail"
-                        placeholder="Enter your email"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        id="loginPassword"
-                        placeholder="Enter your password"
-                    >
-                </div>
-
-                <button
-                    class="btn btn-primary"
-                    style="width:100%;"
-                    onclick="loginStudent()"
-                >
-                    Login
-                </button>
-
-                <p style="text-align:center;margin-top:15px;">
-                    Don't have an account?
-                    <button
-                        style="border:0;background:none;color:#1261d8;font-weight:700;"
-                        onclick="showRegister()"
-                    >
-                        Create Account
-                    </button>
-                </p>
-
-            </div>
-
-
-            <!-- REGISTER -->
-
-            <div class="card hidden" id="registerBox">
-
-                <h2>Create Student Account</h2>
-
-                <p class="muted">
-                    Create your account and start learning.
-                    No email verification is required when email confirmation
-                    is disabled in Supabase.
-                </p>
-
-                <br>
-
-                <div id="registerAlert" class="alert"></div>
-
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input
-                        type="text"
-                        id="registerName"
-                        placeholder="Enter your full name"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input
-                        type="tel"
-                        id="registerPhone"
-                        placeholder="07XXXXXXXX"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Email</label>
-                    <input
-                        type="email"
-                        id="registerEmail"
-                        placeholder="Enter your email"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input
-                        type="password"
-                        id="registerPassword"
-                        placeholder="Minimum 6 characters"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Confirm Password</label>
-                    <input
-                        type="password"
-                        id="registerConfirm"
-                        placeholder="Repeat your password"
-                    >
-                </div>
-
-                <button
-                    class="btn btn-success"
-                    style="width:100%;"
-                    onclick="registerStudent()"
-                >
-                    Create Account
-                </button>
-
-                <p style="text-align:center;margin-top:15px;">
-                    Already have an account?
-                    <button
-                        style="border:0;background:none;color:#1261d8;font-weight:700;"
-                        onclick="showLogin()"
-                    >
-                        Login
-                    </button>
-                </p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- DASHBOARD -->
-
-    <section id="dashboardPage" class="page">
-
-        <div class="hero">
-            <h1>Welcome, <span id="studentName">Student</span> 👋</h1>
-            <p>
-                Keep learning, practice your skills and compete with other students.
-            </p>
-        </div>
-
-        <div class="metrics">
-
-            <div class="metric">
-                <span>Quiz Score</span>
-                <strong id="scoreMetric">0</strong>
-            </div>
-
-            <div class="metric">
-                <span>Quiz Attempts</span>
-                <strong id="attemptMetric">0</strong>
-            </div>
-
-            <div class="metric">
-                <span>Leaderboard</span>
-                <strong id="rankMetric">-</strong>
-            </div>
-
-            <div class="metric">
-                <span>Status</span>
-                <strong style="font-size:18px;">Active</strong>
-            </div>
-
-        </div>
-
-        <div class="grid">
-
-            <div class="card">
-                <h3>📚 Learn</h3>
-                <p class="muted">
-                    Study practical life skills through our lessons.
-                </p>
-                <br>
-                <button
-                    class="btn btn-primary"
-                    onclick="showPage('lessons')"
-                >
-                    View Lessons
-                </button>
-            </div>
-
-            <div class="card">
-                <h3>🏆 Competition</h3>
-                <p class="muted">
-                    Take the quiz and compete for the monthly leaderboard.
-                </p>
-                <br>
-                <button
-                    class="btn btn-success"
-                    onclick="showPage('quiz')"
-                >
-                    Start Quiz
-                </button>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- LESSONS -->
-
-    <section id="lessonsPage" class="page">
-
-        <div class="card">
-            <h2>Life Skills Lessons</h2>
-            <p class="muted">
-                Learn practical skills that can help you at school, home and in your community.
-            </p>
-        </div>
-
+```
+    <div class="card" id="loginBox">
+        <h2>Student Login</h2>
+        <p class="muted">Login to continue to your Life Skills Rwanda account.</p>
         <br>
 
-        <div class="grid">
+        <div id="loginAlert" class="alert"></div>
 
-            <div class="lesson">
-                <h3>💰 Money Management</h3>
-                <p class="muted">
-                    Learn how to budget, save money and make responsible financial decisions.
-                </p>
-            </div>
-
-            <div class="lesson">
-                <h3>🧠 Decision Making</h3>
-                <p class="muted">
-                    Learn how to think carefully, compare choices and make responsible decisions.
-                </p>
-            </div>
-
-            <div class="lesson">
-                <h3>🤝 Communication</h3>
-                <p class="muted">
-                    Develop respectful communication and teamwork skills.
-                </p>
-            </div>
-
-            <div class="lesson">
-                <h3>💻 Digital Skills</h3>
-                <p class="muted">
-                    Learn safe and responsible use of computers, phones and the internet.
-                </p>
-            </div>
-
-            <div class="lesson">
-                <h3>❤️ Health & Wellbeing</h3>
-                <p class="muted">
-                    Learn everyday habits that support healthy and responsible living.
-                </p>
-            </div>
-
-            <div class="lesson">
-                <h3>🌱 Environment</h3>
-                <p class="muted">
-                    Learn how students can protect their environment and community.
-                </p>
-            </div>
-
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" placeholder="Enter your email">
         </div>
 
-    </section>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter your password">
+        </div>
 
+        <button class="btn btn-primary" style="width:100%" onclick="loginStudent()">
+            Login
+        </button>
 
-    <!-- QUIZ -->
+        <p style="text-align:center;margin-top:15px">
+            Don't have an account?
+            <button style="border:0;background:none;color:#1261d8;font-weight:700" onclick="showRegister()">
+                Create Account
+            </button>
+        </p>
+    </div>
 
-    <section id="quizPage" class="page">
+    <div class="card hidden" id="registerBox">
+        <h2>Create Student Account</h2>
+        <p class="muted">
+            Create your account and start learning.
+        </p>
+        <br>
 
-        <div id="quizStartBox" class="card">
+        <div id="registerAlert" class="alert"></div>
 
-            <h2>Daily Life Skills Quiz</h2>
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="registerName" placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="registerPhone" placeholder="07XXXXXXXX">
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="registerEmail" placeholder="Enter your email">
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="registerPassword" placeholder="Minimum 6 characters">
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="registerConfirm" placeholder="Repeat your password">
+        </div>
+
+        <button class="btn btn-success" style="width:100%" onclick="registerStudent()">
+            Create Account
+        </button>
+
+        <p style="text-align:center;margin-top:15px">
+            Already have an account?
+            <button style="border:0;background:none;color:#1261d8;font-weight:700" onclick="showLogin()">
+                Login
+            </button>
+        </p>
+    </div>
+
+</div>
+```
+
+</section>
+
+<section id="dashboardPage" class="page">
+    <div class="hero">
+        <h1>Welcome, <span id="studentName">Student</span> 👋</h1>
+        <p>Keep learning, practice your skills and compete with other students.</p>
+    </div>
+
+```
+<div class="metrics">
+    <div class="metric">
+        <span>Quiz Score</span>
+        <strong id="scoreMetric">0</strong>
+    </div>
+    <div class="metric">
+        <span>Quiz Attempts</span>
+        <strong id="attemptMetric">0</strong>
+    </div>
+    <div class="metric">
+        <span>Leaderboard</span>
+        <strong id="rankMetric">-</strong>
+    </div>
+    <div class="metric">
+        <span>Status</span>
+        <strong style="font-size:18px">Active</strong>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <h3>📚 Learn</h3>
+        <p class="muted">Study practical life skills through our lessons.</p>
+        <br>
+        <button class="btn btn-primary" onclick="showPage('lessons')">View Lessons</button>
+    </div>
+
+    <div class="card">
+        <h3>🏆 Competition</h3>
+        <p class="muted">Take the quiz and compete for the monthly leaderboard.</p>
+        <br>
+        <button class="btn btn-success" onclick="showPage('quiz')">Start Quiz</button>
+    </div>
+</div>
+```
+
+</section>
+
+<section id="lessonsPage" class="page">
+    <div class="card">
+        <h2>Life Skills Lessons</h2>
+        <p class="muted">
+            Learn practical skills that can help you at school, home and in your community.
+        </p>
+    </div>
+    <br>
+
+```
+<div class="grid">
+    <div class="lesson">
+        <h3>💰 Money Management</h3>
+        <p class="muted">Learn how to budget, save money and make responsible financial decisions.</p>
+    </div>
+
+    <div class="lesson">
+        <h3>🧠 Decision Making</h3>
+        <p class="muted">Learn how to think carefully, compare choices and make responsible decisions.</p>
+    </div>
+
+    <div class="lesson">
+        <h3>🤝 Communication</h3>
+        <p class="muted">Develop respectful communication and teamwork skills.</p>
+    </div>
+
+    <div class="lesson">
+        <h3>💻 Digital Skills</h3>
+        <p class="muted">Learn safe and responsible use of computers, phones and the internet.</p>
+    </div>
+
+    <div class="lesson">
+        <h3>❤️ Health & Wellbeing</h3>
+        <p class="muted">Learn everyday habits that support healthy and responsible living.</p>
+    </div>
+
+    <div class="lesson">
+        <h3>🌱 Environment</h3>
+        <p class="muted">Learn how students can protect their environment and community.</p>
+    </div>
+</div>
+```
+
+</section>
+
+<section id="quizPage" class="page">
+
+```
+<div id="quizStartBox" class="card">
+    <h2>Daily Life Skills Quiz</h2>
+    <p class="muted">Test your knowledge and compete on the leaderboard.</p>
+    <br>
+
+    <div id="quizAlert" class="alert"></div>
+
+    <div id="paymentBox" class="payment-box hidden">
+        <h3>Payment Required</h3>
+
+        <p class="muted">
+            The administrator has enabled payment before the quiz.
+        </p>
+
+        <p>
+            Quiz fee:
+            <strong id="quizFee">0 RWF</strong>
+        </p>
+
+        <p>MTN MoMo Number:</p>
+
+        <div class="payment-number" id="mtnNumber">-</div>
+
+        <div class="form-group">
+            <label>Payment Reference</label>
+            <input type="text" id="paymentReference" placeholder="Enter payment reference">
+        </div>
+
+        <button class="btn btn-warning" onclick="makePayment()">
+            Confirm Payment
+        </button>
+        <br><br>
+    </div>
+
+    <button id="startQuizButton" class="btn btn-success" onclick="startQuiz()">
+        Start Quiz
+    </button>
+</div>
+
+<div id="quizBox" class="quiz-box hidden">
+    <div class="quiz-top">
+        <strong>Question <span id="questionNumber">1</span></strong>
+        <div class="timer" id="quizTimer">05:00</div>
+    </div>
+
+    <div class="question" id="questionText">Loading question...</div>
+
+    <div class="answers" id="answersContainer"></div>
+
+    <br>
+
+    <button class="btn btn-primary" id="nextQuestionButton" onclick="nextQuestion()">
+        Next Question
+    </button>
+</div>
+
+<div id="quizResultBox" class="card hidden">
+    <h2>Quiz Completed 🎉</h2>
+
+    <p>
+        Your score:
+        <strong id="finalScore">0</strong>
+    </p>
+
+    <br>
+
+    <button class="btn btn-primary" onclick="showPage('leaderboard')">
+        View Leaderboard
+    </button>
+</div>
+```
+
+</section>
+
+<section id="leaderboardPage" class="page">
+    <div class="card">
+        <h2>🏆 Monthly Leaderboard</h2>
+        <p class="muted">Students with the highest scores appear here.</p>
+        <br>
+
+```
+    <div id="leaderboardLoading" class="loading">Loading leaderboard...</div>
+    <div id="leaderboardTableContainer"></div>
+</div>
+```
+
+</section>
+
+<section id="certificatePage" class="page certificate-page">
+
+```
+<div class="card no-print">
+    <h2>🎓 Certificate</h2>
+
+    <p class="muted">
+        Your certificate will appear here when it has been issued.
+    </p>
+
+    <br>
+
+    <div id="certificateAlert" class="alert"></div>
+</div>
+
+<div id="certificateContainer" class="hidden">
+
+    <div class="certificate">
+
+        <div class="certificate-watermark">
+            LIFE SKILLS RWANDA
+        </div>
+
+        <div class="certificate-content">
+
+            <h1>Certificate of Achievement</h1>
+
+            <p>This certificate is proudly presented to</p>
+
+            <div class="student-certificate-name" id="certificateStudentName">
+                Student Name
+            </div>
+
+            <p>for outstanding achievement in</p>
+
+            <h2>Life Skills Rwanda</h2>
 
             <p class="muted">
-                Test your knowledge and compete on the leaderboard.
+                This certificate recognizes successful participation
+                and achievement in the Life Skills Rwanda competition.
             </p>
 
-            <br>
+            <div class="certificate-signatures">
 
-            <div id="quizAlert" class="alert"></div>
-
-            <div id="paymentBox" class="payment-box hidden">
-
-                <h3>Payment Required</h3>
-
-                <p class="muted">
-                    The administrator has enabled payment before the quiz.
-                </p>
-
-                <p>
-                    Quiz fee:
-                    <strong id="quizFee">0 RWF</strong>
-                </p>
-
-                <p>
-                    MTN MoMo Number:
-                </p>
-
-                <div class="payment-number" id="mtnNumber">
-                    -
+                <div class="signature">
+                    <div class="signature-line"></div>
+                    <strong id="certificateDirector">TUYISENGE Patrick</strong>
+                    <br>
+                    Director
                 </div>
 
-                <div class="form-group">
-                    <label>Payment Reference</label>
-                    <input
-                        type="text"
-                        id="paymentReference"
-                        placeholder="Enter payment reference"
-                    >
-                </div>
-
-                <button
-                    class="btn btn-warning"
-                    onclick="makePayment()"
-                >
-                    Confirm Payment
-                </button>
-
-                <br><br>
-
-            </div>
-
-            <button
-                id="startQuizButton"
-                class="btn btn-success"
-                onclick="prepareQuiz()"
-            >
-                Start Quiz
-            </button>
-
-        </div>
-
-
-        <div id="quizBox" class="quiz-box hidden">
-
-            <div class="quiz-top">
-                <strong>
-                    Question <span id="questionNumber">1</span>
-                </strong>
-
-                <div class="timer" id="quizTimer">
-                    05:00
-                </div>
-            </div>
-
-            <div class="question" id="questionText">
-                Loading question...
-            </div>
-
-            <div class="answers" id="answersContainer"></div>
-
-            <br>
-
-            <button
-                class="btn btn-primary"
-                id="nextQuestionButton"
-                onclick="nextQuestion()"
-            >
-                Next Question
-            </button>
-
-        </div>
-
-
-        <div id="quizResultBox" class="card hidden">
-
-            <h2>Quiz Completed 🎉</h2>
-
-            <p>
-                Your score:
-                <strong id="finalScore">0</strong>
-            </p>
-
-            <br>
-
-            <button
-                class="btn btn-primary"
-                onclick="showPage('leaderboard')"
-            >
-                View Leaderboard
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- LEADERBOARD -->
-
-    <section id="leaderboardPage" class="page">
-
-        <div class="card">
-
-            <h2>🏆 Monthly Leaderboard</h2>
-
-            <p class="muted">
-                Students with the highest scores appear here.
-            </p>
-
-            <br>
-
-            <div id="leaderboardLoading" class="loading">
-                Loading leaderboard...
-            </div>
-
-            <div id="leaderboardTableContainer"></div>
-
-        </div>
-
-    </section>
-
-
-    <!-- CERTIFICATE -->
-
-    <section id="certificatePage" class="page certificate-page">
-
-        <div class="card no-print">
-
-            <h2>🎓 Certificate</h2>
-
-            <p class="muted">
-                Your certificate will appear here when it has been issued.
-            </p>
-
-            <br>
-
-            <div id="certificateAlert" class="alert"></div>
-
-        </div>
-
-        <div id="certificateContainer" class="hidden">
-
-            <div class="certificate">
-
-                <div class="certificate-watermark">
-                    LIFE SKILLS RWANDA
-                </div>
-
-                <div class="certificate-content">
-
-                    <h1>Certificate of Achievement</h1>
-
-                    <p>
-                        This certificate is proudly presented to
-                    </p>
-
-                    <div
-                        class="student-certificate-name"
-                        id="certificateStudentName"
-                    >
-                        Student Name
-                    </div>
-
-                    <p>
-                        for outstanding achievement in
-                    </p>
-
-                    <h2>
-                        Life Skills Rwanda
-                    </h2>
-
-                    <p class="muted">
-                        This certificate recognizes successful participation
-                        and achievement in the Life Skills Rwanda competition.
-                    </p>
-
-                    <div class="certificate-signatures">
-
-                        <div class="signature">
-                            <div class="signature-line"></div>
-                            <strong id="certificateDirector">
-                                TUYISENGE Patrick
-                            </strong>
-                            <br>
-                            Director
-                        </div>
-
-                        <div class="signature">
-                            <div class="signature-line"></div>
-                            <strong id="certificateDate">
-                                -
-                            </strong>
-                            <br>
-                            Date
-                        </div>
-
-                    </div>
-
+                <div class="signature">
+                    <div class="signature-line"></div>
+                    <strong id="certificateDate">-</strong>
+                    <br>
+                    Date
                 </div>
 
             </div>
 
-            <div class="certificate-actions no-print">
-
-                <button
-                    class="btn btn-primary"
-                    onclick="printCertificate()"
-                >
-                    🖨 Print Certificate
-                </button>
-
-            </div>
-
         </div>
+    </div>
 
-    </section>
+    <div class="certificate-actions no-print">
+        <button class="btn btn-primary" onclick="printCertificate()">
+            🖨 Print Certificate
+        </button>
+    </div>
+
+</div>
+```
+
+</section>
 
 </main>
 
-
 <footer class="footer">
-    <p>
-        © 2026 Life Skills Rwanda • Learn • Practice • Grow
-    </p>
+    <p>© 2026 Life Skills Rwanda • Learn • Practice • Grow</p>
 </footer>
 
-
 <script>
+
 /* =========================================================
-   SUPABASE CONFIG
+   SUPABASE
 ========================================================= */
 
 const SUPABASE_URL =
@@ -1110,11 +500,10 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
 
-const db =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+const db = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 
 /* =========================================================
@@ -1139,13 +528,15 @@ let currentProfile = null;
 let quizQuestions = [];
 let currentQuestionIndex = 0;
 let selectedAnswer = null;
-
 let quizAnswers = [];
+
 let quizTimerInterval = null;
 let quizSeconds = 300;
 
 let latestScore = 0;
 let latestRank = "-";
+
+let loadingUser = false;
 
 
 /* =========================================================
@@ -1158,17 +549,16 @@ function $(id) {
 
 
 function escapeHtml(value) {
-
     return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 }
 
 
-function showAlert(id, message, type = "error") {
+function showAlert(id,message,type="error") {
 
     const element = $(id);
 
@@ -1190,27 +580,43 @@ function clearAlert(id) {
 }
 
 
+/* =========================================================
+   AUTH ERROR
+========================================================= */
+
 function formatAuthError(message) {
 
-    const text = String(message || "").toLowerCase();
+    const text =
+        String(message || "").toLowerCase();
+
+    if (text.includes("user already registered")) {
+        return "Iyi email isanzwe ifite account. Gerageza Login.";
+    }
 
     if (text.includes("invalid login credentials")) {
         return "Email cyangwa password ntabwo ari byo.";
     }
 
-    if (text.includes("user already registered")) {
-        return "Iyi email isanzwe ifite account. Gerageza Login.";
+    if (text.includes("email not confirmed")) {
+        return "Account yakozwe, ariko email ntiraremezwa. Reba inbox ya email yawe cyangwa uzime Confirm email muri Supabase.";
     }
 
     if (text.includes("password")) {
         return "Password igomba kuba nibura characters 6.";
     }
 
-    if (text.includes("email not confirmed")) {
-        return "Email confirmation iracyafunguye muri Supabase. Nyamuneka nyirubwite ayifunge muri Authentication → Providers → Email.";
+    if (text.includes("rate limit")) {
+        return "Wagerageje inshuro nyinshi. Tegereza akanya wongere ugerageze.";
     }
 
-    return escapeHtml(message || "Hari ikibazo cyabaye. Ongera ugerageze.");
+    if (text.includes("email")) {
+        return escapeHtml(message || "Email ntabwo yemerewe.");
+    }
+
+    return escapeHtml(
+        message ||
+        "Hari ikibazo cyabaye. Ongera ugerageze."
+    );
 }
 
 
@@ -1239,7 +645,7 @@ function showRegister() {
 
 
 /* =========================================================
-   REGISTER
+   REGISTER — FIXED
 ========================================================= */
 
 async function registerStudent() {
@@ -1251,7 +657,7 @@ async function registerStudent() {
         $("registerPhone").value.trim();
 
     const email =
-        $("registerEmail").value.trim();
+        $("registerEmail").value.trim().toLowerCase();
 
     const password =
         $("registerPassword").value;
@@ -1263,7 +669,13 @@ async function registerStudent() {
     clearAlert("registerAlert");
 
 
-    if (!name || !phone || !email || !password || !confirm) {
+    if (
+        !name ||
+        !phone ||
+        !email ||
+        !password ||
+        !confirm
+    ) {
 
         showAlert(
             "registerAlert",
@@ -1297,7 +709,10 @@ async function registerStudent() {
 
 
     const button =
-        document.querySelector("#registerBox .btn-success");
+        document.querySelector(
+            "#registerBox .btn-success"
+        );
+
 
     button.disabled = true;
     button.textContent = "Creating account...";
@@ -1305,9 +720,15 @@ async function registerStudent() {
 
     try {
 
-        /* -------------------------------------------------
-           CREATE ACCOUNT
-        ------------------------------------------------- */
+        /*
+         * IMPORTANT:
+         * DO NOT automatically call signInWithPassword
+         * after signUp.
+         *
+         * This was the source of the misleading
+         * "Email cyangwa password ntabwo ari byo"
+         * message.
+         */
 
         const {
             data,
@@ -1344,15 +765,19 @@ async function registerStudent() {
         }
 
 
-        /* -------------------------------------------------
-           IMPORTANT:
-           IF SUPABASE RETURNS SESSION,
-           LOGIN IMMEDIATELY
-        ------------------------------------------------- */
+        /*
+         * CASE 1:
+         * Supabase returned a session.
+         *
+         * This normally happens when
+         * Confirm email is OFF.
+         */
 
         if (data.session) {
 
-            currentUser = data.user;
+            currentUser =
+                data.session.user;
+
 
             showAlert(
                 "registerAlert",
@@ -1364,63 +789,45 @@ async function registerStudent() {
                 "success"
             );
 
-            await loadUser(data.user);
+
+            await loadUser(
+                data.session.user
+            );
+
 
             return;
         }
 
 
-        /* -------------------------------------------------
-           FALLBACK:
-           TRY LOGIN AUTOMATICALLY
-        ------------------------------------------------- */
-
-        const {
-            data: loginData,
-            error: loginError
-        } = await db.auth.signInWithPassword({
-
-            email: email,
-            password: password
-
-        });
-
-
-        if (loginError) {
-
-            console.error(
-                "Automatic login after registration failed:",
-                loginError
-            );
-
-            throw loginError;
-        }
-
-
-        if (!loginData || !loginData.user) {
-
-            throw new Error(
-                "Account was created but automatic login failed."
-            );
-
-        }
-
-
-        currentUser = loginData.user;
-
+        /*
+         * CASE 2:
+         * Account was created but Supabase
+         * did not return a session.
+         *
+         * DO NOT try password login here.
+         */
 
         showAlert(
             "registerAlert",
             `
             <strong>Account created successfully! 🎉</strong><br>
-            Welcome, <strong>${escapeHtml(name)}</strong>!<br>
-            Opening your dashboard...
+            Your account has been created for
+            <strong>${escapeHtml(name)}</strong>.<br><br>
+
+            If email confirmation is enabled,
+            check your email and confirm your account
+            before logging in.
+            <br><br>
+
+            <button
+                class="btn btn-primary"
+                onclick="showLogin()"
+            >
+                Go to Login
+            </button>
             `,
             "success"
         );
-
-
-        await loadUser(loginData.user);
 
 
     } catch (error) {
@@ -1430,10 +837,12 @@ async function registerStudent() {
             error
         );
 
+
         showAlert(
             "registerAlert",
             formatAuthError(error.message)
         );
+
 
     } finally {
 
@@ -1451,7 +860,7 @@ async function registerStudent() {
 async function loginStudent() {
 
     const email =
-        $("loginEmail").value.trim();
+        $("loginEmail").value.trim().toLowerCase();
 
     const password =
         $("loginPassword").value;
@@ -1472,7 +881,10 @@ async function loginStudent() {
 
 
     const button =
-        document.querySelector("#loginBox .btn-primary");
+        document.querySelector(
+            "#loginBox .btn-primary"
+        );
+
 
     button.disabled = true;
     button.textContent = "Logging in...";
@@ -1505,9 +917,13 @@ async function loginStudent() {
         }
 
 
-        currentUser = data.user;
+        currentUser =
+            data.user;
 
-        await loadUser(data.user);
+
+        await loadUser(
+            data.user
+        );
 
 
     } catch (error) {
@@ -1517,10 +933,14 @@ async function loginStudent() {
             error
         );
 
+
         showAlert(
             "loginAlert",
-            formatAuthError(error.message)
+            formatAuthError(
+                error.message
+            )
         );
+
 
     } finally {
 
@@ -1537,9 +957,12 @@ async function loginStudent() {
 
 async function loadUser(user) {
 
-    if (!user) return;
+    if (!user || loadingUser) {
+        return;
+    }
 
 
+    loadingUser = true;
     currentUser = user;
 
 
@@ -1553,7 +976,7 @@ async function loadUser(user) {
             .select(
                 "id,full_name,email,phone,owner"
             )
-            .eq("id", user.id)
+            .eq("id",user.id)
             .maybeSingle();
 
 
@@ -1562,9 +985,10 @@ async function loadUser(user) {
         }
 
 
-        /* -------------------------------------------------
-           CREATE FALLBACK PROFILE IF MISSING
-        ------------------------------------------------- */
+        /*
+         * If trigger did not create profile,
+         * create it here.
+         */
 
         if (!profile) {
 
@@ -1584,15 +1008,15 @@ async function loadUser(user) {
                 .from("profiles")
                 .insert({
 
-                    id: user.id,
+                    id:user.id,
 
-                    full_name: name,
+                    full_name:name,
 
-                    email: user.email,
+                    email:user.email,
 
-                    phone: phone,
+                    phone:phone,
 
-                    owner: false
+                    owner:false
 
                 })
                 .select()
@@ -1604,21 +1028,23 @@ async function loadUser(user) {
             }
 
 
-            profile = insertedProfile;
+            profile =
+                insertedProfile;
         }
 
 
-        currentProfile = profile;
+        currentProfile =
+            profile;
 
 
-        /* -------------------------------------------------
-           OWNER REDIRECT
-        ------------------------------------------------- */
+        /*
+         * OWNER
+         */
 
         if (profile.owner === true) {
 
             alert(
-                "This account is an Owner/Admin account. Please use the Admin Dashboard."
+                "This account is an Owner/Admin account. Opening Admin Dashboard..."
             );
 
             window.location.href =
@@ -1628,18 +1054,22 @@ async function loadUser(user) {
         }
 
 
-        /* -------------------------------------------------
-           SHOW STUDENT PORTAL
-        ------------------------------------------------- */
+        /*
+         * STUDENT PORTAL
+         */
 
-        $("authPage").classList.remove("active");
+        $("authPage")
+            .classList.remove("active");
 
-        $("dashboardPage").classList.add("active");
+        $("dashboardPage")
+            .classList.add("active");
 
-        $("mainNav").classList.remove("hidden");
+        $("mainNav")
+            .classList.remove("hidden");
 
 
-        $("studentName").textContent =
+        $("studentName")
+            .textContent =
             profile.full_name ||
             user.email ||
             "Student";
@@ -1659,17 +1089,24 @@ async function loadUser(user) {
             error
         );
 
-        alert(
-            "Could not load student profile: " +
-            error.message
+
+        showAlert(
+            "loginAlert",
+            "Profile ntishoboye gufunguka: " +
+            escapeHtml(error.message)
         );
+
+
+    } finally {
+
+        loadingUser = false;
 
     }
 }
 
 
 /* =========================================================
-   SESSION CHECK
+   SESSION
 ========================================================= */
 
 async function checkSession() {
@@ -1687,7 +1124,11 @@ async function checkSession() {
         }
 
 
-        if (data && data.session) {
+        if (
+            data &&
+            data.session &&
+            data.session.user
+        ) {
 
             await loadUser(
                 data.session.user
@@ -1698,6 +1139,7 @@ async function checkSession() {
             showLogin();
 
         }
+
 
     } catch (error) {
 
@@ -1717,7 +1159,7 @@ async function checkSession() {
 ========================================================= */
 
 db.auth.onAuthStateChange(
-    async (event, session) => {
+    (event,session) => {
 
         console.log(
             "Auth event:",
@@ -1725,19 +1167,20 @@ db.auth.onAuthStateChange(
         );
 
 
+        /*
+         * Do not call loadUser immediately
+         * from every auth event.
+         *
+         * checkSession() handles initial login.
+         * This avoids duplicate profile loading.
+         */
+
         if (
-            event === "SIGNED_IN" ||
-            event === "INITIAL_SESSION" ||
-            event === "USER_UPDATED"
+            event === "SIGNED_OUT"
         ) {
 
-            if (session && session.user) {
-
-                await loadUser(
-                    session.user
-                );
-
-            }
+            currentUser = null;
+            currentProfile = null;
 
         }
 
@@ -1749,7 +1192,7 @@ db.auth.onAuthStateChange(
    PAGE NAVIGATION
 ========================================================= */
 
-function showPage(page, button = null) {
+function showPage(page,button=null) {
 
     const pages = [
         "dashboard",
@@ -1766,11 +1209,7 @@ function showPage(page, button = null) {
             $(name + "Page");
 
         if (element) {
-
-            element.classList.remove(
-                "active"
-            );
-
+            element.classList.remove("active");
         }
 
     });
@@ -1781,11 +1220,7 @@ function showPage(page, button = null) {
 
 
     if (selected) {
-
-        selected.classList.add(
-            "active"
-        );
-
+        selected.classList.add("active");
     }
 
 
@@ -1793,40 +1228,28 @@ function showPage(page, button = null) {
         .querySelectorAll("#mainNav button")
         .forEach(btn => {
 
-            btn.classList.remove(
-                "active"
-            );
+            btn.classList.remove("active");
 
         });
 
 
     if (button) {
-
-        button.classList.add(
-            "active"
-        );
-
+        button.classList.add("active");
     }
 
 
     if (page === "leaderboard") {
-
         loadLeaderboard();
-
     }
 
 
     if (page === "certificate") {
-
         loadCertificate();
-
     }
 
 
     if (page === "quiz") {
-
         prepareQuiz();
-
     }
 
 }
@@ -1842,12 +1265,6 @@ async function loadStudentStats() {
 
 
     try {
-
-        /*
-         * This section tries common score tables.
-         * If your project already has the RPC/table,
-         * it will use it.
-         */
 
         const {
             data,
@@ -1874,6 +1291,7 @@ async function loadStudentStats() {
                 $("scoreMetric").textContent =
                     stats.total_score ??
                     stats.score ??
+                    latestScore ??
                     0;
 
                 $("attemptMetric").textContent =
@@ -1883,11 +1301,11 @@ async function loadStudentStats() {
 
                 $("rankMetric").textContent =
                     stats.rank ??
+                    latestRank ??
                     "-";
 
                 return;
             }
-
         }
 
 
@@ -1932,7 +1350,6 @@ async function loadLeaderboard() {
 
 
     loading.style.display = "block";
-
     container.innerHTML = "";
 
 
@@ -1967,21 +1384,15 @@ async function loadLeaderboard() {
 
 
         let html = `
-
             <table>
-
                 <thead>
-
                     <tr>
                         <th>Rank</th>
                         <th>Student</th>
                         <th>Score</th>
                     </tr>
-
                 </thead>
-
                 <tbody>
-
         `;
 
 
@@ -1991,17 +1402,14 @@ async function loadLeaderboard() {
                 student.id ||
                 student.student_id;
 
-
             const isCurrent =
                 currentUser &&
                 id === currentUser.id;
-
 
             const name =
                 student.full_name ||
                 student.name ||
                 "Student";
-
 
             const score =
                 student.score ??
@@ -2010,23 +1418,11 @@ async function loadLeaderboard() {
 
 
             html += `
-
                 <tr class="${isCurrent ? "current-student" : ""}">
-
-                    <td>
-                        ${student.rank || index + 1}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(name)}
-                    </td>
-
-                    <td>
-                        ${score}
-                    </td>
-
+                    <td>${student.rank || index + 1}</td>
+                    <td>${escapeHtml(name)}</td>
+                    <td>${score}</td>
                 </tr>
-
             `;
 
 
@@ -2050,7 +1446,8 @@ async function loadLeaderboard() {
         `;
 
 
-        container.innerHTML = html;
+        container.innerHTML =
+            html;
 
 
         $("rankMetric").textContent =
@@ -2067,17 +1464,14 @@ async function loadLeaderboard() {
             error
         );
 
+
         loading.style.display = "none";
 
 
         container.innerHTML = `
-
             <div class="alert show error">
-
                 Leaderboard is not available yet.
-
             </div>
-
         `;
 
     }
@@ -2106,7 +1500,7 @@ async function getQuizAccess() {
     } = await db.functions.invoke(
         FUNCTIONS.getAccess,
         {
-            body: {
+            body:{
                 user_id:
                     currentUser.id
             }
@@ -2121,21 +1515,12 @@ async function getQuizAccess() {
             error
         );
 
-        /*
-         * Fallback:
-         * allow quiz if the function is not available.
-         */
 
         return {
-
-            quiz_enabled: true,
-
-            payment_required: false,
-
-            quiz_fee: 0,
-
-            mtn_payment_number: ""
-
+            quiz_enabled:true,
+            payment_required:false,
+            quiz_fee:0,
+            mtn_payment_number:""
         };
 
     }
@@ -2157,17 +1542,14 @@ async function prepareQuiz() {
     }
 
 
-    $("quizStartBox").classList.remove(
-        "hidden"
-    );
+    $("quizStartBox")
+        .classList.remove("hidden");
 
-    $("quizBox").classList.add(
-        "hidden"
-    );
+    $("quizBox")
+        .classList.add("hidden");
 
-    $("quizResultBox").classList.add(
-        "hidden"
-    );
+    $("quizResultBox")
+        .classList.add("hidden");
 
 
     try {
@@ -2185,43 +1567,45 @@ async function prepareQuiz() {
                 "The quiz is currently disabled by the administrator."
             );
 
-            $("startQuizButton").disabled =
-                true;
+
+            $("startQuizButton")
+                .disabled = true;
+
 
             return;
         }
 
 
-        $("startQuizButton").disabled =
-            false;
+        $("startQuizButton")
+            .disabled = false;
 
 
         if (
             access.payment_required === true
         ) {
 
-            $("paymentBox").classList.remove(
-                "hidden"
-            );
+            $("paymentBox")
+                .classList.remove("hidden");
 
 
-            $("quizFee").textContent =
+            $("quizFee")
+                .textContent =
                 Number(
                     access.quiz_fee || 0
                 ).toLocaleString() +
                 " RWF";
 
 
-            $("mtnNumber").textContent =
+            $("mtnNumber")
+                .textContent =
                 access.mtn_payment_number ||
                 "Not configured";
 
 
         } else {
 
-            $("paymentBox").classList.add(
-                "hidden"
-            );
+            $("paymentBox")
+                .classList.add("hidden");
 
         }
 
@@ -2250,7 +1634,9 @@ async function makePayment() {
 
 
     const reference =
-        $("paymentReference").value.trim();
+        $("paymentReference")
+            .value
+            .trim();
 
 
     if (!reference) {
@@ -2272,14 +1658,12 @@ async function makePayment() {
         } = await db.functions.invoke(
             FUNCTIONS.demoPay,
             {
-                body: {
-
+                body:{
                     user_id:
                         currentUser.id,
 
                     payment_reference:
                         reference
-
                 }
             }
         );
@@ -2297,9 +1681,8 @@ async function makePayment() {
         );
 
 
-        $("paymentBox").classList.add(
-            "hidden"
-        );
+        $("paymentBox")
+            .classList.add("hidden");
 
 
     } catch (error) {
@@ -2308,6 +1691,7 @@ async function makePayment() {
             "Payment error:",
             error
         );
+
 
         showAlert(
             "quizAlert",
@@ -2323,7 +1707,7 @@ async function makePayment() {
 
 
 /* =========================================================
-   START QUIZ
+   START SERVER QUIZ
 ========================================================= */
 
 async function startQuizFromServer() {
@@ -2334,7 +1718,7 @@ async function startQuizFromServer() {
     } = await db.functions.invoke(
         FUNCTIONS.startQuiz,
         {
-            body: {
+            body:{
                 user_id:
                     currentUser.id
             }
@@ -2352,7 +1736,7 @@ async function startQuizFromServer() {
 
 
 /* =========================================================
-   LOCAL FALLBACK QUESTIONS
+   LOCAL QUESTIONS
 ========================================================= */
 
 function getLocalQuestions() {
@@ -2360,123 +1744,113 @@ function getLocalQuestions() {
     return [
 
         {
-            question:
-                "What is a good reason to save money?",
-            options: [
+            question:"What is a good reason to save money?",
+            options:[
                 "To prepare for future needs",
                 "To waste it",
                 "To lose it",
                 "To avoid planning"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "Which is an example of good communication?",
-            options: [
+            question:"Which is an example of good communication?",
+            options:[
                 "Listening carefully",
                 "Always shouting",
                 "Ignoring others",
                 "Insulting people"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "What should you do before making an important decision?",
-            options: [
+            question:"What should you do before making an important decision?",
+            options:[
                 "Think about the possible consequences",
                 "Choose randomly",
                 "Ignore all information",
                 "Ask nobody and think nothing"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "Which is a safe internet habit?",
-            options: [
+            question:"Which is a safe internet habit?",
+            options:[
                 "Protecting your passwords",
                 "Sharing passwords publicly",
                 "Opening every unknown link",
                 "Giving strangers personal information"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "What is teamwork?",
-            options: [
+            question:"What is teamwork?",
+            options:[
                 "Working together toward a goal",
                 "One person doing everything",
                 "Refusing to communicate",
                 "Competing against your team"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "Why is cleanliness important?",
-            options: [
+            question:"Why is cleanliness important?",
+            options:[
                 "It helps protect health",
                 "It makes people sick",
                 "It wastes time",
                 "It is never useful"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "What should you do when you disagree respectfully with someone?",
-            options: [
+            question:"What should you do when you disagree respectfully with someone?",
+            options:[
                 "Listen and explain your view calmly",
                 "Insult them",
                 "Shout",
                 "Leave without listening"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "What is a budget?",
-            options: [
+            question:"What is a budget?",
+            options:[
                 "A plan for how money will be used",
                 "A type of phone",
                 "A game",
                 "A password"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "What should you do with an important deadline?",
-            options: [
+            question:"What should you do with an important deadline?",
+            options:[
                 "Plan your time",
                 "Ignore it",
                 "Wait until the last second",
                 "Forget it"
             ],
-            answer: 0
+            answer:0
         },
 
         {
-            question:
-                "Which action helps protect the environment?",
-            options: [
+            question:"Which action helps protect the environment?",
+            options:[
                 "Properly disposing of waste",
                 "Throwing rubbish everywhere",
                 "Wasting water",
                 "Destroying trees unnecessarily"
             ],
-            answer: 0
+            answer:0
         }
 
     ];
@@ -2501,11 +1875,11 @@ async function startQuiz() {
     clearAlert("quizAlert");
 
 
-    $("startQuizButton").disabled =
-        true;
+    $("startQuizButton")
+        .disabled = true;
 
-    $("startQuizButton").textContent =
-        "Starting...";
+    $("startQuizButton")
+        .textContent = "Starting...";
 
 
     try {
@@ -2521,7 +1895,7 @@ async function startQuiz() {
         } catch (serverError) {
 
             console.warn(
-                "Server quiz unavailable, using local questions:",
+                "Server quiz unavailable. Using local questions.",
                 serverError
             );
 
@@ -2552,21 +1926,17 @@ async function startQuiz() {
 
 
         currentQuestionIndex = 0;
-
         selectedAnswer = null;
 
 
-        $("quizStartBox").classList.add(
-            "hidden"
-        );
+        $("quizStartBox")
+            .classList.add("hidden");
 
-        $("quizBox").classList.remove(
-            "hidden"
-        );
+        $("quizBox")
+            .classList.remove("hidden");
 
-        $("quizResultBox").classList.add(
-            "hidden"
-        );
+        $("quizResultBox")
+            .classList.add("hidden");
 
 
         quizSeconds = 300;
@@ -2583,6 +1953,7 @@ async function startQuiz() {
             error
         );
 
+
         showAlert(
             "quizAlert",
             escapeHtml(
@@ -2591,13 +1962,14 @@ async function startQuiz() {
             )
         );
 
+
     } finally {
 
-        $("startQuizButton").disabled =
-            false;
+        $("startQuizButton")
+            .disabled = false;
 
-        $("startQuizButton").textContent =
-            "Start Quiz";
+        $("startQuizButton")
+            .textContent = "Start Quiz";
 
     }
 
@@ -2614,7 +1986,6 @@ function renderQuestion() {
         !quizQuestions ||
         !quizQuestions.length
     ) {
-
         return;
     }
 
@@ -2631,11 +2002,13 @@ function renderQuestion() {
         ];
 
 
-    $("questionNumber").textContent =
+    $("questionNumber")
+        .textContent =
         `${currentQuestionIndex + 1} / ${quizQuestions.length}`;
 
 
-    $("questionText").textContent =
+    $("questionText")
+        .textContent =
         question.question ||
         question.text ||
         "";
@@ -2658,9 +2031,7 @@ function renderQuestion() {
         (option,index) => {
 
             const button =
-                document.createElement(
-                    "button"
-                );
+                document.createElement("button");
 
 
             button.className =
@@ -2686,30 +2057,18 @@ function renderQuestion() {
                 () => selectAnswer(index);
 
 
-            answers.appendChild(
-                button
-            );
+            answers.appendChild(button);
 
         }
     );
 
 
-    if (
+    $("nextQuestionButton")
+        .textContent =
         currentQuestionIndex ===
         quizQuestions.length - 1
-    ) {
-
-        $("nextQuestionButton")
-            .textContent =
-            "Finish Quiz";
-
-    } else {
-
-        $("nextQuestionButton")
-            .textContent =
-            "Next Question";
-
-    }
+            ? "Finish Quiz"
+            : "Next Question";
 
 }
 
@@ -2730,9 +2089,7 @@ function selectAnswer(index) {
 
 
     document
-        .querySelectorAll(
-            ".answer-btn"
-        )
+        .querySelectorAll(".answer-btn")
         .forEach(
             (button,i) => {
 
@@ -2826,10 +2183,6 @@ function startQuizTimer() {
 }
 
 
-/* =========================================================
-   UPDATE TIMER
-========================================================= */
-
 function updateTimer() {
 
     const minutes =
@@ -2841,7 +2194,8 @@ function updateTimer() {
         quizSeconds % 60;
 
 
-    $("quizTimer").textContent =
+    $("quizTimer")
+        .textContent =
         String(minutes).padStart(2,"0") +
         ":" +
         String(seconds).padStart(2,"0");
@@ -2858,6 +2212,13 @@ async function finishQuiz() {
     clearInterval(
         quizTimerInterval
     );
+
+
+    if (
+        !quizQuestions.length
+    ) {
+        return;
+    }
 
 
     let score = 0;
@@ -2889,10 +2250,6 @@ async function finishQuiz() {
         score;
 
 
-    /*
-     * Try sending the result to Supabase.
-     */
-
     try {
 
         const {
@@ -2901,7 +2258,7 @@ async function finishQuiz() {
         } = await db.functions.invoke(
             FUNCTIONS.submitQuiz,
             {
-                body: {
+                body:{
 
                     user_id:
                         currentUser.id,
@@ -2914,7 +2271,6 @@ async function finishQuiz() {
 
                     score:
                         score
-
                 }
             }
         );
@@ -2931,6 +2287,7 @@ async function finishQuiz() {
 
             }
 
+
             if (
                 data.rank !== undefined
             ) {
@@ -2942,6 +2299,7 @@ async function finishQuiz() {
 
         }
 
+
     } catch (error) {
 
         console.warn(
@@ -2952,21 +2310,20 @@ async function finishQuiz() {
     }
 
 
-    $("quizBox").classList.add(
-        "hidden"
-    );
+    $("quizBox")
+        .classList.add("hidden");
+
+    $("quizResultBox")
+        .classList.remove("hidden");
 
 
-    $("quizResultBox").classList.remove(
-        "hidden"
-    );
-
-
-    $("finalScore").textContent =
+    $("finalScore")
+        .textContent =
         `${latestScore} / ${quizQuestions.length}`;
 
 
-    $("scoreMetric").textContent =
+    $("scoreMetric")
+        .textContent =
         latestScore;
 
 
@@ -2983,15 +2340,13 @@ async function finishQuiz() {
 
 async function loadCertificate() {
 
-    if (!currentUser) return;
+    if (!currentUser) {
+        return;
+    }
 
 
     const container =
         $("certificateContainer");
-
-
-    const alertBox =
-        $("certificateAlert");
 
 
     try {
@@ -3009,7 +2364,7 @@ async function loadCertificate() {
             .order(
                 "created_at",
                 {
-                    ascending: false
+                    ascending:false
                 }
             )
             .limit(1)
@@ -3023,9 +2378,8 @@ async function loadCertificate() {
 
         if (!data) {
 
-            container.classList.add(
-                "hidden"
-            );
+            container
+                .classList.add("hidden");
 
 
             showAlert(
@@ -3034,13 +2388,13 @@ async function loadCertificate() {
                 "info"
             );
 
+
             return;
         }
 
 
-        container.classList.remove(
-            "hidden"
-        );
+        container
+            .classList.remove("hidden");
 
 
         clearAlert(
@@ -3078,37 +2432,13 @@ async function loadCertificate() {
         );
 
 
-        /*
-         * Still show a preview using
-         * the current student name.
-         */
-
-        container.classList.remove(
-            "hidden"
-        );
-
-
-        $("certificateStudentName")
-            .textContent =
-            currentProfile?.full_name ||
-            currentUser.email;
-
-
-        $("certificateDirector")
-            .textContent =
-            "TUYISENGE Patrick";
-
-
-        $("certificateDate")
-            .textContent =
-            new Date()
-                .toISOString()
-                .split("T")[0];
+        container
+            .classList.add("hidden");
 
 
         showAlert(
             "certificateAlert",
-            "Certificate record has not been issued from the database yet.",
+            "Certificate record has not been issued yet.",
             "info"
         );
 
@@ -3118,13 +2448,11 @@ async function loadCertificate() {
 
 
 /* =========================================================
-   PRINT CERTIFICATE
+   PRINT
 ========================================================= */
 
 function printCertificate() {
-
     window.print();
-
 }
 
 
@@ -3157,27 +2485,21 @@ async function logoutStudent() {
     );
 
 
-    $("mainNav").classList.add(
-        "hidden"
-    );
+    $("mainNav")
+        .classList.add("hidden");
 
 
     document
         .querySelectorAll(".page")
         .forEach(
             page => {
-
-                page.classList.remove(
-                    "active"
-                );
-
+                page.classList.remove("active");
             }
         );
 
 
-    $("authPage").classList.add(
-        "active"
-    );
+    $("authPage")
+        .classList.add("active");
 
 
     showLogin();
@@ -3190,29 +2512,11 @@ async function logoutStudent() {
 
 
 /* =========================================================
-   BUTTON: START QUIZ
+   START APP
 ========================================================= */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        $("startQuizButton")
-            .addEventListener(
-                "click",
-                startQuiz
-            );
-
-    }
-);
-
-
-/* =========================================================
-   START APPLICATION
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
+window.addEventListener(
+    "load",
     async () => {
 
         await checkSession();
@@ -3224,4 +2528,3 @@ document.addEventListener(
 
 </body>
 </html>
-```
