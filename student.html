@@ -578,6 +578,7 @@
             <!-- LOGIN -->
             <div id="loginBox" class="auth-card">
                 <h1>Student Login</h1>
+
                 <p class="muted">
                     Login to continue learning on Life Skills Rwanda.
                 </p>
@@ -602,27 +603,37 @@
                     >
                 </div>
 
-                <button class="btn btn-primary full" onclick="loginStudent()">
+                <button
+                    class="btn btn-primary full"
+                    onclick="loginStudent()"
+                >
                     Login
                 </button>
 
                 <div class="switch-auth">
                     Don't have an account?
-                    <button onclick="showRegister()">Create Account</button>
+                    <button onclick="showRegister()">
+                        Create Account
+                    </button>
                 </div>
             </div>
 
+
             <!-- REGISTER -->
             <div id="registerBox" class="auth-card hidden">
+
                 <h1>Create Student Account</h1>
+
                 <p class="muted">
                     Create your Life Skills Rwanda student account.
+                    No email verification is required.
                 </p>
 
                 <div id="registerAlert" class="alert"></div>
 
                 <div class="form-group">
                     <label>Full Name</label>
+
                     <input
                         type="text"
                         id="registerName"
@@ -632,6 +643,7 @@
 
                 <div class="form-group">
                     <label>Phone Number</label>
+
                     <input
                         type="tel"
                         id="registerPhone"
@@ -641,6 +653,7 @@
 
                 <div class="form-group">
                     <label>Email</label>
+
                     <input
                         type="email"
                         id="registerEmail"
@@ -650,6 +663,7 @@
 
                 <div class="form-group">
                     <label>Password</label>
+
                     <input
                         type="password"
                         id="registerPassword"
@@ -659,6 +673,7 @@
 
                 <div class="form-group">
                     <label>Confirm Password</label>
+
                     <input
                         type="password"
                         id="registerConfirm"
@@ -666,31 +681,45 @@
                     >
                 </div>
 
-                <button class="btn btn-success full" onclick="registerStudent()">
+                <button
+                    class="btn btn-success full"
+                    onclick="registerStudent()"
+                >
                     Create Account
                 </button>
 
                 <div class="switch-auth">
                     Already have an account?
-                    <button onclick="showLogin()">Login</button>
+                    <button onclick="showLogin()">
+                        Login
+                    </button>
                 </div>
+
             </div>
 
         </div>
 
     </section>
 
+
     <!-- DASHBOARD -->
     <section id="dashboardScreen" class="screen">
 
         <div class="hero">
-            <h1>Welcome, <span id="studentName">Student</span> 👋</h1>
+
+            <h1>
+                Welcome,
+                <span id="studentName">Student</span> 👋
+            </h1>
+
             <p>
                 Continue learning practical life skills and improve every day.
             </p>
+
         </div>
 
         <div class="stats">
+
             <div class="stat">
                 <span>Lessons</span>
                 <strong id="lessonCount">6</strong>
@@ -710,37 +739,52 @@
                 <span>Status</span>
                 <strong id="studentStatus">Active</strong>
             </div>
+
         </div>
 
         <div class="card">
+
             <h2>About Life Skills Rwanda</h2>
+
             <p class="muted" style="margin-top:10px;">
                 Learn practical skills that can help you communicate,
                 solve problems, work with others, lead, understand yourself,
                 and manage money responsibly.
             </p>
 
-            <button class="btn btn-primary" onclick="showScreen('lessons')">
+            <button
+                class="btn btn-primary"
+                onclick="showScreen('lessons')"
+            >
                 Start Learning
             </button>
 
-            <button class="btn btn-success" onclick="showScreen('quiz')">
+            <button
+                class="btn btn-success"
+                onclick="showScreen('quiz')"
+            >
                 Take Daily Quiz
             </button>
+
         </div>
 
     </section>
 
+
     <!-- LESSONS -->
     <section id="lessonsScreen" class="screen">
 
-        <h1 class="section-title">Life Skills Lessons</h1>
+        <h1 class="section-title">
+            Life Skills Lessons
+        </h1>
 
         <div class="grid">
 
             <div class="lesson-card">
                 <div class="lesson-icon">🧠</div>
+
                 <h3>Self Awareness</h3>
+
                 <p>
                     Understand your strengths, weaknesses, emotions,
                     values and personal goals.
@@ -749,7 +793,9 @@
 
             <div class="lesson-card">
                 <div class="lesson-icon">💬</div>
+
                 <h3>Communication Skills</h3>
+
                 <p>
                     Learn how to listen, speak clearly and communicate
                     respectfully with others.
@@ -758,7 +804,9 @@
 
             <div class="lesson-card">
                 <div class="lesson-icon">🤝</div>
+
                 <h3>Teamwork</h3>
+
                 <p>
                     Discover how cooperation, trust and responsibility
                     help teams succeed.
@@ -767,7 +815,9 @@
 
             <div class="lesson-card">
                 <div class="lesson-icon">💡</div>
+
                 <h3>Problem Solving</h3>
+
                 <p>
                     Learn how to identify problems, think critically
                     and choose responsible solutions.
@@ -776,7 +826,9 @@
 
             <div class="lesson-card">
                 <div class="lesson-icon">👑</div>
+
                 <h3>Leadership</h3>
+
                 <p>
                     Build leadership habits such as responsibility,
                     honesty, confidence and service.
@@ -785,7 +837,9 @@
 
             <div class="lesson-card">
                 <div class="lesson-icon">💰</div>
+
                 <h3>Financial Life Skills</h3>
+
                 <p>
                     Learn basic budgeting, saving, responsible spending
                     and financial planning.
@@ -795,6 +849,7 @@
         </div>
 
     </section>
+
 
     <!-- QUIZ -->
     <section id="quizScreen" class="screen">
@@ -828,6 +883,7 @@
 
         </div>
 
+
         <div id="paymentBox" class="quiz-box hidden">
 
             <h2>Quiz Payment</h2>
@@ -848,7 +904,10 @@
                 MTN MoMo Number:
             </p>
 
-            <div class="payment-number" id="mtnNumber">
+            <div
+                class="payment-number"
+                id="mtnNumber"
+            >
                 Not available
             </div>
 
@@ -857,33 +916,50 @@
                 provided by the administrator.
             </p>
 
-            <button class="btn btn-success" onclick="demoPayment()">
+            <button
+                class="btn btn-success"
+                onclick="demoPayment()"
+            >
                 I Have Paid
             </button>
 
         </div>
 
+
         <div id="quizContainer" class="quiz-box hidden">
 
             <div class="quiz-header">
+
                 <div>
-                    <strong id="questionNumber">Question 1 / 10</strong>
+                    <strong id="questionNumber">
+                        Question 1 / 10
+                    </strong>
                 </div>
 
                 <div class="timer">
                     ⏱ <span id="timer">15</span>s
                 </div>
+
             </div>
 
             <div class="progress">
-                <div id="progressBar" class="progress-bar"></div>
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                ></div>
             </div>
 
-            <div id="questionText" class="question">
+            <div
+                id="questionText"
+                class="question"
+            >
                 Loading question...
             </div>
 
-            <div id="answers" class="answers"></div>
+            <div
+                id="answers"
+                class="answers"
+            ></div>
 
             <button
                 id="nextButton"
@@ -896,17 +972,27 @@
 
         </div>
 
+
         <div id="quizResult" class="quiz-box hidden">
 
             <div class="result-score">
 
-                <h2>Quiz Completed 🎉</h2>
+                <h2>
+                    Quiz Completed 🎉
+                </h2>
 
-                <p>Your score:</p>
+                <p>
+                    Your score:
+                </p>
 
-                <strong id="finalScore">0 / 10</strong>
+                <strong id="finalScore">
+                    0 / 10
+                </strong>
 
-                <p id="resultMessage" class="muted">
+                <p
+                    id="resultMessage"
+                    class="muted"
+                >
                     Well done!
                 </p>
 
@@ -923,19 +1009,27 @@
 
     </section>
 
+
     <!-- LEADERBOARD -->
     <section id="leaderboardScreen" class="screen">
 
-        <h1 class="section-title">Monthly Leaderboard</h1>
+        <h1 class="section-title">
+            Monthly Leaderboard
+        </h1>
 
         <div class="card">
 
-            <p class="muted" style="margin-bottom:15px;">
+            <p
+                class="muted"
+                style="margin-bottom:15px;"
+            >
                 Students are ranked according to their quiz performance.
             </p>
 
             <div style="overflow-x:auto;">
+
                 <table class="leaderboard">
+
                     <thead>
                         <tr>
                             <th>Rank</th>
@@ -945,35 +1039,53 @@
                     </thead>
 
                     <tbody id="leaderboardBody">
+
                         <tr>
-                            <td colspan="3" class="loading">
+                            <td
+                                colspan="3"
+                                class="loading"
+                            >
                                 Loading leaderboard...
                             </td>
                         </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
 
         </div>
 
     </section>
 
+
     <!-- CERTIFICATE -->
     <section id="certificateScreen" class="screen">
 
-        <h1 class="section-title">My Certificate</h1>
+        <h1 class="section-title">
+            My Certificate
+        </h1>
 
-        <div id="certificateMessage" class="alert"></div>
+        <div
+            id="certificateMessage"
+            class="alert"
+        ></div>
 
         <div class="certificate-wrap">
 
-            <div class="certificate" id="certificate">
+            <div
+                class="certificate"
+                id="certificate"
+            >
 
                 <div style="font-size:18px;font-weight:800;">
                     LIFE SKILLS RWANDA
                 </div>
 
-                <h1>CERTIFICATE</h1>
+                <h1>
+                    CERTIFICATE
+                </h1>
 
                 <div class="subtitle">
                     Certificate of Achievement
@@ -983,7 +1095,10 @@
                     This certificate is proudly presented to
                 </p>
 
-                <div class="student-certificate-name" id="certificateName">
+                <div
+                    class="student-certificate-name"
+                    id="certificateName"
+                >
                     Student Name
                 </div>
 
@@ -1033,13 +1148,22 @@
 
 </main>
 
+
 <footer>
-    <p>© <span id="year"></span> Life Skills Rwanda</p>
-    <p style="margin-top:5px;">Learn • Practice • Grow</p>
+
+    <p>
+        © <span id="year"></span> Life Skills Rwanda
+    </p>
+
+    <p style="margin-top:5px;">
+        Learn • Practice • Grow
+    </p>
+
 </footer>
 
 
 <script>
+
 /* =========================================================
    SUPABASE CONFIGURATION
 ========================================================= */
@@ -1050,10 +1174,11 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
 
-const db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+const db =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
 
 /* =========================================================
@@ -1061,10 +1186,15 @@ const db = window.supabase.createClient(
 ========================================================= */
 
 const FUNCTIONS = {
+
     getAccess: "get-quiz-access",
+
     demoPay: "demo-pay",
+
     startQuiz: "start-daily-quiz",
+
     submitQuiz: "submit-daily-quiz"
+
 };
 
 
@@ -1073,14 +1203,21 @@ const FUNCTIONS = {
 ========================================================= */
 
 let currentUser = null;
+
 let currentProfile = null;
 
 let quizQuestions = [];
+
 let currentQuestion = 0;
+
 let selectedAnswer = null;
+
 let answers = [];
+
 let timer = null;
+
 let timeLeft = 15;
+
 let quizStarted = false;
 
 
@@ -1097,18 +1234,37 @@ document.getElementById("year").textContent =
 ========================================================= */
 
 function showLogin() {
-    document.getElementById("loginBox").classList.remove("hidden");
-    document.getElementById("registerBox").classList.add("hidden");
+
+    document
+        .getElementById("loginBox")
+        .classList
+        .remove("hidden");
+
+    document
+        .getElementById("registerBox")
+        .classList
+        .add("hidden");
 
     clearAlert("loginAlert");
+
     clearAlert("registerAlert");
 }
 
+
 function showRegister() {
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("registerBox").classList.remove("hidden");
+
+    document
+        .getElementById("loginBox")
+        .classList
+        .add("hidden");
+
+    document
+        .getElementById("registerBox")
+        .classList
+        .remove("hidden");
 
     clearAlert("loginAlert");
+
     clearAlert("registerAlert");
 }
 
@@ -1117,51 +1273,85 @@ function showRegister() {
    ALERTS
 ========================================================= */
 
-function showAlert(id, message, type = "error") {
+function showAlert(
+    id,
+    message,
+    type = "error"
+) {
 
-    const element = document.getElementById(id);
+    const element =
+        document.getElementById(id);
 
     if (!element) return;
 
-    element.className = "alert show " + type;
-    element.innerHTML = message;
+    element.className =
+        "alert show " + type;
+
+    element.innerHTML =
+        message;
 }
+
 
 function clearAlert(id) {
 
-    const element = document.getElementById(id);
+    const element =
+        document.getElementById(id);
 
     if (!element) return;
 
-    element.className = "alert";
-    element.innerHTML = "";
+    element.className =
+        "alert";
+
+    element.innerHTML =
+        "";
 }
 
 
 /* =========================================================
    REGISTER STUDENT
+   NO EMAIL VERIFICATION
 ========================================================= */
 
 async function registerStudent() {
 
     const name =
-        document.getElementById("registerName").value.trim();
+        document
+            .getElementById("registerName")
+            .value
+            .trim();
 
     const phone =
-        document.getElementById("registerPhone").value.trim();
+        document
+            .getElementById("registerPhone")
+            .value
+            .trim();
 
     const email =
-        document.getElementById("registerEmail").value.trim();
+        document
+            .getElementById("registerEmail")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("registerPassword").value;
+        document
+            .getElementById("registerPassword")
+            .value;
 
     const confirm =
-        document.getElementById("registerConfirm").value;
+        document
+            .getElementById("registerConfirm")
+            .value;
 
     clearAlert("registerAlert");
 
-    if (!name || !phone || !email || !password || !confirm) {
+
+    if (
+        !name ||
+        !phone ||
+        !email ||
+        !password ||
+        !confirm
+    ) {
 
         showAlert(
             "registerAlert",
@@ -1170,6 +1360,7 @@ async function registerStudent() {
 
         return;
     }
+
 
     if (password.length < 6) {
 
@@ -1181,6 +1372,7 @@ async function registerStudent() {
         return;
     }
 
+
     if (password !== confirm) {
 
         showAlert(
@@ -1191,104 +1383,151 @@ async function registerStudent() {
         return;
     }
 
+
     const button =
-        document.querySelector("#registerBox .btn-success");
+        document.querySelector(
+            "#registerBox .btn-success"
+        );
 
     button.disabled = true;
-    button.textContent = "Creating account...";
+
+    button.textContent =
+        "Creating account...";
+
 
     try {
 
         /*
          IMPORTANT:
-         The verification email will redirect to the current
-         Life Skills Rwanda student portal.
 
-         Supabase must have this URL allowed under:
-         Authentication → URL Configuration
+         Confirm email must be OFF in Supabase.
+
+         Supabase will then return a session
+         immediately after successful signup.
         */
 
-        const redirectUrl =
-            `${window.location.origin}/student.html`;
+        const {
+            data,
+            error
+        } = await db.auth.signUp({
 
-        const { data, error } =
-            await db.auth.signUp({
+            email: email,
 
-                email: email,
+            password: password,
 
-                password: password,
+            options: {
 
-                options: {
+                data: {
 
-                    data: {
-                        full_name: name,
-                        phone: phone
-                    },
+                    full_name: name,
 
-                    emailRedirectTo: redirectUrl
+                    phone: phone
+
                 }
-            });
+
+            }
+
+        });
+
 
         if (error) {
             throw error;
         }
 
+
+        if (!data.user) {
+
+            throw new Error(
+                "Account could not be created."
+            );
+        }
+
+
         /*
-         When email confirmation is enabled,
-         Supabase normally returns a user but no session.
+         When Confirm Email is OFF,
+         Supabase should provide a session.
         */
 
-        if (data.user && !data.session) {
+        if (data.session) {
+
+            currentUser =
+                data.user;
+
 
             showAlert(
                 "registerAlert",
                 `
-                <strong>Account created successfully! ✅</strong><br><br>
-
-                We have sent a verification email to
-                <strong>${escapeHtml(email)}</strong>.<br><br>
-
-                Open your email and click
-                <strong>Verify Email</strong>.
-
-                After verification, you will be returned to
-                the Life Skills Rwanda Student Portal.
+                <strong>Account created successfully! 🎉</strong><br><br>
+                Welcome to Life Skills Rwanda,
+                <strong>${escapeHtml(name)}</strong>.<br>
+                Opening your dashboard...
                 `,
                 "success"
             );
+
+
+            /*
+             Give Supabase a short moment
+             to finish the auth state update.
+            */
+
+            setTimeout(
+                async () => {
+
+                    await loadUser(
+                        data.user
+                    );
+
+                },
+                500
+            );
+
 
         } else {
 
+            /*
+             This usually means Confirm Email
+             is still ON in Supabase.
+            */
+
             showAlert(
                 "registerAlert",
                 `
-                <strong>Account created successfully! ✅</strong><br>
-                You can now continue to your student dashboard.
-                `,
-                "success"
+                Account was created, but no login session was returned.<br><br>
+
+                Please make sure
+                <strong>Authentication → Providers → Email → Confirm email</strong>
+                is <strong>OFF</strong> in Supabase.
+                `
             );
 
-            setTimeout(async () => {
-
-                await checkSession();
-
-            }, 1000);
         }
+
 
     } catch (error) {
 
-        console.error("Registration error:", error);
+        console.error(
+            "Registration error:",
+            error
+        );
 
         showAlert(
             "registerAlert",
-            formatAuthError(error.message)
+            formatAuthError(
+                error.message
+            )
         );
+
 
     } finally {
 
-        button.disabled = false;
-        button.textContent = "Create Account";
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Create Account";
     }
+
 }
 
 
@@ -1299,12 +1538,18 @@ async function registerStudent() {
 async function loginStudent() {
 
     const email =
-        document.getElementById("loginEmail").value.trim();
+        document
+            .getElementById("loginEmail")
+            .value
+            .trim();
 
     const password =
-        document.getElementById("loginPassword").value;
+        document
+            .getElementById("loginPassword")
+            .value;
 
     clearAlert("loginAlert");
+
 
     if (!email || !password) {
 
@@ -1316,56 +1561,76 @@ async function loginStudent() {
         return;
     }
 
-    const button =
-        document.querySelector("#loginBox .btn-primary");
 
-    button.disabled = true;
-    button.textContent = "Logging in...";
+    const button =
+        document.querySelector(
+            "#loginBox .btn-primary"
+        );
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Logging in...";
+
 
     try {
 
-        const { data, error } =
+        const {
+            data,
+            error
+        } =
             await db.auth.signInWithPassword({
+
                 email,
+
                 password
+
             });
+
 
         if (error) {
             throw error;
         }
 
-        if (!data.user.email_confirmed_at) {
 
-            showAlert(
-                "loginAlert",
-                `
-                Your email has not been verified yet.<br><br>
-                Please open the verification email sent to you
-                and click <strong>Verify Email</strong>.
-                `
+        if (!data.user) {
+
+            throw new Error(
+                "Login failed."
             );
-
-            await db.auth.signOut();
-
-            return;
         }
 
-        await loadUser(data.user);
+
+        await loadUser(
+            data.user
+        );
+
 
     } catch (error) {
 
-        console.error("Login error:", error);
+        console.error(
+            "Login error:",
+            error
+        );
 
         showAlert(
             "loginAlert",
-            formatAuthError(error.message)
+            formatAuthError(
+                error.message
+            )
         );
+
 
     } finally {
 
-        button.disabled = false;
-        button.textContent = "Login";
+        button.disabled =
+            false;
+
+        button.textContent =
+            "Login";
     }
+
 }
 
 
@@ -1378,27 +1643,46 @@ async function checkSession() {
     try {
 
         const {
-            data: { session }
-        } = await db.auth.getSession();
+            data: {
+                session
+            }
+        } =
+            await db.auth.getSession();
 
-        if (session && session.user) {
 
-            await loadUser(session.user);
+        if (
+            session &&
+            session.user
+        ) {
+
+            await loadUser(
+                session.user
+            );
 
         } else {
 
             showLogin();
-            showScreen("auth");
+
+            showScreen(
+                "auth"
+            );
 
         }
 
     } catch (error) {
 
-        console.error("Session error:", error);
+        console.error(
+            "Session error:",
+            error
+        );
 
         showLogin();
-        showScreen("auth");
+
+        showScreen(
+            "auth"
+        );
     }
+
 }
 
 
@@ -1406,86 +1690,95 @@ async function checkSession() {
    AUTH STATE LISTENER
 ========================================================= */
 
-db.auth.onAuthStateChange(async (event, session) => {
+db.auth.onAuthStateChange(
+    async (
+        event,
+        session
+    ) => {
 
-    console.log("Auth event:", event);
+        console.log(
+            "Auth event:",
+            event
+        );
 
-    if (
-        session &&
-        session.user &&
-        (
-            event === "SIGNED_IN" ||
-            event === "INITIAL_SESSION" ||
-            event === "USER_UPDATED"
-        )
-    ) {
 
-        currentUser = session.user;
+        if (
+            session &&
+            session.user &&
+            (
+                event === "SIGNED_IN" ||
+                event === "INITIAL_SESSION" ||
+                event === "USER_UPDATED"
+            )
+        ) {
 
-        if (!currentProfile) {
-            await loadUser(session.user);
+            currentUser =
+                session.user;
+
+
+            if (!currentProfile) {
+
+                await loadUser(
+                    session.user
+                );
+            }
+
         }
+
     }
-});
+);
 
 
 /* =========================================================
    LOAD USER
+   NO EMAIL CONFIRMATION CHECK
 ========================================================= */
 
 async function loadUser(user) {
 
-    currentUser = user;
+    currentUser =
+        user;
+
 
     if (!user) {
 
-        showScreen("auth");
-        return;
-    }
-
-    /*
-     Check whether email verification is complete.
-    */
-
-    if (!user.email_confirmed_at) {
-
-        await db.auth.signOut();
-
-        showLogin();
-
-        showAlert(
-            "loginAlert",
-            `
-            Please verify your email before logging in.
-            `
+        showScreen(
+            "auth"
         );
 
-        showScreen("auth");
-
         return;
     }
+
 
     try {
 
-        let { data: profile, error } =
+        let {
+            data: profile,
+            error
+        } =
             await db
                 .from("profiles")
                 .select("*")
                 .eq("id", user.id)
                 .maybeSingle();
 
+
         /*
-         If profile does not exist, create it.
+         If profile does not exist,
+         create it.
         */
 
         if (!profile) {
 
             const metadata =
-                user.user_metadata || {};
+                user.user_metadata ||
+                {};
+
 
             const newProfile = {
 
-                id: user.id,
+                id:
+                    user.id,
 
                 full_name:
                     metadata.full_name ||
@@ -1496,10 +1789,14 @@ async function loadUser(user) {
                     user.email,
 
                 phone:
-                    metadata.phone || "",
+                    metadata.phone ||
+                    "",
 
-                owner: false
+                owner:
+                    false
+
             };
+
 
             const result =
                 await db
@@ -1508,53 +1805,91 @@ async function loadUser(user) {
                     .select()
                     .single();
 
+
             if (result.error) {
                 throw result.error;
             }
 
-            profile = result.data;
+
+            profile =
+                result.data;
         }
 
-        if (error && !profile) {
+
+        if (
+            error &&
+            !profile
+        ) {
+
             throw error;
         }
 
-        /*
-         Owner should use admin dashboard.
-         */
 
-        if (profile.owner === true) {
+        /*
+         Owner/Admin accounts go
+         to admin.html.
+        */
+
+        if (
+            profile.owner === true
+        ) {
 
             alert(
                 "This account is an Owner/Admin account. Please use the Admin Dashboard."
             );
 
-            window.location.href = "admin.html";
+            window.location.href =
+                "admin.html";
 
             return;
         }
 
-        currentProfile = profile;
 
-        document.getElementById("studentName").textContent =
-            profile.full_name || "Student";
+        currentProfile =
+            profile;
 
-        document.getElementById("studentStatus").textContent =
+
+        document
+            .getElementById("studentName")
+            .textContent =
+            profile.full_name ||
+            "Student";
+
+
+        document
+            .getElementById("studentStatus")
+            .textContent =
             "Active";
 
-        showScreen("dashboard");
+
+        showScreen(
+            "dashboard"
+        );
+
 
         await loadLeaderboard();
 
+
     } catch (error) {
 
-        console.error("Profile loading error:", error);
+        console.error(
+            "Profile loading error:",
+            error
+        );
 
-        showScreen("dashboard");
 
-        document.getElementById("studentName").textContent =
-            user.email?.split("@")[0] || "Student";
+        showScreen(
+            "dashboard"
+        );
+
+
+        document
+            .getElementById("studentName")
+            .textContent =
+            user.email?.split("@")[0] ||
+            "Student";
     }
+
 }
 
 
@@ -1564,20 +1899,41 @@ async function loadUser(user) {
 
 function showScreen(screen) {
 
-    document.querySelectorAll(".screen").forEach(section => {
-        section.classList.remove("active");
-    });
+    document
+        .querySelectorAll(".screen")
+        .forEach(section => {
+
+            section.classList.remove(
+                "active"
+            );
+
+        });
+
 
     const target =
-        document.getElementById(screen + "Screen");
+        document.getElementById(
+            screen + "Screen"
+        );
+
 
     if (target) {
-        target.classList.add("active");
+
+        target.classList.add(
+            "active"
+        );
     }
 
-    document.querySelectorAll("nav button").forEach(button => {
-        button.classList.remove("active");
-    });
+
+    document
+        .querySelectorAll("nav button")
+        .forEach(button => {
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
 
     const navButton =
         document.getElementById(
@@ -1586,22 +1942,41 @@ function showScreen(screen) {
             screen.slice(1)
         );
 
+
     if (navButton) {
-        navButton.classList.add("active");
+
+        navButton.classList.add(
+            "active"
+        );
     }
 
+
     window.scrollTo({
+
         top: 0,
+
         behavior: "smooth"
+
     });
 
-    if (screen === "leaderboard") {
+
+    if (
+        screen ===
+        "leaderboard"
+    ) {
+
         loadLeaderboard();
     }
 
-    if (screen === "certificate") {
+
+    if (
+        screen ===
+        "certificate"
+    ) {
+
         loadCertificate();
     }
+
 }
 
 
@@ -1613,15 +1988,27 @@ async function checkQuizAccess() {
 
     if (!currentUser) {
 
-        showScreen("auth");
+        showScreen(
+            "auth"
+        );
+
         return;
     }
 
-    const message =
-        document.getElementById("quizAccessMessage");
 
-    message.className = "alert show";
-    message.innerHTML = "Checking quiz access...";
+    const message =
+        document.getElementById(
+            "quizAccessMessage"
+        );
+
+
+    message.className =
+        "alert show";
+
+
+    message.innerHTML =
+        "Checking quiz access...";
+
 
     try {
 
@@ -1631,38 +2018,34 @@ async function checkQuizAccess() {
                 {}
             );
 
-        console.log("Quiz access:", result);
 
-        /*
-         Expected response examples:
+        console.log(
+            "Quiz access:",
+            result
+        );
 
-         {
-            allowed: true,
-            payment_required: false,
-            quiz_fee: 2000,
-            mtn_payment_number: "07..."
-         }
-
-         or similar.
-        */
 
         const allowed =
             result?.allowed === true ||
             result?.quiz_enabled === true;
 
+
         const paymentRequired =
             result?.payment_required === true;
+
 
         if (!allowed) {
 
             message.className =
                 "alert show error";
 
+
             message.innerHTML =
                 "The daily quiz is currently disabled by the administrator.";
 
             return;
         }
+
 
         if (paymentRequired) {
 
@@ -1671,40 +2054,56 @@ async function checkQuizAccess() {
                 result?.fee ??
                 0;
 
+
             const mtn =
                 result?.mtn_payment_number ??
                 result?.mtn_number ??
                 "Not available";
 
-            document.getElementById("quizFee").textContent =
-                Number(fee).toLocaleString();
 
-            document.getElementById("mtnNumber").textContent =
+            document
+                .getElementById("quizFee")
+                .textContent =
+                Number(fee)
+                    .toLocaleString();
+
+
+            document
+                .getElementById("mtnNumber")
+                .textContent =
                 mtn;
 
-            document.getElementById("paymentBox")
-                .classList.remove("hidden");
 
-            document.getElementById("quizIntro")
-                .classList.add("hidden");
+            document
+                .getElementById("paymentBox")
+                .classList
+                .remove("hidden");
+
+
+            document
+                .getElementById("quizIntro")
+                .classList
+                .add("hidden");
+
 
             return;
         }
 
+
         await startQuiz();
+
 
     } catch (error) {
 
-        console.error("Quiz access error:", error);
+        console.error(
+            "Quiz access error:",
+            error
+        );
 
-        /*
-         Fallback:
-         If the Edge Function is unavailable, show a useful message
-         instead of breaking the entire student portal.
-        */
 
         message.className =
             "alert show error";
+
 
         message.innerHTML =
             `
@@ -1712,22 +2111,32 @@ async function checkQuizAccess() {
             Please try again in a moment.
             `;
     }
+
 }
 
 
 /* =========================================================
-   DEMO PAYMENT / PAYMENT CONFIRMATION
+   DEMO PAYMENT
 ========================================================= */
 
 async function demoPayment() {
 
-    if (!currentUser) return;
+    if (!currentUser)
+        return;
+
 
     const button =
-        document.querySelector("#paymentBox .btn-success");
+        document.querySelector(
+            "#paymentBox .btn-success"
+        );
 
-    button.disabled = true;
-    button.textContent = "Checking payment...";
+
+    button.disabled =
+        true;
+
+    button.textContent =
+        "Checking payment...";
+
 
     try {
 
@@ -1735,35 +2144,49 @@ async function demoPayment() {
             await callFunction(
                 FUNCTIONS.demoPay,
                 {
-                    user_id: currentUser.id
+                    user_id:
+                        currentUser.id
                 }
             );
 
-        console.log("Payment response:", result);
 
-        document.getElementById("paymentBox")
-            .classList.add("hidden");
+        console.log(
+            "Payment response:",
+            result
+        );
+
+
+        document
+            .getElementById("paymentBox")
+            .classList
+            .add("hidden");
+
 
         await startQuiz();
 
+
     } catch (error) {
 
-        console.error("Payment error:", error);
+        console.error(
+            "Payment error:",
+            error
+        );
 
-        /*
-         The real MTN MoMo payment verification should eventually
-         be connected here through a secure backend/Edge Function.
-        */
 
         alert(
             "Payment could not be confirmed. Please try again."
         );
 
+
     } finally {
 
-        button.disabled = false;
-        button.textContent = "I Have Paid";
+        button.disabled =
+            false;
+
+        button.textContent =
+            "I Have Paid";
     }
+
 }
 
 
@@ -1775,7 +2198,9 @@ async function startQuiz() {
 
     try {
 
-        let serverQuiz = null;
+        let serverQuiz =
+            null;
+
 
         try {
 
@@ -1783,7 +2208,8 @@ async function startQuiz() {
                 await callFunction(
                     FUNCTIONS.startQuiz,
                     {
-                        user_id: currentUser.id
+                        user_id:
+                            currentUser.id
                     }
                 );
 
@@ -1795,14 +2221,12 @@ async function startQuiz() {
             );
         }
 
-        /*
-         If server returns questions, use them.
-         Otherwise use the local educational questions.
-        */
 
         if (
             serverQuiz &&
-            Array.isArray(serverQuiz.questions) &&
+            Array.isArray(
+                serverQuiz.questions
+            ) &&
             serverQuiz.questions.length > 0
         ) {
 
@@ -1815,8 +2239,13 @@ async function startQuiz() {
                 getLocalQuizQuestions();
         }
 
+
         quizQuestions =
-            quizQuestions.slice(0, 10);
+            quizQuestions.slice(
+                0,
+                10
+            );
+
 
         if (!quizQuestions.length) {
 
@@ -1825,33 +2254,60 @@ async function startQuiz() {
             );
         }
 
-        currentQuestion = 0;
-        answers = [];
-        selectedAnswer = null;
-        quizStarted = true;
 
-        document.getElementById("quizIntro")
-            .classList.add("hidden");
+        currentQuestion =
+            0;
 
-        document.getElementById("paymentBox")
-            .classList.add("hidden");
+        answers =
+            [];
 
-        document.getElementById("quizResult")
-            .classList.add("hidden");
+        selectedAnswer =
+            null;
 
-        document.getElementById("quizContainer")
-            .classList.remove("hidden");
+        quizStarted =
+            true;
+
+
+        document
+            .getElementById("quizIntro")
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById("paymentBox")
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById("quizResult")
+            .classList
+            .add("hidden");
+
+
+        document
+            .getElementById("quizContainer")
+            .classList
+            .remove("hidden");
+
 
         showQuestion();
 
+
     } catch (error) {
 
-        console.error("Start quiz error:", error);
+        console.error(
+            "Start quiz error:",
+            error
+        );
+
 
         alert(
             "The quiz could not be started. Please try again."
         );
     }
+
 }
 
 
@@ -2004,6 +2460,7 @@ function getLocalQuizQuestions() {
         }
 
     ];
+
 }
 
 
@@ -2013,51 +2470,104 @@ function getLocalQuizQuestions() {
 
 function showQuestion() {
 
-    if (!quizQuestions[currentQuestion]) {
+    if (
+        !quizQuestions[currentQuestion]
+    ) {
+
         finishQuiz();
+
         return;
     }
+
 
     const question =
         quizQuestions[currentQuestion];
 
-    selectedAnswer = null;
 
-    document.getElementById("questionNumber").textContent =
+    selectedAnswer =
+        null;
+
+
+    document
+        .getElementById("questionNumber")
+        .textContent =
         `Question ${currentQuestion + 1} / ${quizQuestions.length}`;
 
-    document.getElementById("questionText").textContent =
+
+    document
+        .getElementById("questionText")
+        .textContent =
         question.question;
 
+
     const answersBox =
-        document.getElementById("answers");
+        document.getElementById(
+            "answers"
+        );
 
-    answersBox.innerHTML = "";
 
-    question.options.forEach((option, index) => {
+    answersBox.innerHTML =
+        "";
 
-        const button =
-            document.createElement("button");
 
-        button.className = "answer";
+    question.options.forEach(
+        (
+            option,
+            index
+        ) => {
 
-        button.textContent =
-            `${String.fromCharCode(65 + index)}. ${option}`;
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-        button.onclick = () => selectAnswer(index, button);
 
-        answersBox.appendChild(button);
-    });
+            button.className =
+                "answer";
 
-    document.getElementById("nextButton").disabled = true;
+
+            button.textContent =
+                `${String.fromCharCode(65 + index)}. ${option}`;
+
+
+            button.onclick =
+                () =>
+                    selectAnswer(
+                        index,
+                        button
+                    );
+
+
+            answersBox.appendChild(
+                button
+            );
+
+        }
+    );
+
+
+    document
+        .getElementById("nextButton")
+        .disabled =
+        true;
+
 
     const progress =
-        (currentQuestion / quizQuestions.length) * 100;
+        (
+            currentQuestion /
+            quizQuestions.length
+        ) * 100;
 
-    document.getElementById("progressBar").style.width =
+
+    document
+        .getElementById("progressBar")
+        .style
+        .width =
         progress + "%";
 
+
     startTimer();
+
 }
 
 
@@ -2065,17 +2575,34 @@ function showQuestion() {
    SELECT ANSWER
 ========================================================= */
 
-function selectAnswer(index, button) {
+function selectAnswer(
+    index,
+    button
+) {
 
-    selectedAnswer = index;
+    selectedAnswer =
+        index;
 
-    document.querySelectorAll(".answer").forEach(btn => {
-        btn.classList.remove("selected");
-    });
 
-    button.classList.add("selected");
+    document
+        .querySelectorAll(".answer")
+        .forEach(btn => {
 
-    document.getElementById("nextButton").disabled =
+            btn.classList.remove(
+                "selected"
+            );
+
+        });
+
+
+    button.classList.add(
+        "selected"
+    );
+
+
+    document
+        .getElementById("nextButton")
+        .disabled =
         false;
 }
 
@@ -2088,32 +2615,48 @@ function startTimer() {
 
     clearInterval(timer);
 
-    timeLeft = 15;
 
-    document.getElementById("timer").textContent =
+    timeLeft =
+        15;
+
+
+    document
+        .getElementById("timer")
+        .textContent =
         timeLeft;
 
-    timer = setInterval(() => {
 
-        timeLeft--;
+    timer =
+        setInterval(
+            () => {
 
-        document.getElementById("timer").textContent =
-            timeLeft;
+                timeLeft--;
 
-        if (timeLeft <= 0) {
 
-            clearInterval(timer);
+                document
+                    .getElementById("timer")
+                    .textContent =
+                    timeLeft;
 
-            /*
-             If no answer was selected, store -1.
-            */
 
-            saveCurrentAnswer();
+                if (
+                    timeLeft <= 0
+                ) {
 
-            nextQuestion();
-        }
+                    clearInterval(
+                        timer
+                    );
 
-    }, 1000);
+
+                    saveCurrentAnswer();
+
+
+                    nextQuestion();
+                }
+
+            },
+            1000
+        );
 }
 
 
@@ -2136,11 +2679,15 @@ function saveCurrentAnswer() {
 
 function nextQuestion() {
 
-    if (!quizStarted) return;
+    if (!quizStarted)
+        return;
+
 
     clearInterval(timer);
 
+
     saveCurrentAnswer();
+
 
     if (
         currentQuestion >=
@@ -2148,10 +2695,13 @@ function nextQuestion() {
     ) {
 
         finishQuiz();
+
         return;
     }
 
+
     currentQuestion++;
+
 
     showQuestion();
 }
@@ -2165,64 +2715,103 @@ async function finishQuiz() {
 
     clearInterval(timer);
 
-    quizStarted = false;
 
-    let score = 0;
+    quizStarted =
+        false;
 
-    quizQuestions.forEach((question, index) => {
 
-        const selected =
-            answers[index];
+    let score =
+        0;
 
-        if (
-            selected !== undefined &&
-            selected !== -1
-        ) {
+
+    quizQuestions.forEach(
+        (
+            question,
+            index
+        ) => {
+
+            const selected =
+                answers[index];
+
 
             if (
-                Number(selected) ===
-                Number(question.answer)
+                selected !== undefined &&
+                selected !== -1
             ) {
 
-                score++;
+                if (
+                    Number(selected) ===
+                    Number(question.answer)
+                ) {
+
+                    score++;
+                }
             }
+
         }
-    });
+    );
 
-    document.getElementById("quizContainer")
-        .classList.add("hidden");
 
-    document.getElementById("quizResult")
-        .classList.remove("hidden");
+    document
+        .getElementById("quizContainer")
+        .classList
+        .add("hidden");
 
-    document.getElementById("finalScore").textContent =
+
+    document
+        .getElementById("quizResult")
+        .classList
+        .remove("hidden");
+
+
+    document
+        .getElementById("finalScore")
+        .textContent =
         `${score} / ${quizQuestions.length}`;
 
-    document.getElementById("quizScore").textContent =
+
+    document
+        .getElementById("quizScore")
+        .textContent =
         score;
 
+
     const percentage =
-        (score / quizQuestions.length) * 100;
+        (
+            score /
+            quizQuestions.length
+        ) * 100;
+
 
     let message;
 
-    if (percentage >= 80) {
+
+    if (
+        percentage >= 80
+    ) {
+
         message =
             "Excellent work! Keep learning and growing. 🌟";
-    } else if (percentage >= 50) {
+
+    } else if (
+        percentage >= 50
+    ) {
+
         message =
             "Good effort! Keep practicing. 👍";
+
     } else {
+
         message =
             "Keep learning and try again next time. 💪";
     }
 
-    document.getElementById("resultMessage").textContent =
+
+    document
+        .getElementById("resultMessage")
+        .textContent =
         message;
 
-    /*
-     Send result to secure backend if available.
-    */
 
     try {
 
@@ -2231,10 +2820,19 @@ async function finishQuiz() {
             await callFunction(
                 FUNCTIONS.submitQuiz,
                 {
-                    user_id: currentUser.id,
-                    score: score,
-                    total: quizQuestions.length,
-                    answers: answers
+
+                    user_id:
+                        currentUser.id,
+
+                    score:
+                        score,
+
+                    total:
+                        quizQuestions.length,
+
+                    answers:
+                        answers
+
                 }
             );
         }
@@ -2247,6 +2845,7 @@ async function finishQuiz() {
         );
     }
 
+
     await loadLeaderboard();
 }
 
@@ -2258,9 +2857,14 @@ async function finishQuiz() {
 async function loadLeaderboard() {
 
     const body =
-        document.getElementById("leaderboardBody");
+        document.getElementById(
+            "leaderboardBody"
+        );
 
-    if (!body) return;
+
+    if (!body)
+        return;
+
 
     body.innerHTML = `
         <tr>
@@ -2270,21 +2874,25 @@ async function loadLeaderboard() {
         </tr>
     `;
 
+
     try {
 
-        let data = null;
+        let data =
+            null;
 
-        /*
-         First try the RPC used by the platform.
-        */
 
         try {
 
             const result =
-                await db.rpc("get_leaderboard");
+                await db.rpc(
+                    "get_leaderboard"
+                );
+
 
             if (!result.error) {
-                data = result.data;
+
+                data =
+                    result.data;
             }
 
         } catch (rpcError) {
@@ -2295,13 +2903,13 @@ async function loadLeaderboard() {
             );
         }
 
+
         if (!Array.isArray(data)) {
-            data = [];
+
+            data =
+                [];
         }
 
-        /*
-         If no leaderboard data exists yet, show a clean message.
-        */
 
         if (data.length === 0) {
 
@@ -2313,50 +2921,78 @@ async function loadLeaderboard() {
                 </tr>
             `;
 
-            document.getElementById("studentRank").textContent =
+
+            document
+                .getElementById("studentRank")
+                .textContent =
                 "-";
+
 
             return;
         }
 
-        body.innerHTML = "";
 
-        data.forEach((item, index) => {
+        body.innerHTML =
+            "";
 
-            const row =
-                document.createElement("tr");
 
-            const name =
-                item.full_name ||
-                item.name ||
-                item.student_name ||
-                "Student";
+        data.forEach(
+            (
+                item,
+                index
+            ) => {
 
-            const score =
-                item.score ??
-                item.total_score ??
-                0;
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
 
-            row.innerHTML = `
-                <td>${index + 1}</td>
-                <td>${escapeHtml(name)}</td>
-                <td>${escapeHtml(String(score))}</td>
-            `;
 
-            body.appendChild(row);
+                const name =
+                    item.full_name ||
+                    item.name ||
+                    item.student_name ||
+                    "Student";
 
-            if (
-                currentUser &&
-                (
-                    item.id === currentUser.id ||
-                    item.user_id === currentUser.id
-                )
-            ) {
 
-                document.getElementById("studentRank")
-                    .textContent = index + 1;
+                const score =
+                    item.score ??
+                    item.total_score ??
+                    0;
+
+
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${escapeHtml(name)}</td>
+                    <td>${escapeHtml(String(score))}</td>
+                `;
+
+
+                body.appendChild(
+                    row
+                );
+
+
+                if (
+                    currentUser &&
+                    (
+                        item.id ===
+                        currentUser.id ||
+
+                        item.user_id ===
+                        currentUser.id
+                    )
+                ) {
+
+                    document
+                        .getElementById("studentRank")
+                        .textContent =
+                        index + 1;
+                }
+
             }
-        });
+        );
+
 
     } catch (error) {
 
@@ -2364,6 +3000,7 @@ async function loadLeaderboard() {
             "Leaderboard error:",
             error
         );
+
 
         body.innerHTML = `
             <tr>
@@ -2373,6 +3010,7 @@ async function loadLeaderboard() {
             </tr>
         `;
     }
+
 }
 
 
@@ -2382,44 +3020,66 @@ async function loadLeaderboard() {
 
 async function loadCertificate() {
 
-    if (!currentUser) return;
+    if (!currentUser)
+        return;
+
 
     const nameElement =
-        document.getElementById("certificateName");
+        document.getElementById(
+            "certificateName"
+        );
+
 
     const message =
-        document.getElementById("certificateMessage");
+        document.getElementById(
+            "certificateMessage"
+        );
+
 
     nameElement.textContent =
         currentProfile?.full_name ||
         currentUser.email?.split("@")[0] ||
         "Student";
 
-    document.getElementById("certificateDate")
-        .textContent =
-        formatRwandaDate(new Date());
 
-    clearAlert("certificateMessage");
+    document
+        .getElementById("certificateDate")
+        .textContent =
+        formatRwandaDate(
+            new Date()
+        );
+
+
+    clearAlert(
+        "certificateMessage"
+    );
+
 
     try {
 
-        const { data, error } =
+        const {
+            data,
+            error
+        } =
             await db
                 .from("certificates")
                 .select("*")
-                .eq("student_id", currentUser.id)
-                .order("created_at", {
-                    ascending: false
-                })
+                .eq(
+                    "student_id",
+                    currentUser.id
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending:
+                            false
+                    }
+                )
                 .limit(1)
                 .maybeSingle();
 
-        if (error) {
 
-            /*
-             Certificate table may not exist yet.
-             The visual certificate can still be displayed.
-            */
+        if (error) {
 
             console.warn(
                 "Certificate database lookup:",
@@ -2429,23 +3089,35 @@ async function loadCertificate() {
             return;
         }
 
+
         if (data) {
 
-            if (data.student_name) {
+            if (
+                data.student_name
+            ) {
 
                 nameElement.textContent =
                     data.student_name;
             }
 
-            if (data.created_at) {
 
-                document.getElementById("certificateDate")
+            if (
+                data.created_at
+            ) {
+
+                document
+                    .getElementById(
+                        "certificateDate"
+                    )
                     .textContent =
                     formatRwandaDate(
-                        new Date(data.created_at)
+                        new Date(
+                            data.created_at
+                        )
                     );
             }
         }
+
 
     } catch (error) {
 
@@ -2454,6 +3126,7 @@ async function loadCertificate() {
             error
         );
     }
+
 }
 
 
@@ -2464,9 +3137,14 @@ async function loadCertificate() {
 function printCertificate() {
 
     const certificate =
-        document.getElementById("certificate");
+        document.getElementById(
+            "certificate"
+        );
 
-    if (!certificate) return;
+
+    if (!certificate)
+        return;
+
 
     const printWindow =
         window.open(
@@ -2475,11 +3153,16 @@ function printCertificate() {
             "width=1200,height=800"
         );
 
+
     printWindow.document.write(`
         <!DOCTYPE html>
         <html>
+
         <head>
-            <title>Life Skills Rwanda Certificate</title>
+
+            <title>
+                Life Skills Rwanda Certificate
+            </title>
 
             <style>
 
@@ -2490,14 +3173,19 @@ function printCertificate() {
                 body {
                     margin: 0;
                     background: white;
-                    font-family: Arial, Helvetica, sans-serif;
+                    font-family:
+                        Arial,
+                        Helvetica,
+                        sans-serif;
                 }
 
                 .certificate {
                     width: 100%;
                     min-height: 190mm;
-                    border: 15px solid #d9a514;
-                    outline: 3px solid #1261d8;
+                    border:
+                        15px solid #d9a514;
+                    outline:
+                        3px solid #1261d8;
                     padding: 50px;
                     text-align: center;
                     margin: 0 auto;
@@ -2517,7 +3205,8 @@ function printCertificate() {
                 .student-certificate-name {
                     font-size: 42px;
                     font-weight: 900;
-                    margin: 35px 0 18px;
+                    margin:
+                        35px 0 18px;
                 }
 
                 .certificate-line {
@@ -2539,7 +3228,8 @@ function printCertificate() {
                 }
 
                 .signature-line {
-                    border-top: 1px solid #333;
+                    border-top:
+                        1px solid #333;
                     padding-top: 8px;
                 }
 
@@ -2549,6 +3239,7 @@ function printCertificate() {
                 }
 
             </style>
+
         </head>
 
         <body>
@@ -2560,15 +3251,21 @@ function printCertificate() {
         </html>
     `);
 
+
     printWindow.document.close();
 
-    setTimeout(() => {
 
-        printWindow.focus();
+    setTimeout(
+        () => {
 
-        printWindow.print();
+            printWindow.focus();
 
-    }, 500);
+            printWindow.print();
+
+        },
+        500
+    );
+
 }
 
 
@@ -2578,19 +3275,37 @@ function printCertificate() {
 
 async function logout() {
 
-    clearInterval(timer);
+    clearInterval(
+        timer
+    );
+
 
     await db.auth.signOut();
 
-    currentUser = null;
-    currentProfile = null;
 
-    quizQuestions = [];
-    answers = [];
-    quizStarted = false;
+    currentUser =
+        null;
+
+    currentProfile =
+        null;
+
+    quizQuestions =
+        [];
+
+    answers =
+        [];
+
+    quizStarted =
+        false;
+
 
     showLogin();
-    showScreen("auth");
+
+
+    showScreen(
+        "auth"
+    );
+
 }
 
 
@@ -2598,44 +3313,79 @@ async function logout() {
    EDGE FUNCTION HELPER
 ========================================================= */
 
-async function callFunction(functionName, body) {
+async function callFunction(
+    functionName,
+    body
+) {
 
     const {
-        data: { session }
-    } = await db.auth.getSession();
+        data: {
+            session
+        }
+    } =
+        await db.auth.getSession();
+
 
     const headers = {
-        "Content-Type": "application/json"
+
+        "Content-Type":
+            "application/json"
+
     };
 
-    if (session?.access_token) {
+
+    if (
+        session?.access_token
+    ) {
 
         headers.Authorization =
             `Bearer ${session.access_token}`;
     }
 
+
     const response =
         await fetch(
             `${SUPABASE_URL}/functions/v1/${functionName}`,
             {
-                method: "POST",
+
+                method:
+                    "POST",
+
                 headers,
-                body: JSON.stringify(body || {})
+
+                body:
+                    JSON.stringify(
+                        body || {}
+                    )
+
             }
         );
+
 
     const text =
         await response.text();
 
+
     let data;
 
+
     try {
-        data = text ? JSON.parse(text) : {};
+
+        data =
+            text
+                ? JSON.parse(text)
+                : {};
+
     } catch {
+
         data = {
-            message: text
+
+            message:
+                text
+
         };
     }
+
 
     if (!response.ok) {
 
@@ -2646,7 +3396,9 @@ async function callFunction(functionName, body) {
         );
     }
 
+
     return data;
+
 }
 
 
@@ -2654,26 +3406,31 @@ async function callFunction(functionName, body) {
    AUTH ERROR FORMATTER
 ========================================================= */
 
-function formatAuthError(message) {
+function formatAuthError(
+    message
+) {
 
     const text =
-        String(message || "").toLowerCase();
+        String(
+            message || ""
+        ).toLowerCase();
 
-    if (text.includes("invalid login credentials")) {
+
+    if (
+        text.includes(
+            "invalid login credentials"
+        )
+    ) {
 
         return "Email cyangwa password ntabwo ari byo.";
     }
 
-    if (text.includes("email not confirmed")) {
 
-        return `
-            Email yawe ntabwo yaremejwe.
-            Fungura email ya verification ukande kuri
-            <strong>Verify Email</strong>.
-        `;
-    }
-
-    if (text.includes("user already registered")) {
+    if (
+        text.includes(
+            "user already registered"
+        )
+    ) {
 
         return `
             Iyi email isanzwe ifite account.
@@ -2681,7 +3438,12 @@ function formatAuthError(message) {
         `;
     }
 
-    if (text.includes("password")) {
+
+    if (
+        text.includes(
+            "password"
+        )
+    ) {
 
         return `
             Password ntabwo yujuje ibisabwa.
@@ -2689,7 +3451,11 @@ function formatAuthError(message) {
         `;
     }
 
-    return escapeHtml(message);
+
+    return escapeHtml(
+        message
+    );
+
 }
 
 
@@ -2697,24 +3463,38 @@ function formatAuthError(message) {
    RWANDA DATE
 ========================================================= */
 
-function formatRwandaDate(date) {
+function formatRwandaDate(
+    date
+) {
 
     try {
 
         return new Intl.DateTimeFormat(
             "en-RW",
             {
-                timeZone: "Africa/Kigali",
-                year: "numeric",
-                month: "long",
-                day: "numeric"
+
+                timeZone:
+                    "Africa/Kigali",
+
+                year:
+                    "numeric",
+
+                month:
+                    "long",
+
+                day:
+                    "numeric"
+
             }
-        ).format(date);
+        ).format(
+            date
+        );
 
     } catch {
 
         return date.toLocaleDateString();
     }
+
 }
 
 
@@ -2722,40 +3502,34 @@ function formatRwandaDate(date) {
    HTML ESCAPE
 ========================================================= */
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-}
+    return String(
+        value ?? ""
+    )
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
 
-
-/* =========================================================
-   HANDLE EMAIL VERIFICATION REDIRECT
-========================================================= */
-
-async function handleVerificationReturn() {
-
-    /*
-     Supabase may return the user to:
-
-     /student.html
-     or
-     /student.html#access_token=...
-
-     Supabase JS handles the session automatically.
-
-     We therefore wait briefly and then check the session.
-    */
-
-    await new Promise(resolve =>
-        setTimeout(resolve, 500)
-    );
-
-    await checkSession();
 }
 
 
@@ -2768,11 +3542,13 @@ document.addEventListener(
     async () => {
 
         /*
-         If the page was opened after clicking
-         "Verify Email", check the session.
+         No email verification is checked here.
+
+         If a valid Supabase session exists,
+         the student goes directly to Dashboard.
         */
 
-        await handleVerificationReturn();
+        await checkSession();
 
     }
 );
