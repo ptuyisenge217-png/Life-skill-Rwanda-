@@ -1,9 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Life Skills Rwanda - Admin Dashboard</title>
+
+    <title>Life Skills Rwanda - Owner Dashboard</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -22,14 +24,18 @@
 
         button,
         input,
-        textarea,
-        select {
+        select,
+        textarea {
             font: inherit;
         }
 
-        .hidden {
-            display: none !important;
+        button {
+            cursor: pointer;
         }
+
+        /* =========================
+           LOGIN
+        ========================= */
 
         .login-screen {
             min-height: 100vh;
@@ -37,237 +43,265 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            background: linear-gradient(135deg, #1261d8, #0b3f91);
+            background:
+                linear-gradient(rgba(18,97,216,.92), rgba(8,52,120,.95)),
+                url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80")
+                center/cover;
         }
 
         .login-card {
             width: 100%;
             max-width: 430px;
-            background: white;
-            border-radius: 18px;
+            background: #fff;
+            border-radius: 22px;
             padding: 35px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.2);
+            box-shadow: 0 25px 60px rgba(0,0,0,.25);
         }
 
-        .brand {
-            text-align: center;
-            margin-bottom: 28px;
-        }
-
-        .logo {
-            width: 65px;
-            height: 65px;
-            margin: auto;
-            border-radius: 18px;
-            background: linear-gradient(135deg, #1261d8, #0a3d91);
-            color: white;
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            margin: 0 auto 18px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 25px;
-            font-weight: 800;
+            background: linear-gradient(135deg,#1261d8,#0b3f91);
+            color: #fff;
+            font-size: 28px;
+            font-weight: 900;
         }
 
-        .brand h1 {
-            margin-top: 14px;
-            font-size: 25px;
+        .login-card h1 {
+            text-align: center;
+            font-size: 26px;
+            margin-bottom: 7px;
         }
 
-        .brand p {
-            margin-top: 5px;
-            color: #718096;
+        .login-card p {
+            text-align: center;
+            color: #687386;
+            margin-bottom: 25px;
         }
 
         .form-group {
             margin-bottom: 17px;
         }
 
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 7px;
             font-weight: 700;
             font-size: 14px;
         }
 
-        input,
-        textarea,
-        select {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #d8e0eb;
+            border: 1px solid #d8deea;
             border-radius: 10px;
-            background: white;
+            padding: 12px 13px;
             outline: none;
-            transition: .2s;
+            background: #fff;
         }
 
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #1261d8;
-            box-shadow: 0 0 0 3px rgba(18,97,216,.1);
-        }
-
-        textarea {
+        .form-group textarea {
             min-height: 110px;
             resize: vertical;
         }
 
-        button {
-            border: none;
-            cursor: pointer;
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1261d8;
+            box-shadow: 0 0 0 3px rgba(18,97,216,.10);
+        }
+
+        .btn {
+            border: 0;
             border-radius: 10px;
-            padding: 12px 18px;
+            padding: 11px 16px;
             font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
         }
 
         .btn-primary {
             background: #1261d8;
-            color: white;
+            color: #fff;
         }
 
-        .btn-primary:hover {
-            background: #0d4fae;
+        .btn-success {
+            background: #16834b;
+            color: #fff;
         }
 
         .btn-danger {
             background: #dc3545;
-            color: white;
+            color: #fff;
         }
 
-        .btn-secondary {
-            background: #e8eef7;
-            color: #25344d;
+        .btn-warning {
+            background: #f0a400;
+            color: #fff;
         }
 
-        .btn-success {
-            background: #198754;
-            color: white;
+        .btn-light {
+            background: #eef2f7;
+            color: #243047;
+        }
+
+        .btn-block {
+            width: 100%;
         }
 
         .message {
-            padding: 12px 14px;
-            border-radius: 10px;
-            margin-bottom: 15px;
+            margin-top: 14px;
+            padding: 11px 13px;
+            border-radius: 9px;
+            display: none;
             font-size: 14px;
+            font-weight: 600;
         }
 
         .message.error {
-            background: #fde8ea;
-            color: #a61b29;
+            display: block;
+            background: #ffe8eb;
+            color: #a51d2d;
         }
 
         .message.success {
-            background: #e7f7ed;
-            color: #126b37;
+            display: block;
+            background: #e5f7ed;
+            color: #12643b;
         }
 
-        .dashboard {
+        /* =========================
+           APP
+        ========================= */
+
+        .app {
+            display: none;
             min-height: 100vh;
-            display: flex;
         }
 
         .sidebar {
-            width: 250px;
-            background: #0b1f3a;
-            color: white;
-            min-height: 100vh;
             position: fixed;
             left: 0;
             top: 0;
             bottom: 0;
-            padding: 22px 15px;
+            width: 250px;
+            background: #0b2f6b;
+            color: #fff;
+            padding: 20px 15px;
+            z-index: 1000;
             overflow-y: auto;
         }
 
-        .sidebar-brand {
-            text-align: center;
-            padding-bottom: 22px;
-            border-bottom: 1px solid rgba(255,255,255,.1);
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding: 8px 10px 25px;
+            border-bottom: 1px solid rgba(255,255,255,.12);
+            margin-bottom: 18px;
         }
 
-        .sidebar-brand .logo {
-            width: 50px;
-            height: 50px;
+        .brand-mark {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            background: linear-gradient(135deg,#1261d8,#4e8ff0);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
             font-size: 19px;
         }
 
-        .sidebar-brand h2 {
-            font-size: 17px;
-            margin-top: 10px;
+        .brand strong {
+            display: block;
+            font-size: 16px;
         }
 
-        .sidebar-brand small {
-            color: #aebbd0;
-        }
-
-        .nav-menu {
-            margin-top: 20px;
+        .brand small {
+            opacity: .75;
+            font-size: 11px;
         }
 
         .nav-item {
             width: 100%;
+            border: 0;
             background: transparent;
-            color: #dce5f3;
+            color: rgba(255,255,255,.82);
+            padding: 12px 13px;
+            border-radius: 10px;
             text-align: left;
             margin-bottom: 5px;
-            padding: 12px 14px;
-            border-radius: 9px;
+            font-weight: 600;
         }
 
         .nav-item:hover,
         .nav-item.active {
-            background: #1261d8;
-            color: white;
+            background: rgba(255,255,255,.13);
+            color: #fff;
         }
 
-        .sidebar-bottom {
-            margin-top: 25px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(255,255,255,.1);
+        .sidebar-footer {
+            margin-top: 30px;
+            padding: 14px 10px;
+            border-top: 1px solid rgba(255,255,255,.12);
+            font-size: 12px;
+            color: rgba(255,255,255,.7);
         }
 
         .main {
             margin-left: 250px;
-            width: calc(100% - 250px);
             min-height: 100vh;
         }
 
         .topbar {
-            background: white;
-            min-height: 72px;
+            height: 72px;
+            background: #fff;
+            border-bottom: 1px solid #e6eaf0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 15px 28px;
-            border-bottom: 1px solid #e5eaf1;
+            padding: 0 28px;
             position: sticky;
             top: 0;
-            z-index: 20;
+            z-index: 900;
         }
 
-        .topbar h1 {
-            font-size: 22px;
+        .topbar h2 {
+            font-size: 21px;
         }
 
         .owner-badge {
-            background: #e8f0ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #e9f2ff;
             color: #1261d8;
-            padding: 8px 12px;
+            padding: 9px 13px;
             border-radius: 20px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .content {
             padding: 28px;
         }
 
-        .section {
+        .page {
             display: none;
         }
 
-        .section.active {
+        .page.active {
             display: block;
         }
 
@@ -275,167 +309,194 @@
             margin-bottom: 22px;
         }
 
-        .page-title h2 {
-            font-size: 25px;
+        .page-title h1 {
+            font-size: 28px;
             margin-bottom: 5px;
         }
 
         .page-title p {
-            color: #718096;
+            color: #738095;
         }
+
+        /* =========================
+           CARDS / STATS
+        ========================= */
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 18px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(4,1fr);
+            gap: 17px;
+            margin-bottom: 24px;
         }
 
         .stat-card {
-            background: white;
+            background: #fff;
+            border: 1px solid #e8ecf2;
             border-radius: 15px;
-            padding: 22px;
-            border: 1px solid #e5eaf1;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(30,50,80,.04);
         }
 
-        .stat-card .stat-label {
-            color: #718096;
+        .stat-card span {
+            display: block;
+            color: #788397;
             font-size: 13px;
-            margin-bottom: 8px;
+            margin-bottom: 9px;
+            font-weight: 600;
         }
 
-        .stat-card .stat-value {
+        .stat-card strong {
             font-size: 29px;
-            font-weight: 800;
-            color: #1261d8;
         }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 22px;
-            border: 1px solid #e5eaf1;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            margin-bottom: 17px;
-        }
-
-        .two-columns {
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .question-form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+        .card {
+            background: #fff;
+            border: 1px solid #e7ebf1;
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 20px;
         }
 
-        .question-form-grid .full {
-            grid-column: 1 / -1;
+        .card h3 {
+            margin-bottom: 16px;
+            font-size: 18px;
         }
 
-        .button-row {
+        .status-row {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+            border-bottom: 1px solid #edf0f5;
         }
 
-        .table-wrapper {
+        .status-row:last-child {
+            border-bottom: 0;
+        }
+
+        .status {
+            padding: 5px 9px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .status.on {
+            background: #e3f7eb;
+            color: #147640;
+        }
+
+        .status.off {
+            background: #ffe9ec;
+            color: #b42333;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrap {
             overflow-x: auto;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 700px;
+            min-width: 650px;
         }
 
         th,
         td {
-            padding: 13px 12px;
-            border-bottom: 1px solid #edf0f5;
             text-align: left;
-            vertical-align: top;
+            padding: 12px;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 14px;
         }
 
         th {
             background: #f7f9fc;
-            font-size: 13px;
-        }
-
-        td {
-            font-size: 14px;
-        }
-
-        .question-preview {
-            max-width: 350px;
-            line-height: 1.45;
-        }
-
-        .options-list {
-            font-size: 13px;
-            line-height: 1.7;
-        }
-
-        .correct-option {
-            font-weight: 800;
-            color: #198754;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 15px;
             font-size: 12px;
-            font-weight: 700;
+            text-transform: uppercase;
+            color: #667085;
         }
 
-        .badge-blue {
-            background: #e8f0ff;
+        .actions {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .actions .btn {
+            padding: 7px 10px;
+            font-size: 12px;
+        }
+
+        /* =========================
+           QUESTION FORM
+        ========================= */
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 9px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .question-number {
+            width: 36px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf2ff;
             color: #1261d8;
+            border-radius: 50%;
+            font-weight: 800;
         }
 
-        .badge-green {
-            background: #e7f7ed;
-            color: #198754;
-        }
-
-        .badge-red {
-            background: #fde8ea;
-            color: #dc3545;
-        }
+        /* =========================
+           TOGGLE
+        ========================= */
 
         .setting-row {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             gap: 20px;
-            padding: 15px 0;
-            border-bottom: 1px solid #edf0f5;
+            padding: 16px 0;
+            border-bottom: 1px solid #edf0f4;
         }
 
         .setting-row:last-child {
-            border-bottom: none;
+            border-bottom: 0;
         }
 
-        .setting-info h4 {
-            margin-bottom: 5px;
+        .setting-row h4 {
+            margin-bottom: 4px;
         }
 
-        .setting-info p {
-            color: #718096;
+        .setting-row p {
             font-size: 13px;
+            color: #758095;
         }
 
         .switch {
             position: relative;
-            width: 54px;
+            width: 52px;
             height: 29px;
-            flex: 0 0 auto;
+            flex-shrink: 0;
         }
 
         .switch input {
@@ -447,9 +508,8 @@
         .slider {
             position: absolute;
             inset: 0;
-            background: #cbd5e0;
-            border-radius: 30px;
-            cursor: pointer;
+            border-radius: 20px;
+            background: #cbd2dc;
             transition: .2s;
         }
 
@@ -460,8 +520,8 @@
             height: 21px;
             left: 4px;
             top: 4px;
-            background: white;
             border-radius: 50%;
+            background: #fff;
             transition: .2s;
         }
 
@@ -470,48 +530,135 @@
         }
 
         .switch input:checked + .slider:before {
-            transform: translateX(25px);
+            transform: translateX(23px);
         }
 
-        .certificate-box {
-            border: 2px solid #d9b24c;
-            padding: 35px;
+        /* =========================
+           CERTIFICATE
+        ========================= */
+
+        .certificate-preview {
+            background: #f7f8fa;
+            border-radius: 14px;
+            padding: 25px;
+            overflow: auto;
+        }
+
+        .certificate {
+            width: 100%;
+            max-width: 900px;
+            min-height: 620px;
+            margin: auto;
+            background: #fff;
+            border: 9px double #c9a227;
+            position: relative;
+            padding: 65px 60px;
             text-align: center;
-            background: #fffdf5;
+            overflow: hidden;
         }
 
-        .certificate-box h2 {
-            color: #9b7618;
-            font-size: 30px;
+        .certificate:before {
+            content: "";
+            position: absolute;
+            inset: 15px;
+            border: 1px solid #c9a227;
+            pointer-events: none;
         }
 
-        .empty-state {
-            padding: 35px;
-            text-align: center;
-            color: #718096;
+        .certificate h2 {
+            color: #123e82;
+            font-size: 33px;
+            margin-bottom: 12px;
         }
+
+        .certificate h3 {
+            font-size: 25px;
+            color: #c19a20;
+            margin: 18px 0;
+        }
+
+        .certificate .student-name {
+            font-size: 36px;
+            font-weight: 900;
+            color: #172033;
+            border-bottom: 2px solid #c9a227;
+            display: inline-block;
+            padding: 4px 30px 8px;
+            margin: 15px 0;
+        }
+
+        .certificate p {
+            line-height: 1.7;
+        }
+
+        .certificate-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin-top: 55px;
+        }
+
+        .signature {
+            flex: 1;
+            border-top: 1px solid #222;
+            padding-top: 8px;
+        }
+
+        /* =========================
+           ADS
+        ========================= */
+
+        .announcement-preview {
+            border: 1px dashed #cfd6e1;
+            background: #fafbfd;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 12px;
+        }
+
+        .announcement-item {
+            border: 1px solid #e5e9ef;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        .announcement-item strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .announcement-item small {
+            color: #778197;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
 
         .mobile-menu {
             display: none;
-            background: #1261d8;
-            color: white;
+            border: 0;
+            background: #eef3fa;
+            border-radius: 9px;
+            padding: 8px 11px;
         }
 
-        @media (max-width: 1050px) {
+        @media(max-width: 1000px) {
             .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2,1fr);
             }
 
-            .two-columns {
+            .grid-2 {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 800px) {
+        @media(max-width: 760px) {
             .sidebar {
                 transform: translateX(-100%);
                 transition: .25s;
-                z-index: 100;
             }
 
             .sidebar.open {
@@ -520,45 +667,95 @@
 
             .main {
                 margin-left: 0;
-                width: 100%;
             }
 
             .mobile-menu {
-                display: inline-block;
-            }
-
-            .question-form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .question-form-grid .full {
-                grid-column: auto;
-            }
-
-            .content {
-                padding: 18px;
+                display: block;
             }
 
             .topbar {
-                padding: 12px 16px;
+                padding: 0 15px;
+            }
+
+            .content {
+                padding: 18px 14px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 15px;
+            }
+
+            .stat-card strong {
+                font-size: 23px;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .certificate {
+                min-width: 700px;
+            }
+
+            .certificate-preview {
+                overflow-x: auto;
             }
         }
 
-        @media (max-width: 550px) {
+        @media(max-width: 480px) {
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .owner-badge {
+                display: none;
+            }
+
+            .page-title h1 {
+                font-size: 23px;
             }
 
             .login-card {
                 padding: 25px 20px;
             }
+        }
 
-            .topbar h1 {
-                font-size: 18px;
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+            body * {
+                visibility: hidden;
             }
 
-            .owner-badge {
-                display: none;
+            #certificatePrintArea,
+            #certificatePrintArea * {
+                visibility: visible;
+            }
+
+            #certificatePrintArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+
+            .certificate {
+                width: 100%;
+                max-width: none;
+                min-height: 700px;
+                border: 9px double #c9a227;
+            }
+
+            @page {
+                size: A4 landscape;
+                margin: 0;
             }
         }
     </style>
@@ -566,24 +763,22 @@
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+<!-- =========================
+     LOGIN
+========================= -->
 
-<div id="loginScreen" class="login-screen">
-
+<section id="loginScreen" class="login-screen">
     <div class="login-card">
 
-        <div class="brand">
-            <div class="logo">LS</div>
-            <h1>Life Skills Rwanda</h1>
-            <p>Admin Dashboard</p>
-        </div>
+        <div class="login-logo">LS</div>
 
-        <div id="loginMessage"></div>
+        <h1>Owner Dashboard</h1>
+        <p>Life Skills Rwanda • Secure Owner Access</p>
 
         <form id="loginForm">
 
             <div class="form-group">
-                <label for="loginEmail">Email</label>
+                <label>Email</label>
                 <input
                     type="email"
                     id="loginEmail"
@@ -593,7 +788,7 @@
             </div>
 
             <div class="form-group">
-                <label for="loginPassword">Password</label>
+                <label>Password</label>
                 <input
                     type="password"
                     id="loginPassword"
@@ -602,76 +797,72 @@
                 >
             </div>
 
-            <button
-                type="submit"
-                class="btn-primary"
-                style="width:100%;"
-            >
-                Login
+            <button class="btn btn-primary btn-block" type="submit">
+                Login as Owner
             </button>
 
         </form>
 
+        <div id="loginMessage" class="message"></div>
+
     </div>
+</section>
 
-</div>
 
+<!-- =========================
+     APP
+========================= -->
 
-<!-- ================= DASHBOARD ================= -->
-
-<div id="dashboard" class="dashboard hidden">
+<div id="app" class="app">
 
     <!-- SIDEBAR -->
 
     <aside id="sidebar" class="sidebar">
 
-        <div class="sidebar-brand">
-            <div class="logo">LS</div>
-            <h2>Life Skills Rwanda</h2>
-            <small>Admin Panel</small>
+        <div class="brand">
+            <div class="brand-mark">LS</div>
+
+            <div>
+                <strong>Life Skills Rwanda</strong>
+                <small>Owner Dashboard</small>
+            </div>
         </div>
 
-        <div class="nav-menu">
+        <button class="nav-item active" data-page="overview">
+            📊 Overview
+        </button>
 
-            <button class="nav-item active" data-section="overview">
-                📊 Overview
-            </button>
+        <button class="nav-item" data-page="questions">
+            📝 Questions
+        </button>
 
-            <button class="nav-item" data-section="questions">
-                ❓ Questions
-            </button>
+        <button class="nav-item" data-page="settings">
+            ⚙️ Quiz Settings
+        </button>
 
-            <button class="nav-item" data-section="settings">
-                ⚙️ Quiz Settings
-            </button>
+        <button class="nav-item" data-page="students">
+            👨‍🎓 Students
+        </button>
 
-            <button class="nav-item" data-section="students">
-                👨‍🎓 Students
-            </button>
+        <button class="nav-item" data-page="leaderboard">
+            🏆 Leaderboard
+        </button>
 
-            <button class="nav-item" data-section="leaderboard">
-                🏆 Leaderboard
-            </button>
+        <button class="nav-item" data-page="certificates">
+            📜 Certificates
+        </button>
 
-            <button class="nav-item" data-section="certificates">
-                📜 Certificates
-            </button>
+        <button class="nav-item" data-page="announcements">
+            📢 Ads / Announcements
+        </button>
 
-            <button class="nav-item" data-section="admins">
-                👑 Admins
-            </button>
+        <button class="nav-item" onclick="logout()">
+            🚪 Logout
+        </button>
 
-        </div>
-
-        <div class="sidebar-bottom">
-
-            <button
-                id="logoutBtn"
-                class="nav-item"
-            >
-                🚪 Logout
-            </button>
-
+        <div class="sidebar-footer">
+            <strong>Owner only</strong><br>
+            You have full platform management access.
         </div>
 
     </aside>
@@ -684,101 +875,85 @@
         <header class="topbar">
 
             <div style="display:flex;align-items:center;gap:12px;">
-
                 <button
-                    id="mobileMenuBtn"
                     class="mobile-menu"
                     onclick="toggleSidebar()"
                 >
                     ☰
                 </button>
 
-                <h1 id="topbarTitle">Overview</h1>
-
+                <h2 id="topTitle">Overview</h2>
             </div>
 
-            <span class="owner-badge">
-                Owner / Admin
-            </span>
+            <div class="owner-badge">
+                🛡️ Owner
+            </div>
 
         </header>
 
 
         <div class="content">
 
-            <div id="globalMessage"></div>
 
+            <!-- =========================
+                 OVERVIEW
+            ========================= -->
 
-            <!-- ================= OVERVIEW ================= -->
-
-            <section id="overview" class="section active">
+            <section id="page-overview" class="page active">
 
                 <div class="page-title">
-                    <h2>Dashboard Overview</h2>
-                    <p>Manage Life Skills Rwanda from here.</p>
+                    <h1>Owner Overview</h1>
+                    <p>Manage Life Skills Rwanda from one secure dashboard.</p>
                 </div>
 
                 <div class="stats-grid">
 
                     <div class="stat-card">
-                        <div class="stat-label">Students</div>
-                        <div id="statStudents" class="stat-value">0</div>
+                        <span>Total Students</span>
+                        <strong id="statStudents">0</strong>
                     </div>
 
                     <div class="stat-card">
-                        <div class="stat-label">Questions</div>
-                        <div id="statQuestions" class="stat-value">0</div>
+                        <span>Total Questions</span>
+                        <strong id="statQuestions">0</strong>
                     </div>
 
                     <div class="stat-card">
-                        <div class="stat-label">Leaderboard</div>
-                        <div id="statLeaderboard" class="stat-value">0</div>
+                        <span>Leaderboard Entries</span>
+                        <strong id="statLeaderboard">0</strong>
                     </div>
 
                     <div class="stat-card">
-                        <div class="stat-label">Quiz Fee</div>
-                        <div id="statFee" class="stat-value">0</div>
+                        <span>Quiz Fee</span>
+                        <strong id="statFee">0 RWF</strong>
                     </div>
 
                 </div>
 
 
-                <div class="two-columns">
+                <div class="grid-2">
 
                     <div class="card">
 
                         <h3>Platform Status</h3>
 
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-                                <h4>Quiz</h4>
-                                <p>Whether students can access the quiz.</p>
-                            </div>
-
-                            <span
-                                id="overviewQuizStatus"
-                                class="badge badge-red"
-                            >
+                        <div class="status-row">
+                            <span>Quiz</span>
+                            <span id="overviewQuizStatus" class="status off">
                                 Disabled
                             </span>
-
                         </div>
 
-                        <div class="setting-row">
-
-                            <div class="setting-info">
-                                <h4>Payment</h4>
-                                <p>Whether payment is required before quiz.</p>
-                            </div>
-
-                            <span
-                                id="overviewPaymentStatus"
-                                class="badge badge-red"
-                            >
-                                Required
+                        <div class="status-row">
+                            <span>Payment</span>
+                            <span id="overviewPaymentStatus" class="status off">
+                                Not Required
                             </span>
+                        </div>
 
+                        <div class="status-row">
+                            <span>Payment Method</span>
+                            <strong>MTN MoMo</strong>
                         </div>
 
                     </div>
@@ -786,31 +961,18 @@
 
                     <div class="card">
 
-                        <h3>Quick Actions</h3>
+                        <h3>Owner Account</h3>
 
-                        <div class="button-row">
+                        <div class="status-row">
+                            <span>Access</span>
+                            <span class="status on">
+                                Owner
+                            </span>
+                        </div>
 
-                            <button
-                                class="btn-primary"
-                                onclick="showSection('questions')"
-                            >
-                                Add Question
-                            </button>
-
-                            <button
-                                class="btn-secondary"
-                                onclick="showSection('settings')"
-                            >
-                                Quiz Settings
-                            </button>
-
-                            <button
-                                class="btn-secondary"
-                                onclick="showSection('students')"
-                            >
-                                Students
-                            </button>
-
+                        <div class="status-row">
+                            <span>Email</span>
+                            <strong id="ownerEmail">-</strong>
                         </div>
 
                     </div>
@@ -820,18 +982,15 @@
             </section>
 
 
-            <!-- ================= QUESTIONS ================= -->
+            <!-- =========================
+                 QUESTIONS
+            ========================= -->
 
-            <section id="questions" class="section">
+            <section id="page-questions" class="page">
 
                 <div class="page-title">
-
-                    <h2>Quiz Questions</h2>
-
-                    <p>
-                        Add, edit and delete Life Skills Rwanda questions.
-                    </p>
-
+                    <h1>Quiz Questions</h1>
+                    <p>Add, edit and delete Life Skills questions.</p>
                 </div>
 
 
@@ -841,113 +1000,55 @@
                         Add New Question
                     </h3>
 
-                    <div id="questionMessage"></div>
+                    <input type="hidden" id="editingQuestionId">
 
-                    <input
-                        type="hidden"
-                        id="editingQuestionId"
-                    >
+                    <div class="form-group">
+                        <label>Question</label>
+
+                        <textarea
+                            id="questionText"
+                            placeholder="Write the question..."
+                        ></textarea>
+                    </div>
 
 
-                    <div class="question-form-grid">
+                    <div class="options-grid">
 
-                        <div class="form-group full">
-
-                            <label for="questionText">
-                                Question
-                            </label>
-
-                            <textarea
-                                id="questionText"
-                                placeholder="Write the question..."
-                            ></textarea>
-
+                        <div class="form-group">
+                            <label>Option A</label>
+                            <input id="optionA" type="text">
                         </div>
 
+                        <div class="form-group">
+                            <label>Option B</label>
+                            <input id="optionB" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Option C</label>
+                            <input id="optionC" type="text">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Option D</label>
+                            <input id="optionD" type="text">
+                        </div>
+
+                    </div>
+
+
+                    <div class="grid-2">
 
                         <div class="form-group">
 
-                            <label for="optionA">
-                                Option A
-                            </label>
-
-                            <input
-                                type="text"
-                                id="optionA"
-                                placeholder="Option A"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="optionB">
-                                Option B
-                            </label>
-
-                            <input
-                                type="text"
-                                id="optionB"
-                                placeholder="Option B"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="optionC">
-                                Option C
-                            </label>
-
-                            <input
-                                type="text"
-                                id="optionC"
-                                placeholder="Option C"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="optionD">
-                                Option D
-                            </label>
-
-                            <input
-                                type="text"
-                                id="optionD"
-                                placeholder="Option D"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="correctAnswer">
-                                Correct Answer
-                            </label>
+                            <label>Correct Answer</label>
 
                             <select id="correctAnswer">
 
-                                <option value="0">
-                                    A
-                                </option>
-
-                                <option value="1">
-                                    B
-                                </option>
-
-                                <option value="2">
-                                    C
-                                </option>
-
-                                <option value="3">
-                                    D
-                                </option>
+                                <option value="0">A</option>
+                                <option value="1">B</option>
+                                <option value="2">C</option>
+                                <option value="3">D</option>
 
                             </select>
 
@@ -956,122 +1057,67 @@
 
                         <div class="form-group">
 
-                            <label for="questionCategory">
-                                Category
-                            </label>
+                            <label>Category</label>
 
-                            <select id="questionCategory">
-
-                                <option value="Life Skills">
-                                    Life Skills
-                                </option>
-
-                                <option value="Money">
-                                    Money
-                                </option>
-
-                                <option value="Communication">
-                                    Communication
-                                </option>
-
-                                <option value="Digital Skills">
-                                    Digital Skills
-                                </option>
-
-                                <option value="Health">
-                                    Health
-                                </option>
-
-                                <option value="Environment">
-                                    Environment
-                                </option>
-
-                            </select>
+                            <input
+                                id="questionCategory"
+                                type="text"
+                                value="Life Skills"
+                                placeholder="Life Skills"
+                            >
 
                         </div>
 
                     </div>
 
 
-                    <div class="button-row">
+                    <div class="form-actions">
 
                         <button
-                            id="saveQuestionBtn"
-                            class="btn-primary"
+                            class="btn btn-primary"
                             onclick="saveQuestion()"
                         >
                             Save Question
                         </button>
 
                         <button
-                            id="cancelEditBtn"
-                            class="btn-secondary hidden"
-                            onclick="cancelEdit()"
+                            class="btn btn-light"
+                            onclick="clearQuestionForm()"
                         >
-                            Cancel Edit
+                            Clear
                         </button>
 
                     </div>
+
+                    <div id="questionMessage" class="message"></div>
 
                 </div>
 
 
                 <div class="card">
 
-                    <div style="
-                        display:flex;
-                        justify-content:space-between;
-                        align-items:center;
-                        gap:10px;
-                        margin-bottom:15px;
-                    ">
+                    <h3>Existing Questions</h3>
 
-                        <h3>Existing Questions</h3>
-
-                        <button
-                            class="btn-secondary"
-                            onclick="loadQuestions()"
-                        >
-                            Refresh
-                        </button>
-
-                    </div>
-
-
-                    <div class="table-wrapper">
+                    <div class="table-wrap">
 
                         <table>
 
                             <thead>
-
                                 <tr>
-
                                     <th>#</th>
-
                                     <th>Question</th>
-
-                                    <th>Options</th>
-
-                                    <th>Correct</th>
-
                                     <th>Category</th>
-
+                                    <th>Correct</th>
                                     <th>Actions</th>
-
                                 </tr>
-
                             </thead>
 
                             <tbody id="questionsTable">
-
                                 <tr>
-                                    <td colspan="6">
-                                        <div class="empty-state">
-                                            Loading questions...
-                                        </div>
+                                    <td colspan="5">
+                                        Loading...
                                     </td>
                                 </tr>
-
                             </tbody>
 
                         </table>
@@ -1083,47 +1129,33 @@
             </section>
 
 
-            <!-- ================= SETTINGS ================= -->
+            <!-- =========================
+                 SETTINGS
+            ========================= -->
 
-            <section id="settings" class="section">
+            <section id="page-settings" class="page">
 
                 <div class="page-title">
-
-                    <h2>Quiz Settings</h2>
-
-                    <p>
-                        Control quiz access and payment settings.
-                    </p>
-
+                    <h1>Quiz & Payment Settings</h1>
+                    <p>Owner controls whether the competition and payment are active.</p>
                 </div>
 
 
                 <div class="card">
 
-                    <div id="settingsMessage"></div>
-
-
                     <div class="setting-row">
 
-                        <div class="setting-info">
-
+                        <div>
                             <h4>Enable Quiz</h4>
-
-                            <p>
-                                Students can access the quiz when this is enabled.
-                            </p>
-
+                            <p>Students can access the competition when enabled.</p>
                         </div>
 
                         <label class="switch">
-
                             <input
                                 type="checkbox"
                                 id="quizEnabled"
                             >
-
                             <span class="slider"></span>
-
                         </label>
 
                     </div>
@@ -1131,35 +1163,26 @@
 
                     <div class="setting-row">
 
-                        <div class="setting-info">
-
+                        <div>
                             <h4>Require Payment</h4>
-
                             <p>
-                                Students must pay before starting the quiz.
+                                Students must complete the required payment before starting.
                             </p>
-
                         </div>
 
                         <label class="switch">
-
                             <input
                                 type="checkbox"
                                 id="paymentRequired"
                             >
-
                             <span class="slider"></span>
-
                         </label>
 
                     </div>
 
 
                     <div class="form-group" style="margin-top:20px;">
-
-                        <label for="quizFee">
-                            Quiz Fee (RWF)
-                        </label>
+                        <label>Quiz Fee (RWF)</label>
 
                         <input
                             type="number"
@@ -1168,113 +1191,81 @@
                             step="1"
                             placeholder="2000"
                         >
-
                     </div>
 
 
                     <div class="form-group">
-
-                        <label for="mtnPaymentNumber">
-                            MTN MoMo Payment Number
-                        </label>
+                        <label>MTN MoMo Payment Number</label>
 
                         <input
                             type="text"
                             id="mtnPaymentNumber"
                             placeholder="07XXXXXXXX"
                         >
-
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="card" style="background:#fff8e5;border-color:#f1df9d;">
 
-                        <label for="airtelPaymentNumber">
-                            Airtel Money Number
-                        </label>
+                        <strong>Important</strong>
 
-                        <input
-                            type="text"
-                            id="airtelPaymentNumber"
-                            placeholder="07XXXXXXXX"
-                        >
+                        <p style="margin-top:7px;color:#6c5a25;font-size:14px;">
+                            This dashboard controls the payment requirement and
+                            displays the MTN MoMo number. Real MTN MoMo transaction
+                            verification must be performed securely on the backend.
+                        </p>
 
                     </div>
 
 
                     <button
-                        class="btn-primary"
+                        class="btn btn-primary"
                         onclick="saveSettings()"
                     >
                         Save Settings
                     </button>
 
+                    <div id="settingsMessage" class="message"></div>
+
                 </div>
 
             </section>
 
 
-            <!-- ================= STUDENTS ================= -->
+            <!-- =========================
+                 STUDENTS
+            ========================= -->
 
-            <section id="students" class="section">
+            <section id="page-students" class="page">
 
                 <div class="page-title">
-
-                    <h2>Students</h2>
-
-                    <p>
-                        View registered Life Skills Rwanda students.
-                    </p>
-
+                    <h1>Students</h1>
+                    <p>View registered student accounts.</p>
                 </div>
 
 
                 <div class="card">
 
-                    <div class="button-row" style="margin-bottom:15px;">
-
-                        <button
-                            class="btn-secondary"
-                            onclick="loadStudents()"
-                        >
-                            Refresh Students
-                        </button>
-
-                    </div>
-
-
-                    <div class="table-wrapper">
+                    <div class="table-wrap">
 
                         <table>
 
                             <thead>
-
                                 <tr>
-
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Created</th>
-
                                 </tr>
-
                             </thead>
 
                             <tbody id="studentsTable">
-
                                 <tr>
-
                                     <td colspan="5">
-
-                                        <div class="empty-state">
-                                            Loading students...
-                                        </div>
-
+                                        Loading...
                                     </td>
-
                                 </tr>
-
                             </tbody>
 
                         </table>
@@ -1286,67 +1277,40 @@
             </section>
 
 
-            <!-- ================= LEADERBOARD ================= -->
+            <!-- =========================
+                 LEADERBOARD
+            ========================= -->
 
-            <section id="leaderboard" class="section">
+            <section id="page-leaderboard" class="page">
 
                 <div class="page-title">
-
-                    <h2>Leaderboard</h2>
-
-                    <p>
-                        View current competition rankings.
-                    </p>
-
+                    <h1>Monthly Leaderboard</h1>
+                    <p>View competition rankings and monthly results.</p>
                 </div>
 
 
                 <div class="card">
 
-                    <div class="button-row" style="margin-bottom:15px;">
-
-                        <button
-                            class="btn-secondary"
-                            onclick="loadLeaderboard()"
-                        >
-                            Refresh Leaderboard
-                        </button>
-
-                    </div>
-
-
-                    <div class="table-wrapper">
+                    <div class="table-wrap">
 
                         <table>
 
                             <thead>
-
                                 <tr>
-
                                     <th>Rank</th>
                                     <th>Student</th>
                                     <th>Score</th>
                                     <th>Attempts</th>
                                     <th>Date</th>
-
                                 </tr>
-
                             </thead>
 
                             <tbody id="leaderboardTable">
-
                                 <tr>
-
                                     <td colspan="5">
-
-                                        <div class="empty-state">
-                                            Loading leaderboard...
-                                        </div>
-
+                                        Loading...
                                     </td>
-
                                 </tr>
-
                             </tbody>
 
                         </table>
@@ -1358,139 +1322,154 @@
             </section>
 
 
-            <!-- ================= CERTIFICATES ================= -->
+            <!-- =========================
+                 CERTIFICATES
+            ========================= -->
 
-            <section id="certificates" class="section">
+            <section id="page-certificates" class="page">
 
                 <div class="page-title">
+                    <h1>Certificates</h1>
+                    <p>Create and print a professional A4 winner certificate.</p>
+                </div>
 
-                    <h2>Certificates</h2>
 
-                    <p>
-                        Manage winner certificate information.
-                    </p>
+                <div class="card">
+
+                    <div class="grid-2">
+
+                        <div>
+
+                            <div class="form-group">
+                                <label>Winner Name</label>
+
+                                <input
+                                    id="winnerName"
+                                    type="text"
+                                    placeholder="Enter winner name"
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Director / Leader Name</label>
+
+                                <input
+                                    id="directorName"
+                                    type="text"
+                                    value="TUYISENGE Patrick"
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Certificate Date</label>
+
+                                <input
+                                    id="certificateDate"
+                                    type="date"
+                                >
+                            </div>
+
+
+                            <div class="form-actions">
+
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="previewCertificate()"
+                                >
+                                    Preview Certificate
+                                </button>
+
+                                <button
+                                    class="btn btn-success"
+                                    onclick="printCertificate()"
+                                >
+                                    Print A4
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
 
                 <div class="card">
 
-                    <div id="certificateMessage"></div>
+                    <h3>Certificate Preview</h3>
 
-                    <div class="form-group">
-
-                        <label for="certificateWinner">
-                            Winner Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="certificateWinner"
-                            placeholder="Winner name"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="certificateDirector">
-                            Director / Leader Name
-                        </label>
-
-                        <input
-                            type="text"
-                            id="certificateDirector"
-                            value="TUYISENGE Patrick"
-                        >
-
-                    </div>
-
-
-                    <button
-                        class="btn-primary"
-                        onclick="previewCertificate()"
+                    <div
+                        id="certificatePrintArea"
+                        class="certificate-preview"
                     >
-                        Preview Certificate
-                    </button>
 
-                </div>
+                        <div class="certificate">
 
+                            <div style="position:relative;z-index:2;">
 
-                <div
-                    id="certificatePreview"
-                    class="card hidden"
-                >
-
-                    <div class="certificate-box">
-
-                        <p style="
-                            letter-spacing:3px;
-                            font-weight:700;
-                            margin-bottom:15px;
-                        ">
-                            LIFE SKILLS RWANDA
-                        </p>
-
-                        <h2>
-                            CERTIFICATE OF ACHIEVEMENT
-                        </h2>
-
-                        <p style="margin:25px 0 10px;">
-                            This certificate is proudly presented to
-                        </p>
-
-                        <h1
-                            id="certificatePreviewName"
-                            style="
-                                font-size:35px;
-                                color:#1261d8;
-                                margin-bottom:15px;
-                            "
-                        >
-                            Winner Name
-                        </h1>
-
-                        <p>
-                            for outstanding achievement in the
-                            Life Skills Rwanda competition.
-                        </p>
-
-                        <div style="
-                            margin-top:40px;
-                            display:flex;
-                            justify-content:space-between;
-                            gap:30px;
-                            text-align:center;
-                        ">
-
-                            <div style="flex:1;">
-
-                                <div style="
-                                    border-top:1px solid #777;
-                                    padding-top:8px;
-                                ">
-                                    Date
+                                <div
+                                    style="
+                                    font-size:15px;
+                                    font-weight:800;
+                                    letter-spacing:2px;
+                                    color:#1261d8;
+                                    "
+                                >
+                                    LIFE SKILLS RWANDA
                                 </div>
 
-                            </div>
+                                <h2>
+                                    CERTIFICATE OF ACHIEVEMENT
+                                </h2>
 
-                            <div style="flex:1;">
+                                <p>
+                                    This certificate is proudly presented to
+                                </p>
 
-                                <div style="
-                                    border-top:1px solid #777;
-                                    padding-top:8px;
-                                ">
+                                <div
+                                    id="certificateStudentName"
+                                    class="student-name"
+                                >
+                                    Winner Name
+                                </div>
 
-                                    <strong
-                                        id="certificatePreviewDirector"
-                                    >
-                                        TUYISENGE Patrick
+                                <p>
+                                    in recognition of outstanding achievement
+                                    in the Life Skills Rwanda Competition.
+                                </p>
+
+                                <h3>
+                                    MONTHLY COMPETITION WINNER
+                                </h3>
+
+                                <p>
+                                    Date:
+                                    <strong id="certificateDatePreview">
+                                        -
                                     </strong>
+                                </p>
 
-                                    <br>
 
-                                    Director
+                                <div class="certificate-footer">
+
+                                    <div class="signature">
+                                        <strong id="certificateDirectorPreview">
+                                            TUYISENGE Patrick
+                                        </strong>
+                                        <br>
+                                        Director / Leader
+                                    </div>
+
+                                    <div class="signature">
+                                        <strong>
+                                            Life Skills Rwanda
+                                        </strong>
+                                        <br>
+                                        Official Platform
+                                    </div>
 
                                 </div>
 
@@ -1500,78 +1479,108 @@
 
                     </div>
 
-                    <div
-                        class="button-row"
-                        style="margin-top:15px;"
-                    >
-
-                        <button
-                            class="btn-primary"
-                            onclick="window.print()"
-                        >
-                            Print Certificate
-                        </button>
-
-                    </div>
-
                 </div>
 
             </section>
 
 
-            <!-- ================= ADMINS ================= -->
+            <!-- =========================
+                 ADS / ANNOUNCEMENTS
+            ========================= -->
 
-            <section id="admins" class="section">
+            <section id="page-announcements" class="page">
 
                 <div class="page-title">
+                    <h1>Ads & Announcements</h1>
+                    <p>Manage messages shown to students on the platform.</p>
+                </div>
 
-                    <h2>Admins / Owners</h2>
 
-                    <p>
-                        View users who have Owner access.
-                    </p>
+                <div class="card">
+
+                    <h3>Create Announcement</h3>
+
+                    <div class="form-group">
+                        <label>Title</label>
+
+                        <input
+                            id="announcementTitle"
+                            type="text"
+                            placeholder="Example: Monthly Competition"
+                        >
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Message</label>
+
+                        <textarea
+                            id="announcementMessage"
+                            placeholder="Write announcement..."
+                        ></textarea>
+                    </div>
+
+
+                    <div class="grid-2">
+
+                        <div class="form-group">
+
+                            <label>Position</label>
+
+                            <select id="announcementPosition">
+
+                                <option value="top">
+                                    Top of website
+                                </option>
+
+                                <option value="bottom">
+                                    Bottom of website
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Status</label>
+
+                            <select id="announcementActive">
+
+                                <option value="true">
+                                    Active
+                                </option>
+
+                                <option value="false">
+                                    Inactive
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        class="btn btn-primary"
+                        onclick="saveAnnouncement()"
+                    >
+                        Save Announcement
+                    </button>
+
+                    <div id="announcementFormMessage" class="message"></div>
 
                 </div>
 
 
                 <div class="card">
 
-                    <div class="table-wrapper">
+                    <h3>Current Announcements</h3>
 
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-
-                                </tr>
-
-                            </thead>
-
-                            <tbody id="adminsTable">
-
-                                <tr>
-
-                                    <td colspan="5">
-
-                                        <div class="empty-state">
-                                            Loading admins...
-                                        </div>
-
-                                    </td>
-
-                                </tr>
-
-                            </tbody>
-
-                        </table>
-
+                    <div id="announcementsList">
+                        Loading...
                     </div>
 
                 </div>
@@ -1587,663 +1596,447 @@
 
 <script>
 
-/* =========================================================
-   SUPABASE CONFIGURATION
-========================================================= */
+    /* =====================================================
+       SUPABASE
+    ===================================================== */
 
-const SUPABASE_URL =
-    "https://wplqgmakucweidurbbjz.supabase.co";
+    const SUPABASE_URL =
+        "https://wplqgmakucweidurbbjz.supabase.co";
 
-const SUPABASE_ANON_KEY =
-    "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
+    const SUPABASE_KEY =
+        "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_ANON_KEY
-    );
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function $(id) {
-    return document.getElementById(id);
-}
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
 
-function escapeHtml(value) {
+    let currentUser = null;
+    let currentProfile = null;
 
-    if (value === null || value === undefined) {
-        return "";
+
+    /* =====================================================
+       HELPERS
+    ===================================================== */
+
+    function showMessage(id, message, type = "success") {
+
+        const element = document.getElementById(id);
+
+        if (!element) return;
+
+        element.textContent = message;
+        element.className = "message " + type;
+
+        setTimeout(() => {
+            element.className = "message";
+        }, 5000);
     }
 
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-}
 
+    function formatDate(date) {
 
-function showMessage(elementId, message, type = "error") {
+        if (!date) return "-";
 
-    const el = $(elementId);
-
-    if (!el) {
-        return;
-    }
-
-    el.innerHTML = `
-        <div class="message ${type}">
-            ${escapeHtml(message)}
-        </div>
-    `;
-
-    setTimeout(() => {
-
-        if (el) {
-            el.innerHTML = "";
-        }
-
-    }, 5000);
-}
-
-
-function formatDate(date) {
-
-    if (!date) {
-        return "-";
-    }
-
-    try {
-
-        return new Date(date).toLocaleString(
-            "en-RW",
+        return new Date(date).toLocaleDateString(
+            "en-GB",
             {
-                dateStyle: "medium",
-                timeStyle: "short"
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric"
             }
         );
-
-    } catch (error) {
-
-        return date;
     }
-}
 
 
-/* =========================================================
-   AUTHENTICATION
-========================================================= */
+    function escapeHtml(value) {
 
-async function checkSession() {
+        return String(value ?? "")
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
 
-    try {
 
-        const {
-            data,
-            error
-        } = await supabaseClient.auth.getSession();
+    /* =====================================================
+       LOGIN
+    ===================================================== */
+
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", async function(e) {
+
+            e.preventDefault();
+
+            const email =
+                document.getElementById("loginEmail").value.trim();
+
+            const password =
+                document.getElementById("loginPassword").value;
+
+            try {
+
+                const { data, error } =
+                    await supabaseClient.auth.signInWithPassword({
+                        email,
+                        password
+                    });
+
+                if (error) throw error;
+
+                currentUser = data.user;
+
+                const ownerOK = await verifyOwner();
+
+                if (!ownerOK) {
+
+                    await supabaseClient.auth.signOut();
+
+                    showMessage(
+                        "loginMessage",
+                        "Iyi account ntabwo ifite Owner access.",
+                        "error"
+                    );
+
+                    return;
+                }
+
+                openDashboard();
+
+            } catch(error) {
+
+                showMessage(
+                    "loginMessage",
+                    error.message || "Login failed.",
+                    "error"
+                );
+            }
+
+        });
+
+
+    /* =====================================================
+       VERIFY OWNER
+    ===================================================== */
+
+    async function verifyOwner() {
+
+        if (!currentUser) return false;
+
+        const { data, error } =
+            await supabaseClient
+                .from("profiles")
+                .select("*")
+                .eq("id", currentUser.id)
+                .maybeSingle();
 
         if (error) {
+
             console.error(error);
-            return;
+
+            return false;
         }
 
-        if (!data.session) {
-            showLogin();
-            return;
+        currentProfile = data;
+
+        if (!data || data.owner !== true) {
+
+            return false;
         }
 
-        await verifyOwner(
-            data.session.user
-        );
+        document.getElementById("ownerEmail").textContent =
+            data.email || currentUser.email || "-";
 
-    } catch (error) {
-
-        console.error(error);
-
-        showLogin();
-    }
-}
-
-
-async function verifyOwner(user) {
-
-    if (!user) {
-        showLogin();
-        return;
+        return true;
     }
 
-    try {
 
-        const {
-            data: profile,
-            error
-        } = await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .single();
+    /* =====================================================
+       OPEN DASHBOARD
+    ===================================================== */
 
-        if (error) {
+    function openDashboard() {
 
-            console.error(
-                "Profile error:",
-                error
-            );
+        document.getElementById("loginScreen").style.display = "none";
 
-            showLoginMessage(
-                "Ntabwo dushoboye kubona Owner profile yawe."
-            );
+        document.getElementById("app").style.display = "block";
 
-            return;
-        }
+        loadOverview();
 
-        if (!profile || profile.owner !== true) {
+    }
+
+
+    /* =====================================================
+       SESSION CHECK
+    ===================================================== */
+
+    async function checkSession() {
+
+        const { data } =
+            await supabaseClient.auth.getSession();
+
+        if (!data.session) return;
+
+        currentUser = data.session.user;
+
+        const ownerOK = await verifyOwner();
+
+        if (!ownerOK) {
 
             await supabaseClient.auth.signOut();
 
-            showLoginMessage(
-                "Iyi account ntabwo ifite Owner/Admin access."
-            );
-
             return;
         }
 
-        showDashboard();
-
-        await loadDashboardData();
-
-    } catch (error) {
-
-        console.error(error);
-
-        showLoginMessage(
-            "Habaye ikibazo mu kugenzura Owner access."
-        );
+        openDashboard();
     }
-}
 
 
-function showLogin() {
+    /* =====================================================
+       LOGOUT
+    ===================================================== */
 
-    $("loginScreen").classList.remove("hidden");
-
-    $("dashboard").classList.add("hidden");
-}
-
-
-function showDashboard() {
-
-    $("loginScreen").classList.add("hidden");
-
-    $("dashboard").classList.remove("hidden");
-}
-
-
-function showLoginMessage(message) {
-
-    $("loginMessage").innerHTML = `
-        <div class="message error">
-            ${escapeHtml(message)}
-        </div>
-    `;
-}
-
-
-$("loginForm").addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-        const email =
-            $("loginEmail").value.trim();
-
-        const password =
-            $("loginPassword").value;
-
-        $("loginMessage").innerHTML = `
-            <div class="message">
-                Logging in...
-            </div>
-        `;
-
-        try {
-
-            const {
-                data,
-                error
-            } = await supabaseClient.auth.signInWithPassword({
-                email,
-                password
-            });
-
-            if (error) {
-                throw error;
-            }
-
-            await verifyOwner(data.user);
-
-        } catch (error) {
-
-            console.error(error);
-
-            showLoginMessage(
-                error.message ||
-                "Login yanze."
-            );
-        }
-
-    }
-);
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-$("logoutBtn").addEventListener(
-    "click",
-    async function() {
+    async function logout() {
 
         await supabaseClient.auth.signOut();
 
-        showLogin();
-
+        location.reload();
     }
-);
 
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
-
-const navItems =
-    document.querySelectorAll(".nav-item[data-section]");
-
-
-navItems.forEach(item => {
-
-    item.addEventListener(
-        "click",
-        function() {
-
-            const section =
-                this.dataset.section;
-
-            showSection(section);
-
-            document
-                .querySelectorAll(".nav-item[data-section]")
-                .forEach(nav => {
-                    nav.classList.remove("active");
-                });
-
-            this.classList.add("active");
-
-            if (window.innerWidth <= 800) {
-                $("sidebar").classList.remove("open");
-            }
-
-        }
-    );
-
-});
-
-
-function showSection(sectionId) {
+    /* =====================================================
+       NAVIGATION
+    ===================================================== */
 
     document
-        .querySelectorAll(".section")
-        .forEach(section => {
-            section.classList.remove("active");
+        .querySelectorAll(".nav-item[data-page]")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const page =
+                    button.dataset.page;
+
+                showPage(page);
+
+            });
+
         });
 
-    const section = $(sectionId);
 
-    if (section) {
-        section.classList.add("active");
-    }
+    function showPage(page) {
 
-    const titles = {
-        overview: "Overview",
-        questions: "Questions",
-        settings: "Quiz Settings",
-        students: "Students",
-        leaderboard: "Leaderboard",
-        certificates: "Certificates",
-        admins: "Admins"
-    };
+        document
+            .querySelectorAll(".page")
+            .forEach(section => {
+                section.classList.remove("active");
+            });
 
-    $("topbarTitle").textContent =
-        titles[sectionId] || "Admin Dashboard";
+        const target =
+            document.getElementById("page-" + page);
 
-    document
-        .querySelectorAll(".nav-item[data-section]")
-        .forEach(nav => {
+        if (target) {
+            target.classList.add("active");
+        }
 
-            nav.classList.toggle(
-                "active",
-                nav.dataset.section === sectionId
+
+        document
+            .querySelectorAll(".nav-item")
+            .forEach(button => {
+                button.classList.remove("active");
+            });
+
+        const activeButton =
+            document.querySelector(
+                `.nav-item[data-page="${page}"]`
             );
 
-        });
-
-    if (sectionId === "questions") {
-        loadQuestions();
-    }
-
-    if (sectionId === "settings") {
-        loadSettings();
-    }
-
-    if (sectionId === "students") {
-        loadStudents();
-    }
-
-    if (sectionId === "leaderboard") {
-        loadLeaderboard();
-    }
-
-    if (sectionId === "admins") {
-        loadAdmins();
-    }
-
-}
-
-
-function toggleSidebar() {
-
-    $("sidebar").classList.toggle("open");
-}
-
-
-/* =========================================================
-   DASHBOARD DATA
-========================================================= */
-
-async function loadDashboardData() {
-
-    await Promise.all([
-        loadQuestionCount(),
-        loadStudentCount(),
-        loadLeaderboardCount(),
-        loadSettings()
-    ]);
-
-}
-
-
-async function loadQuestionCount() {
-
-    try {
-
-        const {
-            count,
-            error
-        } = await supabaseClient
-            .from("quiz_questions")
-            .select("*", {
-                count: "exact",
-                head: true
-            });
-
-        if (!error) {
-            $("statQuestions").textContent =
-                count || 0;
+        if (activeButton) {
+            activeButton.classList.add("active");
         }
 
-    } catch (error) {
 
-        console.error(error);
+        const titles = {
+            overview: "Overview",
+            questions: "Questions",
+            settings: "Quiz Settings",
+            students: "Students",
+            leaderboard: "Leaderboard",
+            certificates: "Certificates",
+            announcements: "Ads / Announcements"
+        };
+
+        document.getElementById("topTitle").textContent =
+            titles[page] || "Owner Dashboard";
+
+
+        document.getElementById("sidebar")
+            .classList.remove("open");
+
+
+        if (page === "overview") loadOverview();
+        if (page === "questions") loadQuestions();
+        if (page === "settings") loadSettings();
+        if (page === "students") loadStudents();
+        if (page === "leaderboard") loadLeaderboard();
+        if (page === "announcements") loadAnnouncements();
+
     }
-}
 
 
-async function loadStudentCount() {
+    function toggleSidebar() {
 
-    try {
+        document
+            .getElementById("sidebar")
+            .classList.toggle("open");
 
-        const {
-            count,
-            error
-        } = await supabaseClient
-            .from("profiles")
-            .select("*", {
-                count: "exact",
-                head: true
-            })
-            .eq("owner", false);
-
-        if (!error) {
-            $("statStudents").textContent =
-                count || 0;
-        }
-
-    } catch (error) {
-
-        console.error(error);
     }
-}
 
 
-async function loadLeaderboardCount() {
+    /* =====================================================
+       OVERVIEW
+    ===================================================== */
 
-    try {
+    async function loadOverview() {
 
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .rpc("get_leaderboard");
+        try {
 
-        if (!error) {
+            const students =
+                await supabaseClient
+                    .from("profiles")
+                    .select("id", { count: "exact" })
+                    .eq("owner", false);
 
-            $("statLeaderboard").textContent =
-                data?.length || 0;
+            document.getElementById("statStudents").textContent =
+                students.count || 0;
+
+
+            const questions =
+                await supabaseClient
+                    .from("quiz_questions")
+                    .select("id", { count: "exact" });
+
+            document.getElementById("statQuestions").textContent =
+                questions.count || 0;
+
+
+            const leaderboard =
+                await supabaseClient
+                    .from("quiz_results")
+                    .select("id", { count: "exact" });
+
+            document.getElementById("statLeaderboard").textContent =
+                leaderboard.count || 0;
+
+
+            await loadSettings(true);
+
+        } catch(error) {
+
+            console.error("Overview error:", error);
 
         }
 
-    } catch (error) {
-
-        console.error(error);
-
-        $("statLeaderboard").textContent = "0";
     }
-}
 
 
-/* =========================================================
-   QUESTIONS
-========================================================= */
+    /* =====================================================
+       QUESTIONS
+    ===================================================== */
 
-async function loadQuestions() {
+    async function loadQuestions() {
 
-    const tbody =
-        $("questionsTable");
+        const tbody =
+            document.getElementById("questionsTable");
 
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="6">
-                <div class="empty-state">
-                    Loading questions...
-                </div>
-            </td>
-        </tr>
-    `;
+        tbody.innerHTML =
+            `<tr><td colspan="5">Loading...</td></tr>`;
 
-    try {
 
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("quiz_questions")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
+        const { data, error } =
+            await supabaseClient
+                .from("quiz_questions")
+                .select("*")
+                .order("created_at", {
+                    ascending: false
+                });
+
 
         if (error) {
-            throw error;
-        }
 
-        if (!data || data.length === 0) {
-
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="6">
-                        <div class="empty-state">
-                            Nta bibazo birabikwa.
-                        </div>
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        ${escapeHtml(error.message)}
                     </td>
-                </tr>
-            `;
-
-            $("statQuestions").textContent = "0";
+                </tr>`;
 
             return;
         }
 
 
-        $("statQuestions").textContent =
-            data.length;
+        if (!data || data.length === 0) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        No questions yet.
+                    </td>
+                </tr>`;
+
+            return;
+        }
 
 
         tbody.innerHTML =
             data.map((question, index) => {
 
-                /*
-                 * Database ishobora kuba ifite
-                 * option_a/b/c/d cyangwa options JSON.
-                 */
-
-                let options = [];
-
-                if (
-                    question.option_a !== null &&
-                    question.option_a !== undefined
-                ) {
-                    options = [
-                        question.option_a || "",
-                        question.option_b || "",
-                        question.option_c || "",
-                        question.option_d || ""
-                    ];
-
-                } else if (
-                    Array.isArray(question.options)
-                ) {
-
-                    options = question.options;
-
-                }
-
-
-                const rawCorrect =
-                    String(
-                        question.correct_answer ?? "A"
-                    )
-                    .trim()
-                    .toUpperCase();
-
-
-                /*
-                 * Database ibika A/B/C/D.
-                 * UI ikoresha 0/1/2/3.
-                 */
-
                 const correct =
-                    ["A", "B", "C", "D"].includes(rawCorrect)
-                        ? rawCorrect.charCodeAt(0) - 65
-                        : Number(rawCorrect);
-
-
-                const optionLetters =
-                    ["A", "B", "C", "D"];
-
-
-                const optionsHtml =
-                    options.map(
-                        (option, optionIndex) => {
-
-                            const isCorrect =
-                                optionIndex === correct;
-
-                            return `
-                                <div class="${
-                                    isCorrect
-                                        ? "correct-option"
-                                        : ""
-                                }">
-                                    ${optionLetters[optionIndex]}.
-                                    ${escapeHtml(option)}
-                                    ${
-                                        isCorrect
-                                            ? " ✓"
-                                            : ""
-                                    }
-                                </div>
-                            `;
-
-                        }
-                    ).join("");
+                    String(
+                        question.correct_answer || "A"
+                    ).toUpperCase();
 
 
                 return `
                     <tr>
 
                         <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-                            <div class="question-preview">
-                                ${escapeHtml(
-                                    question.question
-                                )}
-                            </div>
-                        </td>
-
-                        <td>
-                            <div class="options-list">
-                                ${optionsHtml}
-                            </div>
-                        </td>
-
-                        <td>
-                            <span class="badge badge-green">
-                                ${optionLetters[correct] || "A"}
+                            <span class="question-number">
+                                ${index + 1}
                             </span>
                         </td>
 
                         <td>
-                            <span class="badge badge-blue">
-                                ${escapeHtml(
-                                    question.category ||
-                                    "Life Skills"
-                                )}
-                            </span>
+                            ${escapeHtml(question.question)}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                question.category || "Life Skills"
+                            )}
+                        </td>
+
+                        <td>
+                            <strong>${correct}</strong>
                         </td>
 
                         <td>
 
-                            <div class="button-row">
+                            <div class="actions">
 
                                 <button
-                                    class="btn-secondary"
-                                    onclick='editQuestion(${JSON.stringify(question).replace(/'/g, "&#39;")})'
+                                    class="btn btn-warning"
+                                    onclick='editQuestion(${JSON.stringify(question)})'
                                 >
                                     Edit
                                 </button>
 
                                 <button
-                                    class="btn-danger"
+                                    class="btn btn-danger"
                                     onclick="deleteQuestion('${question.id}')"
                                 >
                                     Delete
@@ -2258,1239 +2051,909 @@ async function loadQuestions() {
 
             }).join("");
 
-    } catch (error) {
-
-        console.error(error);
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="6">
-                    <div class="message error">
-                        ${escapeHtml(
-                            error.message ||
-                            "Failed to load questions."
-                        )}
-                    </div>
-                </td>
-            </tr>
-        `;
-    }
-}
-
-
-/* =========================================================
-   SAVE QUESTION
-========================================================= */
-
-async function saveQuestion() {
-
-    const text =
-        $("questionText")
-            .value
-            .trim();
-
-    const optionA =
-        $("optionA")
-            .value
-            .trim();
-
-    const optionB =
-        $("optionB")
-            .value
-            .trim();
-
-    const optionC =
-        $("optionC")
-            .value
-            .trim();
-
-    const optionD =
-        $("optionD")
-            .value
-            .trim();
-
-    const correct =
-        Number(
-            $("correctAnswer").value
-        );
-
-    const category =
-        $("questionCategory").value;
-
-    const editingId =
-        $("editingQuestionId").value.trim();
-
-
-    if (!text) {
-
-        showMessage(
-            "questionMessage",
-            "Andika ikibazo.",
-            "error"
-        );
-
-        return;
     }
 
 
-    if (
-        !optionA ||
-        !optionB ||
-        !optionC ||
-        !optionD
-    ) {
+    async function saveQuestion() {
 
-        showMessage(
-            "questionMessage",
-            "Uzuza options zose A, B, C na D.",
-            "error"
-        );
+        const id =
+            document.getElementById("editingQuestionId").value;
 
-        return;
-    }
+        const text =
+            document.getElementById("questionText").value.trim();
 
+        const optionA =
+            document.getElementById("optionA").value.trim();
 
-    if (
-        correct < 0 ||
-        correct > 3
-    ) {
+        const optionB =
+            document.getElementById("optionB").value.trim();
 
-        showMessage(
-            "questionMessage",
-            "Hitamo correct answer.",
-            "error"
-        );
+        const optionC =
+            document.getElementById("optionC").value.trim();
 
-        return;
-    }
+        const optionD =
+            document.getElementById("optionD").value.trim();
 
-
-    /*
-     * IMPORTANT:
-     *
-     * Database yawe ifite:
-     *
-     * CHECK (
-     * correct_answer IN ('A','B','C','D')
-     * )
-     *
-     * Ni yo mpamvu hano twohereza A/B/C/D.
-     */
-
-    const correctLetter =
-        ["A", "B", "C", "D"][correct];
-
-
-    const payload = {
-
-        question: text,
-
-        /*
-         * Existing required columns
-         */
-        option_a: optionA,
-        option_b: optionB,
-        option_c: optionC,
-        option_d: optionD,
-
-        /*
-         * JSON options column
-         * niba iri muri database
-         */
-        options: [
-            optionA,
-            optionB,
-            optionC,
-            optionD
-        ],
-
-        /*
-         * IMPORTANT:
-         * Store A/B/C/D, NOT 0/1/2/3.
-         */
-        correct_answer: correctLetter,
-
-        category: category
-
-    };
-
-
-    const button =
-        $("saveQuestionBtn");
-
-    button.disabled = true;
-
-    button.textContent =
-        editingId
-            ? "Updating..."
-            : "Saving...";
-
-
-    try {
-
-        let result;
-
-
-        if (editingId) {
-
-            result =
-                await supabaseClient
-                    .from("quiz_questions")
-                    .update(payload)
-                    .eq("id", editingId);
-
-        } else {
-
-            result =
-                await supabaseClient
-                    .from("quiz_questions")
-                    .insert(payload);
-
-        }
-
-
-        if (result.error) {
-            throw result.error;
-        }
-
-
-        showMessage(
-            "questionMessage",
-            editingId
-                ? "Ikibazo cyavuguruwe neza."
-                : "Ikibazo cyongewe neza.",
-            "success"
-        );
-
-
-        clearQuestionForm();
-
-        await loadQuestions();
-
-        await loadQuestionCount();
-
-
-    } catch (error) {
-
-        console.error(
-            "Save question error:",
-            error
-        );
-
-        showMessage(
-            "questionMessage",
-            error.message ||
-            "Ntibyashobotse kubika ikibazo.",
-            "error"
-        );
-
-    } finally {
-
-        button.disabled = false;
-
-        button.textContent =
-            "Save Question";
-
-    }
-}
-
-
-/* =========================================================
-   EDIT QUESTION
-========================================================= */
-
-function editQuestion(question) {
-
-    $("editingQuestionId").value =
-        question.id || "";
-
-
-    $("questionText").value =
-        question.question || "";
-
-
-    const options = [
-
-        question.option_a ??
-            question.options?.[0] ??
-            "",
-
-        question.option_b ??
-            question.options?.[1] ??
-            "",
-
-        question.option_c ??
-            question.options?.[2] ??
-            "",
-
-        question.option_d ??
-            question.options?.[3] ??
-            ""
-
-    ];
-
-
-    $("optionA").value =
-        options[0];
-
-    $("optionB").value =
-        options[1];
-
-    $("optionC").value =
-        options[2];
-
-    $("optionD").value =
-        options[3];
-
-
-    /*
-     * Database: A/B/C/D
-     * Form: 0/1/2/3
-     */
-
-    const rawCorrect =
-        String(
-            question.correct_answer ?? "A"
-        )
-        .trim()
-        .toUpperCase();
-
-
-    const formCorrect =
-        ["A", "B", "C", "D"].includes(rawCorrect)
-            ? rawCorrect.charCodeAt(0) - 65
-            : Number(rawCorrect);
-
-
-    $("correctAnswer").value =
-        String(
-            formCorrect >= 0 &&
-            formCorrect <= 3
-                ? formCorrect
-                : 0
-        );
-
-
-    $("questionCategory").value =
-        question.category ||
-        "Life Skills";
-
-
-    $("questionFormTitle").textContent =
-        "Edit Question";
-
-
-    $("saveQuestionBtn").textContent =
-        "Update Question";
-
-
-    $("cancelEditBtn")
-        .classList
-        .remove("hidden");
-
-
-    showSection("questions");
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-function cancelEdit() {
-
-    clearQuestionForm();
-
-}
-
-
-function clearQuestionForm() {
-
-    $("editingQuestionId").value = "";
-
-    $("questionText").value = "";
-
-    $("optionA").value = "";
-
-    $("optionB").value = "";
-
-    $("optionC").value = "";
-
-    $("optionD").value = "";
-
-    $("correctAnswer").value = "0";
-
-    $("questionCategory").value =
-        "Life Skills";
-
-
-    $("questionFormTitle").textContent =
-        "Add New Question";
-
-
-    $("saveQuestionBtn").textContent =
-        "Save Question";
-
-
-    $("cancelEditBtn")
-        .classList
-        .add("hidden");
-
-}
-
-
-/* =========================================================
-   DELETE QUESTION
-========================================================= */
-
-async function deleteQuestion(id) {
-
-    if (!id) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            "Urashaka gusiba iki kibazo?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    try {
-
-        const {
-            error
-        } = await supabaseClient
-            .from("quiz_questions")
-            .delete()
-            .eq("id", id);
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        showMessage(
-            "questionMessage",
-            "Ikibazo cyasibwe neza.",
-            "success"
-        );
-
-
-        await loadQuestions();
-
-        await loadQuestionCount();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-            "questionMessage",
-            error.message ||
-            "Ntibyashobotse gusiba ikibazo.",
-            "error"
-        );
-
-    }
-}
-
-
-/* =========================================================
-   SETTINGS
-========================================================= */
-
-async function loadSettings() {
-
-    try {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("app_settings")
-            .select("*")
-            .eq("id", 1)
-            .single();
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        $("quizEnabled").checked =
-            Boolean(data.quiz_enabled);
-
-
-        $("paymentRequired").checked =
-            Boolean(data.payment_required);
-
-
-        $("quizFee").value =
-            data.quiz_fee ?? 0;
-
-
-        $("mtnPaymentNumber").value =
-            data.mtn_payment_number || "";
-
-
-        $("airtelPaymentNumber").value =
-            data.airtel_payment_number || "";
-
-
-        $("statFee").textContent =
+        const correct =
             Number(
-                data.quiz_fee || 0
-            ).toLocaleString();
-
-
-        updateOverviewStatus(data);
-
-
-    } catch (error) {
-
-        console.error(
-            "Settings error:",
-            error
-        );
-
-        showMessage(
-            "settingsMessage",
-            error.message ||
-            "Ntibyashobotse kubona settings.",
-            "error"
-        );
-    }
-}
-
-
-function updateOverviewStatus(data) {
-
-    const quizStatus =
-        $("overviewQuizStatus");
-
-    const paymentStatus =
-        $("overviewPaymentStatus");
-
-
-    if (data.quiz_enabled) {
-
-        quizStatus.textContent =
-            "Enabled";
-
-        quizStatus.className =
-            "badge badge-green";
-
-    } else {
-
-        quizStatus.textContent =
-            "Disabled";
-
-        quizStatus.className =
-            "badge badge-red";
-
-    }
-
-
-    if (data.payment_required) {
-
-        paymentStatus.textContent =
-            "Required";
-
-        paymentStatus.className =
-            "badge badge-red";
-
-    } else {
-
-        paymentStatus.textContent =
-            "Free";
-
-        paymentStatus.className =
-            "badge badge-green";
-
-    }
-
-}
-
-
-async function saveSettings() {
-
-    const quizFee =
-        Number(
-            $("quizFee").value || 0
-        );
-
-    const paymentRequired =
-        $("paymentRequired").checked;
-
-    const quizEnabled =
-        $("quizEnabled").checked;
-
-    const mtnNumber =
-        $("mtnPaymentNumber")
-            .value
-            .trim();
-
-    const airtelNumber =
-        $("airtelPaymentNumber")
-            .value
-            .trim();
-
-
-    try {
-
-        const {
-            error
-        } = await supabaseClient
-            .rpc(
-                "owner_update_payment_settings",
-                {
-                    p_quiz_fee: quizFee,
-                    p_payment_required:
-                        paymentRequired,
-                    p_quiz_enabled:
-                        quizEnabled,
-                    p_mtn_payment_number:
-                        mtnNumber,
-                    p_airtel_payment_number:
-                        airtelNumber
-                }
+                document.getElementById("correctAnswer").value
             );
 
-
-        if (error) {
-            throw error;
-        }
-
-
-        showMessage(
-            "settingsMessage",
-            "Quiz settings zabitswe neza.",
-            "success"
-        );
-
-
-        await loadSettings();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-            "settingsMessage",
-            error.message ||
-            "Ntibyashobotse kubika settings.",
-            "error"
-        );
-    }
-}
-
-
-/* =========================================================
-   STUDENTS
-========================================================= */
-
-async function loadStudents() {
-
-    const tbody =
-        $("studentsTable");
-
-
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="5">
-                <div class="empty-state">
-                    Loading students...
-                </div>
-            </td>
-        </tr>
-    `;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("owner", false)
-            .order("created_at", {
-                ascending: false
-            });
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data || data.length === 0) {
-
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        <div class="empty-state">
-                            Nta banyeshuri barabonetse.
-                        </div>
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
-
-
-        tbody.innerHTML =
-            data.map(
-                (student, index) => `
-                    <tr>
-
-                        <td>
-                            ${index + 1}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                student.full_name ||
-                                "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                student.email ||
-                                "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                student.phone ||
-                                "-"
-                            )}
-                        </td>
-
-                        <td>
-                            ${formatDate(
-                                student.created_at
-                            )}
-                        </td>
-
-                    </tr>
-                `
-            ).join("");
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5">
-                    <div class="message error">
-                        ${escapeHtml(
-                            error.message ||
-                            "Failed to load students."
-                        )}
-                    </div>
-                </td>
-            </tr>
-        `;
-    }
-}
-
-
-/* =========================================================
-   LEADERBOARD
-========================================================= */
-
-async function loadLeaderboard() {
-
-    const tbody =
-        $("leaderboardTable");
-
-
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="5">
-                <div class="empty-state">
-                    Loading leaderboard...
-                </div>
-            </td>
-        </tr>
-    `;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .rpc("get_leaderboard");
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data || data.length === 0) {
-
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        <div class="empty-state">
-                            Nta leaderboard data iraboneka.
-                        </div>
-                    </td>
-                </tr>
-            `;
-
-            $("statLeaderboard").textContent =
-                "0";
-
-            return;
-        }
-
-
-        $("statLeaderboard").textContent =
-            data.length;
-
-
-        tbody.innerHTML =
-            data.map(
-                (row, index) => `
-
-                    <tr>
-
-                        <td>
-                            <strong>
-                                #${index + 1}
-                            </strong>
-                        </td>
-
-                        <td>
-                            ${escapeHtml(
-                                row.full_name ||
-                                row.name ||
-                                row.student_name ||
-                                "-"
-                            )}
-                        </td>
-
-                        <td>
-                            <strong>
-                                ${
-                                    row.score ??
-                                    row.total_score ??
-                                    0
-                                }
-                            </strong>
-                        </td>
-
-                        <td>
-                            ${
-                                row.attempts ??
-                                row.quiz_attempts ??
-                                "-"
-                            }
-                        </td>
-
-                        <td>
-                            ${formatDate(
-                                row.created_at ||
-                                row.date ||
-                                row.updated_at
-                            )}
-                        </td>
-
-                    </tr>
-
-                `
-            ).join("");
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5">
-                    <div class="message error">
-                        ${escapeHtml(
-                            error.message ||
-                            "Leaderboard RPC ntabwo yabonetse."
-                        )}
-                    </div>
-                </td>
-            </tr>
-        `;
-    }
-}
-
-
-/* =========================================================
-   CERTIFICATE
-========================================================= */
-
-function previewCertificate() {
-
-    const winner =
-        $("certificateWinner")
-            .value
-            .trim();
-
-    const director =
-        $("certificateDirector")
-            .value
-            .trim();
-
-
-    if (!winner) {
-
-        showMessage(
-            "certificateMessage",
-            "Andika izina ry'uwatsinze.",
-            "error"
-        );
-
-        return;
-    }
-
-
-    $("certificatePreviewName")
-        .textContent =
-        winner;
-
-
-    $("certificatePreviewDirector")
-        .textContent =
-        director ||
-        "TUYISENGE Patrick";
-
-
-    $("certificatePreview")
-        .classList
-        .remove("hidden");
-
-}
-
-
-/* =========================================================
-   ADMINS
-========================================================= */
-
-async function loadAdmins() {
-
-    const tbody =
-        $("adminsTable");
-
-
-    tbody.innerHTML = `
-        <tr>
-            <td colspan="5">
-                <div class="empty-state">
-                    Loading admins...
-                </div>
-            </td>
-        </tr>
-    `;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await supabaseClient
-            .from("profiles")
-            .select("*")
-            .eq("owner", true)
-            .order("created_at", {
-                ascending: true
-            });
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data || data.length === 0) {
-
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="5">
-                        <div class="empty-state">
-                            Nta Owner accounts zabonetse.
-                        </div>
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
-
-
-        const {
-            data: sessionData
-        } = await supabaseClient
-            .auth.getSession();
-
-
-        const currentUserId =
-            sessionData?.session?.user?.id;
-
-
-        tbody.innerHTML =
-            data.map(
-                (admin, index) => {
-
-                    const isCurrent =
-                        admin.id === currentUserId;
-
-
-                    return `
-
-                        <tr>
-
-                            <td>
-                                ${index + 1}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    admin.full_name ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                ${escapeHtml(
-                                    admin.email ||
-                                    "-"
-                                )}
-                            </td>
-
-                            <td>
-                                <span class="badge badge-blue">
-                                    Owner
-                                </span>
-                            </td>
-
-                            <td>
-
-                                ${
-                                    isCurrent
-                                        ? `
-                                            <span class="badge badge-green">
-                                                Current Account
-                                            </span>
-                                          `
-                                        : `
-                                            <button
-                                                class="btn-danger"
-                                                onclick="removeOwner('${admin.id}')"
-                                            >
-                                                Remove Owner
-                                            </button>
-                                          `
-                                }
-
-                            </td>
-
-                        </tr>
-
-                    `;
-
-                }
-            ).join("");
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        tbody.innerHTML = `
-            <tr>
-                <td colspan="5">
-                    <div class="message error">
-                        ${escapeHtml(
-                            error.message ||
-                            "Failed to load admins."
-                        )}
-                    </div>
-                </td>
-            </tr>
-        `;
-    }
-}
-
-
-/* =========================================================
-   REMOVE OWNER
-========================================================= */
-
-async function removeOwner(id) {
-
-    if (!id) {
-        return;
-    }
-
-
-    const confirmed =
-        confirm(
-            "Urashaka gukuraho Owner access kuri uyu muntu?"
-        );
-
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    try {
-
-        const {
-            error
-        } = await supabaseClient
-            .from("profiles")
-            .update({
-                owner: false
-            })
-            .eq("id", id);
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        showMessage(
-            "globalMessage",
-            "Owner access yakuweho.",
-            "success"
-        );
-
-
-        await loadAdmins();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-            "globalMessage",
-            error.message ||
-            "Ntibyashobotse gukuraho Owner access.",
-            "error"
-        );
-    }
-}
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-window.addEventListener(
-    "DOMContentLoaded",
-    async function() {
-
-        await checkSession();
-
-    }
-);
-
-
-/* =========================================================
-   AUTH STATE CHANGE
-========================================================= */
-
-supabaseClient.auth.onAuthStateChange(
-    async (event, session) => {
-
-        if (event === "SIGNED_OUT") {
-
-            showLogin();
-
-            return;
-        }
+        const category =
+            document.getElementById("questionCategory")
+                .value.trim() || "Life Skills";
 
 
         if (
-            event === "SIGNED_IN" &&
-            session?.user
+            !text ||
+            !optionA ||
+            !optionB ||
+            !optionC ||
+            !optionD
         ) {
 
-            await verifyOwner(
-                session.user
+            showMessage(
+                "questionMessage",
+                "Uzuza question n'amahitamo yose.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        const correctLetter =
+            ["A", "B", "C", "D"][correct];
+
+
+        const payload = {
+
+            question: text,
+
+            option_a: optionA,
+
+            option_b: optionB,
+
+            option_c: optionC,
+
+            option_d: optionD,
+
+            options: [
+                optionA,
+                optionB,
+                optionC,
+                optionD
+            ],
+
+            correct_answer: correctLetter,
+
+            category: category
+
+        };
+
+
+        try {
+
+            let result;
+
+
+            if (id) {
+
+                result =
+                    await supabaseClient
+                        .from("quiz_questions")
+                        .update(payload)
+                        .eq("id", id);
+
+            } else {
+
+                result =
+                    await supabaseClient
+                        .from("quiz_questions")
+                        .insert(payload);
+
+            }
+
+
+            if (result.error) {
+                throw result.error;
+            }
+
+
+            showMessage(
+                "questionMessage",
+                id
+                    ? "Question updated successfully."
+                    : "Question saved successfully.",
+                "success"
+            );
+
+
+            clearQuestionForm();
+
+            loadQuestions();
+
+            loadOverview();
+
+        } catch(error) {
+
+            console.error(error);
+
+            showMessage(
+                "questionMessage",
+                error.message || "Unable to save question.",
+                "error"
             );
 
         }
 
     }
-);
+
+
+    function editQuestion(question) {
+
+        document.getElementById("editingQuestionId").value =
+            question.id || "";
+
+
+        document.getElementById("questionText").value =
+            question.question || "";
+
+
+        const options = [
+
+            question.option_a ??
+                question.options?.[0] ??
+                "",
+
+            question.option_b ??
+                question.options?.[1] ??
+                "",
+
+            question.option_c ??
+                question.options?.[2] ??
+                "",
+
+            question.option_d ??
+                question.options?.[3] ??
+                ""
+
+        ];
+
+
+        document.getElementById("optionA").value =
+            options[0];
+
+        document.getElementById("optionB").value =
+            options[1];
+
+        document.getElementById("optionC").value =
+            options[2];
+
+        document.getElementById("optionD").value =
+            options[3];
+
+
+        const rawCorrect =
+            String(
+                question.correct_answer ?? "A"
+            ).trim().toUpperCase();
+
+
+        const correct =
+            ["A","B","C","D"].includes(rawCorrect)
+                ? rawCorrect.charCodeAt(0) - 65
+                : Number(rawCorrect);
+
+
+        document.getElementById("correctAnswer").value =
+            String(
+                [0,1,2,3].includes(correct)
+                    ? correct
+                    : 0
+            );
+
+
+        document.getElementById("questionCategory").value =
+            question.category || "Life Skills";
+
+
+        document.getElementById("questionFormTitle").textContent =
+            "Edit Question";
+
+
+        showPage("questions");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+
+    async function deleteQuestion(id) {
+
+        if (!confirm("Delete this question?")) {
+            return;
+        }
+
+
+        const { error } =
+            await supabaseClient
+                .from("quiz_questions")
+                .delete()
+                .eq("id", id);
+
+
+        if (error) {
+
+            showMessage(
+                "questionMessage",
+                error.message,
+                "error"
+            );
+
+            return;
+        }
+
+
+        showMessage(
+            "questionMessage",
+            "Question deleted.",
+            "success"
+        );
+
+
+        loadQuestions();
+        loadOverview();
+
+    }
+
+
+    function clearQuestionForm() {
+
+        document.getElementById("editingQuestionId").value = "";
+
+        document.getElementById("questionText").value = "";
+
+        document.getElementById("optionA").value = "";
+
+        document.getElementById("optionB").value = "";
+
+        document.getElementById("optionC").value = "";
+
+        document.getElementById("optionD").value = "";
+
+        document.getElementById("correctAnswer").value = "0";
+
+        document.getElementById("questionCategory").value =
+            "Life Skills";
+
+        document.getElementById("questionFormTitle").textContent =
+            "Add New Question";
+
+    }
+
+
+    /* =====================================================
+       SETTINGS
+    ===================================================== */
+
+    async function loadSettings(silent = false) {
+
+        const { data, error } =
+            await supabaseClient
+                .from("app_settings")
+                .select("*")
+                .eq("id", 1)
+                .maybeSingle();
+
+
+        if (error) {
+
+            console.error("Settings:", error);
+
+            if (!silent) {
+
+                showMessage(
+                    "settingsMessage",
+                    error.message,
+                    "error"
+                );
+
+            }
+
+            return;
+        }
+
+
+        if (!data) {
+
+            if (!silent) {
+
+                showMessage(
+                    "settingsMessage",
+                    "app_settings row with id=1 was not found.",
+                    "error"
+                );
+
+            }
+
+            return;
+        }
+
+
+        const quizEnabled =
+            Boolean(data.quiz_enabled);
+
+        const paymentRequired =
+            Boolean(data.payment_required);
+
+
+        document.getElementById("quizEnabled").checked =
+            quizEnabled;
+
+        document.getElementById("paymentRequired").checked =
+            paymentRequired;
+
+
+        document.getElementById("quizFee").value =
+            data.quiz_fee ?? 0;
+
+
+        document.getElementById("mtnPaymentNumber").value =
+            data.mtn_payment_number || "";
+
+
+        document.getElementById("statFee").textContent =
+            `${Number(data.quiz_fee || 0).toLocaleString()} RWF`;
+
+
+        const quizStatus =
+            document.getElementById("overviewQuizStatus");
+
+        quizStatus.textContent =
+            quizEnabled ? "Enabled" : "Disabled";
+
+        quizStatus.className =
+            "status " + (
+                quizEnabled ? "on" : "off"
+            );
+
+
+        const paymentStatus =
+            document.getElementById("overviewPaymentStatus");
+
+        paymentStatus.textContent =
+            paymentRequired
+                ? "Required"
+                : "Not Required";
+
+        paymentStatus.className =
+            "status " + (
+                paymentRequired ? "on" : "off"
+            );
+
+    }
+
+
+    async function saveSettings() {
+
+        const quizEnabled =
+            document.getElementById("quizEnabled").checked;
+
+        const paymentRequired =
+            document.getElementById("paymentRequired").checked;
+
+        const quizFee =
+            Number(
+                document.getElementById("quizFee").value || 0
+            );
+
+        const mtnNumber =
+            document.getElementById("mtnPaymentNumber")
+                .value.trim();
+
+
+        try {
+
+            const { error } =
+                await supabaseClient.rpc(
+                    "owner_update_payment_settings",
+                    {
+                        p_quiz_fee: quizFee,
+                        p_payment_required: paymentRequired,
+                        p_quiz_enabled: quizEnabled,
+                        p_mtn_payment_number: mtnNumber,
+                        p_airtel_payment_number: ""
+                    }
+                );
+
+
+            if (error) throw error;
+
+
+            showMessage(
+                "settingsMessage",
+                "Settings saved successfully.",
+                "success"
+            );
+
+
+            await loadSettings();
+
+            await loadOverview();
+
+        } catch(error) {
+
+            console.error(error);
+
+            showMessage(
+                "settingsMessage",
+                error.message || "Unable to save settings.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       STUDENTS
+    ===================================================== */
+
+    async function loadStudents() {
+
+        const tbody =
+            document.getElementById("studentsTable");
+
+
+        const { data, error } =
+            await supabaseClient
+                .from("profiles")
+                .select("id, full_name, email, phone, created_at")
+                .eq("owner", false)
+                .order("created_at", {
+                    ascending: false
+                });
+
+
+        if (error) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        ${escapeHtml(error.message)}
+                    </td>
+                </tr>`;
+
+            return;
+        }
+
+
+        if (!data || data.length === 0) {
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        No students found.
+                    </td>
+                </tr>`;
+
+            return;
+        }
+
+
+        tbody.innerHTML =
+            data.map((student, index) => {
+
+                return `
+                    <tr>
+
+                        <td>${index + 1}</td>
+
+                        <td>
+                            ${escapeHtml(
+                                student.full_name || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                student.email || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHtml(
+                                student.phone || "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${formatDate(student.created_at)}
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* =====================================================
+       LEADERBOARD
+    ===================================================== */
+
+    async function loadLeaderboard() {
+
+        const tbody =
+            document.getElementById("leaderboardTable");
+
+
+        try {
+
+            const { data, error } =
+                await supabaseClient.rpc(
+                    "get_leaderboard"
+                );
+
+
+            if (error) throw error;
+
+
+            if (!data || data.length === 0) {
+
+                tbody.innerHTML =
+                    `<tr>
+                        <td colspan="5">
+                            No leaderboard data.
+                        </td>
+                    </tr>`;
+
+                return;
+            }
+
+
+            tbody.innerHTML =
+                data.map((row, index) => {
+
+                    return `
+                        <tr>
+
+                            <td>
+                                <strong>#${index + 1}</strong>
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    row.full_name ||
+                                    row.student_name ||
+                                    "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    row.score ?? "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${escapeHtml(
+                                    row.attempts ?? "-"
+                                )}
+                            </td>
+
+                            <td>
+                                ${formatDate(
+                                    row.created_at ||
+                                    row.date
+                                )}
+                            </td>
+
+                        </tr>
+                    `;
+
+                }).join("");
+
+
+        } catch(error) {
+
+            console.error(error);
+
+            tbody.innerHTML =
+                `<tr>
+                    <td colspan="5">
+                        ${escapeHtml(error.message)}
+                    </td>
+                </tr>`;
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CERTIFICATE
+    ===================================================== */
+
+    function previewCertificate() {
+
+        const winner =
+            document.getElementById("winnerName")
+                .value.trim();
+
+        const director =
+            document.getElementById("directorName")
+                .value.trim() ||
+            "TUYISENGE Patrick";
+
+        const date =
+            document.getElementById("certificateDate")
+                .value;
+
+
+        document.getElementById(
+            "certificateStudentName"
+        ).textContent =
+            winner || "Winner Name";
+
+
+        document.getElementById(
+            "certificateDirectorPreview"
+        ).textContent =
+            director;
+
+
+        document.getElementById(
+            "certificateDatePreview"
+        ).textContent =
+            date
+                ? formatDate(date)
+                : formatDate(new Date());
+
+    }
+
+
+    function printCertificate() {
+
+        previewCertificate();
+
+        setTimeout(() => {
+            window.print();
+        }, 250);
+
+    }
+
+
+    /* =====================================================
+       ANNOUNCEMENTS
+    ===================================================== */
+
+    async function loadAnnouncements() {
+
+        const container =
+            document.getElementById("announcementsList");
+
+
+        try {
+
+            const { data, error } =
+                await supabaseClient
+                    .from("announcements")
+                    .select("*")
+                    .order("created_at", {
+                        ascending: false
+                    });
+
+
+            if (error) throw error;
+
+
+            if (!data || data.length === 0) {
+
+                container.innerHTML =
+                    "<p>No announcements yet.</p>";
+
+                return;
+            }
+
+
+            container.innerHTML =
+                data.map(item => {
+
+                    return `
+                        <div class="announcement-item">
+
+                            <strong>
+                                ${escapeHtml(
+                                    item.title || "Announcement"
+                                )}
+                            </strong>
+
+                            <p style="margin-bottom:8px;">
+                                ${escapeHtml(
+                                    item.message || ""
+                                )}
+                            </p>
+
+                            <small>
+                                Position:
+                                ${escapeHtml(
+                                    item.position || "top"
+                                )}
+                                •
+                                ${
+                                    item.active
+                                        ? "Active"
+                                        : "Inactive"
+                                }
+                            </small>
+
+                            <div class="actions" style="margin-top:10px;">
+
+                                <button
+                                    class="btn btn-danger"
+                                    onclick="deleteAnnouncement('${item.id}')"
+                                >
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `;
+
+                }).join("");
+
+
+        } catch(error) {
+
+            container.innerHTML =
+                `<p>${escapeHtml(error.message)}</p>`;
+
+        }
+
+    }
+
+
+    async function saveAnnouncement() {
+
+        const title =
+            document.getElementById("announcementTitle")
+                .value.trim();
+
+        const message =
+            document.getElementById("announcementMessage")
+                .value.trim();
+
+        const position =
+            document.getElementById("announcementPosition")
+                .value;
+
+        const active =
+            document.getElementById("announcementActive")
+                .value === "true";
+
+
+        if (!title || !message) {
+
+            showMessage(
+                "announcementFormMessage",
+                "Fill in title and message.",
+                "error"
+            );
+
+            return;
+        }
+
+
+        try {
+
+            const { error } =
+                await supabaseClient
+                    .from("announcements")
+                    .insert({
+                        title,
+                        message,
+                        position,
+                        active
+                    });
+
+
+            if (error) throw error;
+
+
+            showMessage(
+                "announcementFormMessage",
+                "Announcement saved.",
+                "success"
+            );
+
+
+            document.getElementById("announcementTitle").value = "";
+
+            document.getElementById("announcementMessage").value = "";
+
+
+            loadAnnouncements();
+
+
+        } catch(error) {
+
+            showMessage(
+                "announcementFormMessage",
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    async function deleteAnnouncement(id) {
+
+        if (!confirm("Delete this announcement?")) {
+            return;
+        }
+
+
+        const { error } =
+            await supabaseClient
+                .from("announcements")
+                .delete()
+                .eq("id", id);
+
+
+        if (error) {
+
+            alert(error.message);
+
+            return;
+        }
+
+
+        loadAnnouncements();
+
+    }
+
+
+    /* =====================================================
+       AUTH STATE
+    ===================================================== */
+
+    supabaseClient.auth.onAuthStateChange(
+        async (event, session) => {
+
+            if (session && !currentUser) {
+
+                currentUser = session.user;
+
+                const ownerOK = await verifyOwner();
+
+                if (ownerOK) {
+                    openDashboard();
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       START
+    ===================================================== */
+
+    checkSession();
 
 </script>
 
-
-<!-- ================= PRINT STYLES ================= -->
-
-<style>
-
-@media print {
-
-    body * {
-        visibility: hidden;
-    }
-
-    #certificatePreview,
-    #certificatePreview * {
-        visibility: visible;
-    }
-
-    #certificatePreview {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        border: none;
-        box-shadow: none;
-    }
-
-    .certificate-box {
-        width: 100%;
-        min-height: 650px;
-        border: 4px solid #d9b24c;
-        padding: 60px;
-    }
-
-    .certificate-box + div {
-        display: none !important;
-    }
-
-}
-
-</style>
-
 </body>
 </html>
+```

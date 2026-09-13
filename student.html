@@ -1,1117 +1,1630 @@
 <!DOCTYPE html>
-
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Life Skills Rwanda - Student Portal</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>My Progress | Life Skills Rwanda</title>
 
-<style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#1f2937}
-    button,input{font:inherit}
-    button{cursor:pointer}
-    .topbar{position:sticky;top:0;z-index:1000;background:#1261d8;color:#fff;padding:14px 20px;box-shadow:0 3px 15px rgba(0,0,0,.12)}
-    .nav-container{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
-    .logo-mark{width:42px;height:42px;border-radius:12px;background:#fff;color:#1261d8;display:grid;place-items:center;font-weight:900}
-    nav{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-    nav button{border:0;background:transparent;color:#fff;padding:9px 12px;border-radius:8px}
-    nav button:hover,nav button.active{background:rgba(255,255,255,.18)}
-    .logout-btn{background:#dc2626!important}
-    .container{width:min(1100px,94%);margin:30px auto}
-    .page{display:none}
-    .page.active{display:block}
-    .auth-wrapper{max-width:950px;margin:40px auto;display:grid;grid-template-columns:1fr 1fr;gap:25px}
-    .card{background:#fff;border-radius:16px;padding:25px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
-    .card h2,.card h3{margin-bottom:12px}
-    .muted{color:#64748b;line-height:1.6}
-    .form-group{margin-bottom:15px}
-    .form-group label{display:block;margin-bottom:7px;font-weight:700}
-    .form-group input{width:100%;padding:12px 14px;border:1px solid #d5dce7;border-radius:9px;outline:none}
-    .form-group input:focus{border-color:#1261d8;box-shadow:0 0 0 3px rgba(18,97,216,.1)}
-    .btn{border:0;border-radius:9px;padding:12px 18px;font-weight:700;transition:.2s}
-    .btn:hover{transform:translateY(-1px)}
-    .btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
-    .btn-primary{background:#1261d8;color:#fff}
-    .btn-success{background:#16a34a;color:#fff}
-    .btn-warning{background:#f59e0b;color:#fff}
-    .btn-danger{background:#dc2626;color:#fff}
-    .btn-secondary{background:#64748b;color:#fff}
-    .alert{padding:12px 14px;border-radius:9px;margin-bottom:15px;display:none;line-height:1.5}
-    .alert.show{display:block}
-    .alert.error{background:#fee2e2;color:#991b1b}
-    .alert.success{background:#dcfce7;color:#166534}
-    .alert.info{background:#dbeafe;color:#1e40af}
-    .hero{background:linear-gradient(135deg,#1261d8,#0b3d91);color:#fff;padding:35px;border-radius:18px;margin-bottom:25px}
-    .hero h1{font-size:34px;margin-bottom:8px}
-    .hero p{opacity:.92}
-    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:25px}
-    .metric{background:#fff;padding:22px;border-radius:15px;box-shadow:0 7px 25px rgba(15,23,42,.06)}
-    .metric strong{display:block;font-size:28px;color:#1261d8;margin-top:5px}
-    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .lesson{background:#fff;padding:22px;border-radius:14px;box-shadow:0 6px 20px rgba(15,23,42,.06)}
-    .lesson h3{color:#1261d8;margin-bottom:8px}
-    .quiz-box{background:#fff;padding:25px;border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.08)}
-    .question{font-size:20px;font-weight:700;margin-bottom:20px}
-    .answers{display:grid;gap:10px}
-    .answer-btn{text-align:left;border:1px solid #d8dee8;background:#fff;padding:13px;border-radius:9px}
-    .answer-btn:hover{background:#eff6ff;border-color:#1261d8}
-    .answer-btn.selected{background:#dbeafe;border-color:#1261d8}
-    .quiz-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-    .timer{background:#fee2e2;color:#991b1b;padding:9px 13px;border-radius:8px;font-weight:800}
-    .payment-box{background:#fffbeb;border:1px solid #fde68a;padding:20px;border-radius:12px}
-    .payment-number{font-size:23px;font-weight:900;color:#111827;margin:12px 0}
-    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
-    th,td{padding:13px;border-bottom:1px solid #e5e7eb;text-align:left}
-    th{background:#1261d8;color:#fff}
-    tr.current-student{background:#eff6ff;font-weight:700}
-    .certificate-page{text-align:center}
-    .certificate{position:relative;background:#fff;border:12px solid #d4af37;min-height:600px;padding:65px 45px;margin:20px auto;max-width:950px;box-shadow:0 10px 35px rgba(0,0,0,.1);overflow:hidden}
-    .certificate-watermark{position:absolute;inset:0;display:grid;place-items:center;font-size:90px;font-weight:900;color:rgba(212,175,55,.07);transform:rotate(-25deg);pointer-events:none}
-    .certificate-content{position:relative;z-index:2}
-    .certificate h1{color:#1261d8;font-size:42px;margin-bottom:12px}
-    .certificate h2{font-size:34px;margin:25px 0;color:#111827}
-    .student-certificate-name{font-size:36px;font-weight:900;color:#1261d8;border-bottom:2px solid #d4af37;display:inline-block;padding:5px 25px;margin:15px 0}
-    .certificate-signatures{display:flex;justify-content:space-around;margin-top:65px;gap:40px}
-    .signature{min-width:220px}
-    .signature-line{border-top:1px solid #333;margin-bottom:8px}
-    .certificate-actions{display:flex;justify-content:center;gap:10px;margin:15px;flex-wrap:wrap}
-    .hidden{display:none!important}
-    .loading{text-align:center;padding:40px;color:#64748b}
-    .footer{text-align:center;padding:30px 15px;color:#64748b}
+    <meta
+        name="description"
+        content="Life Skills Rwanda student dashboard, quiz, leaderboard and certificate."
+    >
 
-    @media(max-width:800px){
-        .auth-wrapper,.grid{grid-template-columns:1fr}
-        .metrics{grid-template-columns:repeat(2,1fr)}
-        .nav-container{flex-direction:column}
-        nav{justify-content:center}
-        .hero h1{font-size:27px}
-        .certificate{padding:35px 20px}
-        .certificate h1{font-size:30px}
-        .student-certificate-name{font-size:25px}
-    }
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
-    @media(max-width:480px){
-        .metrics{grid-template-columns:1fr}
-        nav button{padding:8px;font-size:12px}
-        .card{padding:18px}
-        .certificate-signatures{flex-direction:column}
-    }
+    <style>
 
-    @media print{
-        body{background:#fff}
-        .topbar,.certificate-actions,.footer,.no-print{display:none!important}
-        .certificate{box-shadow:none;margin:0;max-width:none;width:100%;min-height:90vh}
-    }
-</style>
-```
+        /* =========================================================
+           LIFE SKILLS RWANDA - STUDENT PAGE
+        ========================================================= */
+
+        :root {
+            --blue: #1261d8;
+            --blue-dark: #0b3f91;
+            --gold: #f4b400;
+            --green: #159447;
+            --red: #d93025;
+            --orange: #e68a00;
+            --dark: #172033;
+            --muted: #6b7280;
+            --light: #f5f8fc;
+            --white: #ffffff;
+            --border: #e5eaf2;
+            --shadow: 0 12px 35px rgba(15, 40, 80, .10);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        button,
+        input {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =========================================================
+           HEADER
+        ========================================================= */
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255,255,255,.97);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+        }
+
+        .topbar-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--dark);
+        }
+
+        .logo-mark {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(
+                135deg,
+                var(--blue),
+                #4c8df5
+            );
+            color: white;
+            font-weight: 900;
+            font-size: 17px;
+            box-shadow:
+                0 7px 20px rgba(18,97,216,.25);
+        }
+
+        .brand-title {
+            font-weight: 900;
+            font-size: 19px;
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .top-actions a,
+        .top-actions button {
+            border: 0;
+            background: transparent;
+            padding: 9px 12px;
+            border-radius: 9px;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .top-actions a:hover,
+        .top-actions button:hover {
+            background: #eef4ff;
+            color: var(--blue);
+        }
+
+        /* =========================================================
+           MAIN
+        ========================================================= */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 18px 60px;
+        }
+
+        .page-title {
+            margin-bottom: 22px;
+        }
+
+        .page-title h1 {
+            font-size: 30px;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           PROFILE
+        ========================================================= */
+
+        .profile-card {
+            background: linear-gradient(
+                135deg,
+                #1261d8,
+                #0b3f91
+            );
+            color: white;
+            border-radius: 22px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+        }
+
+        .profile-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .profile-left {
+            display: flex;
+            align-items: center;
+            gap: 17px;
+        }
+
+        .avatar {
+            width: 66px;
+            height: 66px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.18);
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .profile-name {
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .profile-email {
+            opacity: .85;
+            font-size: 14px;
+        }
+
+        .owner-badge {
+            background: var(--gold);
+            color: #3d2a00;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        /* =========================================================
+           STATS
+        ========================================================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 20px;
+            box-shadow:
+                0 7px 25px rgba(20,40,70,.05);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 900;
+            margin-top: 5px;
+        }
+
+        /* =========================================================
+           GRID
+        ========================================================= */
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 22px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 19px;
+            padding: 23px;
+            box-shadow:
+                0 8px 28px rgba(20,40,70,.05);
+        }
+
+        .card h2 {
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+        .card-subtitle {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        /* =========================================================
+           QUIZ ACCESS
+        ========================================================= */
+
+        .quiz-access {
+            border: 2px solid #dce9ff;
+            background: #f7faff;
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .access-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 9px;
+        }
+
+        .access-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .access-label {
+            color: var(--muted);
+        }
+
+        .access-value {
+            font-weight: 900;
+            text-align: right;
+        }
+
+        .status-on {
+            color: var(--green);
+        }
+
+        .status-off {
+            color: var(--red);
+        }
+
+        .status-pending {
+            color: var(--orange);
+        }
+
+        .status-verified {
+            color: var(--green);
+        }
+
+        .status-rejected {
+            color: var(--red);
+        }
+
+        .status-unknown {
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           BUTTONS
+        ========================================================= */
+
+        .btn {
+            border: 0;
+            border-radius: 11px;
+            padding: 12px 17px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background: var(--blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--blue-dark);
+        }
+
+        .btn-success {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--red);
+            color: white;
+        }
+
+        .btn-light {
+            background: #eef4ff;
+            color: var(--blue);
+        }
+
+        .btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        /* =========================================================
+           PAYMENT
+        ========================================================= */
+
+        .payment-box {
+            margin-top: 18px;
+            background: #fffaf0;
+            border: 1px solid #f7df9a;
+            border-radius: 15px;
+            padding: 17px;
+        }
+
+        .payment-box h3 {
+            margin-bottom: 8px;
+        }
+
+        .payment-number {
+            font-size: 21px;
+            font-weight: 900;
+            color: #111;
+            margin: 8px 0;
+        }
+
+        .payment-fee {
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--blue-dark);
+            margin: 5px 0 12px;
+        }
+
+        .payment-status-box {
+            margin-top: 13px;
+            padding: 12px;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid #eee0bc;
+        }
+
+        .input {
+            width: 100%;
+            border: 1px solid #d8dee8;
+            border-radius: 10px;
+            padding: 12px;
+            outline: none;
+            background: white;
+        }
+
+        .input:focus {
+            border-color: var(--blue);
+            box-shadow:
+                0 0 0 3px rgba(18,97,216,.1);
+        }
+
+        /* =========================================================
+           LEADERBOARD
+        ========================================================= */
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .leader-row {
+            display: grid;
+            grid-template-columns: 45px 1fr auto;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .rank {
+            font-weight: 900;
+            text-align: center;
+        }
+
+        .leader-name {
+            font-weight: 800;
+        }
+
+        .leader-score {
+            font-weight: 900;
+            color: var(--blue);
+        }
+
+        /* =========================================================
+           QUIZ
+        ========================================================= */
+
+        .quiz-panel {
+            margin-top: 25px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .quiz-counter {
+            font-weight: 900;
+            color: var(--blue);
+        }
+
+        .timer {
+            background: #fff1f1;
+            color: var(--red);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-weight: 900;
+            min-width: 55px;
+            text-align: center;
+        }
+
+        .question-box {
+            background: #f8faff;
+            border: 1px solid #dce8ff;
+            border-radius: 17px;
+            padding: 22px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 900;
+            margin-bottom: 18px;
+        }
+
+        .options {
+            display: grid;
+            gap: 11px;
+        }
+
+        .option-btn {
+            text-align: left;
+            width: 100%;
+            border: 1px solid #d8e0eb;
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 700;
+        }
+
+        .option-btn:hover {
+            border-color: var(--blue);
+            background: #f5f9ff;
+        }
+
+        .option-btn.selected {
+            background: #eaf2ff;
+            border: 2px solid var(--blue);
+            color: var(--blue-dark);
+        }
+
+        .quiz-result {
+            text-align: center;
+            padding: 28px 15px;
+        }
+
+        .score-big {
+            font-size: 55px;
+            font-weight: 900;
+            color: var(--blue);
+        }
+
+        .result-message {
+            font-size: 18px;
+            margin: 8px 0 18px;
+        }
+
+        /* =========================================================
+           CERTIFICATE
+        ========================================================= */
+
+        .certificate-card {
+            margin-top: 25px;
+        }
+
+        .certificate-preview {
+            border: 7px solid #d6ae42;
+            padding: 35px 20px;
+            text-align: center;
+            background:
+                linear-gradient(
+                    rgba(255,255,255,.96),
+                    rgba(255,255,255,.96)
+                ),
+                #fffdf5;
+            min-height: 330px;
+            position: relative;
+        }
+
+        .certificate-title {
+            font-family: Georgia, serif;
+            font-size: 34px;
+            color: #9a6c00;
+            font-weight: 900;
+        }
+
+        .certificate-small {
+            color: #666;
+            margin-top: 8px;
+        }
+
+        .certificate-student {
+            font-family: Georgia, serif;
+            font-size: 32px;
+            font-weight: 900;
+            margin: 22px 0 8px;
+            color: #172033;
+        }
+
+        .certificate-line {
+            width: 70%;
+            height: 2px;
+            background: #d6ae42;
+            margin: 0 auto 20px;
+        }
+
+        .certificate-director {
+            margin-top: 28px;
+            font-weight: 800;
+        }
+
+        /* =========================================================
+           MESSAGE
+        ========================================================= */
+
+        .message {
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .message.info {
+            background: #edf5ff;
+            color: #174a91;
+        }
+
+        .message.success {
+            background: #eaf8ef;
+            color: #126b32;
+        }
+
+        .message.error {
+            background: #fff0f0;
+            color: #a32020;
+        }
+
+        /* =========================================================
+           LOADING
+        ========================================================= */
+
+        .loading {
+            text-align: center;
+            padding: 25px;
+            color: var(--muted);
+        }
+
+        /* =========================================================
+           MOBILE
+        ========================================================= */
+
+        @media (max-width: 900px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar-inner {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .top-actions {
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            .profile-content {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+
+            .question-text {
+                font-size: 18px;
+            }
+
+            .score-big {
+                font-size: 45px;
+            }
+
+        }
+
+        @media (max-width: 430px) {
+
+            .container {
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                padding: 18px;
+            }
+
+            .profile-name {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .payment-number {
+                font-size: 18px;
+            }
+
+        }
+
+        /* =========================================================
+           PRINT CERTIFICATE
+        ========================================================= */
+
+        @media print {
+
+            body * {
+                visibility: hidden;
+            }
+
+            #certificatePrintArea,
+            #certificatePrintArea * {
+                visibility: visible;
+            }
+
+            #certificatePrintArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+
+            .certificate-preview {
+                min-height: 90vh;
+                border-width: 8px;
+            }
+
+        }
+
+    </style>
 
 </head>
+
 
 <body>
 
 <header class="topbar">
-    <div class="nav-container">
-        <div class="brand">
-            <div class="logo-mark">LS</div>
+
+    <div class="topbar-inner">
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <div class="logo-mark">
+                LS
+            </div>
+
             <div>
-                Life Skills Rwanda
-                <div style="font-size:11px;font-weight:400;opacity:.85">
+
+                <div class="brand-title">
+                    Life Skills Rwanda
+                </div>
+
+                <div class="brand-subtitle">
                     Learn • Practice • Grow
                 </div>
+
             </div>
+
+        </a>
+
+
+        <div class="top-actions">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="lessons.html">
+                Lessons
+            </a>
+
+            <a href="quiz.html">
+                Quiz
+            </a>
+
+            <a href="leaderboard.html">
+                Leaderboard
+            </a>
+
+            <button id="logoutBtn">
+                Logout
+            </button>
+
         </div>
 
-```
-    <nav id="mainNav" class="hidden">
-        <button onclick="showPage('dashboard',this)">Home</button>
-        <button onclick="showPage('lessons',this)">Lessons</button>
-        <button onclick="showPage('quiz',this)">Quiz</button>
-        <button onclick="showPage('leaderboard',this)">Leaderboard</button>
-        <button onclick="showPage('certificate',this)">Certificate</button>
-        <button class="logout-btn" onclick="logoutStudent()">Logout</button>
-    </nav>
-</div>
-```
+    </div>
 
 </header>
 
+
 <main class="container">
 
-<section id="authPage" class="page active">
-    <div class="auth-wrapper">
+    <div class="page-title">
 
-```
-    <div class="card" id="loginBox">
-        <h2>Student Login</h2>
-        <p class="muted">Login to continue to your Life Skills Rwanda account.</p>
-        <br>
-
-        <div id="loginAlert" class="alert"></div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="loginEmail" placeholder="Enter your email">
-        </div>
-
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="loginPassword" placeholder="Enter your password">
-        </div>
-
-        <button class="btn btn-primary" style="width:100%" onclick="loginStudent()">
-            Login
-        </button>
-
-        <p style="text-align:center;margin-top:15px">
-            Don't have an account?
-            <button style="border:0;background:none;color:#1261d8;font-weight:700" onclick="showRegister()">
-                Create Account
-            </button>
-        </p>
-    </div>
-
-    <div class="card hidden" id="registerBox">
-        <h2>Create Student Account</h2>
-        <p class="muted">
-            Create your account and start learning.
-        </p>
-        <br>
-
-        <div id="registerAlert" class="alert"></div>
-
-        <div class="form-group">
-            <label>Full Name</label>
-            <input type="text" id="registerName" placeholder="Enter your full name">
-        </div>
-
-        <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="registerPhone" placeholder="07XXXXXXXX">
-        </div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <input type="email" id="registerEmail" placeholder="Enter your email">
-        </div>
-
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" id="registerPassword" placeholder="Minimum 6 characters">
-        </div>
-
-        <div class="form-group">
-            <label>Confirm Password</label>
-            <input type="password" id="registerConfirm" placeholder="Repeat your password">
-        </div>
-
-        <button class="btn btn-success" style="width:100%" onclick="registerStudent()">
-            Create Account
-        </button>
-
-        <p style="text-align:center;margin-top:15px">
-            Already have an account?
-            <button style="border:0;background:none;color:#1261d8;font-weight:700" onclick="showLogin()">
-                Login
-            </button>
-        </p>
-    </div>
-
-</div>
-```
-
-</section>
-
-<section id="dashboardPage" class="page">
-    <div class="hero">
-        <h1>Welcome, <span id="studentName">Student</span> 👋</h1>
-        <p>Keep learning, practice your skills and compete with other students.</p>
-    </div>
-
-```
-<div class="metrics">
-    <div class="metric">
-        <span>Quiz Score</span>
-        <strong id="scoreMetric">0</strong>
-    </div>
-    <div class="metric">
-        <span>Quiz Attempts</span>
-        <strong id="attemptMetric">0</strong>
-    </div>
-    <div class="metric">
-        <span>Leaderboard</span>
-        <strong id="rankMetric">-</strong>
-    </div>
-    <div class="metric">
-        <span>Status</span>
-        <strong style="font-size:18px">Active</strong>
-    </div>
-</div>
-
-<div class="grid">
-    <div class="card">
-        <h3>📚 Learn</h3>
-        <p class="muted">Study practical life skills through our lessons.</p>
-        <br>
-        <button class="btn btn-primary" onclick="showPage('lessons')">View Lessons</button>
-    </div>
-
-    <div class="card">
-        <h3>🏆 Competition</h3>
-        <p class="muted">Take the quiz and compete for the monthly leaderboard.</p>
-        <br>
-        <button class="btn btn-success" onclick="showPage('quiz')">Start Quiz</button>
-    </div>
-</div>
-```
-
-</section>
-
-<section id="lessonsPage" class="page">
-    <div class="card">
-        <h2>Life Skills Lessons</h2>
-        <p class="muted">
-            Learn practical skills that can help you at school, home and in your community.
-        </p>
-    </div>
-    <br>
-
-```
-<div class="grid">
-    <div class="lesson">
-        <h3>💰 Money Management</h3>
-        <p class="muted">Learn how to budget, save money and make responsible financial decisions.</p>
-    </div>
-
-    <div class="lesson">
-        <h3>🧠 Decision Making</h3>
-        <p class="muted">Learn how to think carefully, compare choices and make responsible decisions.</p>
-    </div>
-
-    <div class="lesson">
-        <h3>🤝 Communication</h3>
-        <p class="muted">Develop respectful communication and teamwork skills.</p>
-    </div>
-
-    <div class="lesson">
-        <h3>💻 Digital Skills</h3>
-        <p class="muted">Learn safe and responsible use of computers, phones and the internet.</p>
-    </div>
-
-    <div class="lesson">
-        <h3>❤️ Health & Wellbeing</h3>
-        <p class="muted">Learn everyday habits that support healthy and responsible living.</p>
-    </div>
-
-    <div class="lesson">
-        <h3>🌱 Environment</h3>
-        <p class="muted">Learn how students can protect their environment and community.</p>
-    </div>
-</div>
-```
-
-</section>
-
-<section id="quizPage" class="page">
-
-```
-<div id="quizStartBox" class="card">
-    <h2>Daily Life Skills Quiz</h2>
-    <p class="muted">Test your knowledge and compete on the leaderboard.</p>
-    <br>
-
-    <div id="quizAlert" class="alert"></div>
-
-    <div id="paymentBox" class="payment-box hidden">
-        <h3>Payment Required</h3>
-
-        <p class="muted">
-            The administrator has enabled payment before the quiz.
-        </p>
+        <h1>
+            My Progress
+        </h1>
 
         <p>
-            Quiz fee:
-            <strong id="quizFee">0 RWF</strong>
+            Track your learning, quiz performance and certificate.
         </p>
 
-        <p>MTN MoMo Number:</p>
-
-        <div class="payment-number" id="mtnNumber">-</div>
-
-        <div class="form-group">
-            <label>Payment Reference</label>
-            <input type="text" id="paymentReference" placeholder="Enter payment reference">
-        </div>
-
-        <button class="btn btn-warning" onclick="makePayment()">
-            Confirm Payment
-        </button>
-        <br><br>
     </div>
 
-    <button id="startQuizButton" class="btn btn-success" onclick="startQuiz()">
-        Start Quiz
-    </button>
-</div>
 
-<div id="quizBox" class="quiz-box hidden">
-    <div class="quiz-top">
-        <strong>Question <span id="questionNumber">1</span></strong>
-        <div class="timer" id="quizTimer">05:00</div>
-    </div>
+    <!-- PROFILE -->
 
-    <div class="question" id="questionText">Loading question...</div>
+    <section class="profile-card">
 
-    <div class="answers" id="answersContainer"></div>
+        <div class="profile-content">
 
-    <br>
+            <div class="profile-left">
 
-    <button class="btn btn-primary" id="nextQuestionButton" onclick="nextQuestion()">
-        Next Question
-    </button>
-</div>
+                <div
+                    class="avatar"
+                    id="avatarInitial"
+                >
+                    LS
+                </div>
 
-<div id="quizResultBox" class="card hidden">
-    <h2>Quiz Completed 🎉</h2>
+                <div>
 
-    <p>
-        Your score:
-        <strong id="finalScore">0</strong>
-    </p>
+                    <div
+                        class="profile-name"
+                        id="studentName"
+                    >
+                        Loading...
+                    </div>
 
-    <br>
+                    <div
+                        class="profile-email"
+                        id="studentEmail"
+                    >
+                        Loading...
+                    </div>
 
-    <button class="btn btn-primary" onclick="showPage('leaderboard')">
-        View Leaderboard
-    </button>
-</div>
-```
+                </div>
 
-</section>
+            </div>
 
-<section id="leaderboardPage" class="page">
-    <div class="card">
-        <h2>🏆 Monthly Leaderboard</h2>
-        <p class="muted">Students with the highest scores appear here.</p>
-        <br>
 
-```
-    <div id="leaderboardLoading" class="loading">Loading leaderboard...</div>
-    <div id="leaderboardTableContainer"></div>
-</div>
-```
+            <div
+                id="ownerBadge"
+                class="owner-badge hidden"
+            >
+                OWNER
+            </div>
 
-</section>
-
-<section id="certificatePage" class="page certificate-page">
-
-```
-<div class="card no-print">
-    <h2>🎓 Certificate</h2>
-
-    <p class="muted">
-        Your certificate will appear here when it has been issued.
-    </p>
-
-    <br>
-
-    <div id="certificateAlert" class="alert"></div>
-</div>
-
-<div id="certificateContainer" class="hidden">
-
-    <div class="certificate">
-
-        <div class="certificate-watermark">
-            LIFE SKILLS RWANDA
         </div>
 
-        <div class="certificate-content">
+    </section>
 
-            <h1>Certificate of Achievement</h1>
 
-            <p>This certificate is proudly presented to</p>
+    <!-- STATS -->
 
-            <div class="student-certificate-name" id="certificateStudentName">
+    <section class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Quiz Attempts
+            </div>
+
+            <div
+                class="stat-value"
+                id="attemptCount"
+            >
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Best Score
+            </div>
+
+            <div
+                class="stat-value"
+                id="bestScore"
+            >
+                0%
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Current Rank
+            </div>
+
+            <div
+                class="stat-value"
+                id="studentRank"
+            >
+                —
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-label">
+                Certificate
+            </div>
+
+            <div
+                class="stat-value"
+                id="certificateStatus"
+            >
+                —
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN GRID -->
+
+    <div class="main-grid">
+
+
+        <!-- DAILY QUIZ -->
+
+        <section class="card">
+
+            <h2>
+                Daily Quiz
+            </h2>
+
+            <p class="card-subtitle">
+                Answer today's questions and compete on the leaderboard.
+            </p>
+
+
+            <div class="quiz-access">
+
+                <div class="access-row">
+
+                    <span class="access-label">
+                        Quiz status
+                    </span>
+
+                    <span
+                        class="access-value"
+                        id="quizStatus"
+                    >
+                        Checking...
+                    </span>
+
+                </div>
+
+
+                <div class="access-row">
+
+                    <span class="access-label">
+                        Payment required
+                    </span>
+
+                    <span
+                        class="access-value"
+                        id="paymentStatus"
+                    >
+                        Checking...
+                    </span>
+
+                </div>
+
+
+                <div class="access-row">
+
+                    <span class="access-label">
+                        Quiz fee
+                    </span>
+
+                    <span
+                        class="access-value"
+                        id="quizFee"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="access-row">
+
+                    <span class="access-label">
+                        Today's attempt
+                    </span>
+
+                    <span
+                        class="access-value"
+                        id="todayAttempt"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+
+                <div class="access-row">
+
+                    <span class="access-label">
+                        Payment status
+                    </span>
+
+                    <span
+                        class="access-value"
+                        id="myPaymentStatus"
+                    >
+                        —
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT -->
+
+            <div
+                id="paymentBox"
+                class="payment-box hidden"
+            >
+
+                <h3>
+                    MTN MoMo Payment
+                </h3>
+
+                <p>
+                    Send the required amount using MTN Mobile Money.
+                </p>
+
+
+                <div class="payment-fee">
+                    Amount:
+                    <span id="paymentAmount">
+                        —
+                    </span>
+                </div>
+
+
+                <div class="payment-number">
+                    MTN MoMo:
+                    <span id="mtnPaymentNumber">
+                        —
+                    </span>
+                </div>
+
+
+                <p>
+                    After payment, enter your MTN MoMo reference below.
+                </p>
+
+
+                <input
+                    id="paymentReference"
+                    class="input"
+                    type="text"
+                    maxlength="100"
+                    autocomplete="off"
+                    placeholder="MTN MoMo reference"
+                >
+
+
+                <div class="action-buttons">
+
+                    <button
+                        id="paymentBtn"
+                        class="btn btn-success"
+                    >
+                        Submit Payment
+                    </button>
+
+                </div>
+
+
+                <div id="paymentMessage"></div>
+
+
+                <div
+                    id="paymentStatusBox"
+                    class="payment-status-box hidden"
+                >
+
+                    <strong>
+                        Payment status:
+                    </strong>
+
+                    <span id="paymentStatusDetail">
+                        —
+                    </span>
+
+                    <div
+                        id="paymentReferenceDetail"
+                        style="margin-top:5px;"
+                    >
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="action-buttons">
+
+                <button
+                    id="startQuizBtn"
+                    class="btn btn-primary"
+                    disabled
+                >
+                    Start Today's Quiz
+                </button>
+
+
+                <button
+                    id="refreshAccessBtn"
+                    class="btn btn-light"
+                >
+                    Refresh
+                </button>
+
+            </div>
+
+
+            <div id="accessMessage"></div>
+
+        </section>
+
+
+        <!-- LEADERBOARD -->
+
+        <section class="card">
+
+            <h2>
+                Monthly Leaderboard
+            </h2>
+
+            <p class="card-subtitle">
+                See the current competition ranking.
+            </p>
+
+
+            <div
+                id="leaderboardList"
+                class="leaderboard-list"
+            >
+
+                <div class="loading">
+                    Loading leaderboard...
+                </div>
+
+            </div>
+
+
+            <div class="action-buttons">
+
+                <a
+                    href="leaderboard.html"
+                    class="btn btn-light"
+                >
+                    View Full Leaderboard
+                </a>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- QUIZ PANEL -->
+
+    <section
+        id="quizPanel"
+        class="card quiz-panel hidden"
+    >
+
+        <div class="quiz-header">
+
+            <div>
+
+                <strong>
+                    Life Skills Rwanda Quiz
+                </strong>
+
+                <div
+                    id="quizCounter"
+                    class="quiz-counter"
+                >
+                    Question 1 of 10
+                </div>
+
+            </div>
+
+
+            <div
+                id="quizTimer"
+                class="timer"
+            >
+                15s
+            </div>
+
+        </div>
+
+
+        <div
+            id="questionBox"
+            class="question-box"
+        >
+
+            <div
+                id="questionText"
+                class="question-text"
+            >
+                Loading question...
+            </div>
+
+
+            <div
+                id="optionsContainer"
+                class="options"
+            >
+            </div>
+
+        </div>
+
+
+        <div class="action-buttons">
+
+            <button
+                id="nextQuestionBtn"
+                class="btn btn-primary"
+                disabled
+            >
+                Next
+            </button>
+
+        </div>
+
+
+        <div id="quizMessage"></div>
+
+    </section>
+
+
+    <!-- QUIZ RESULT -->
+
+    <section
+        id="quizResult"
+        class="card quiz-panel hidden"
+    >
+
+        <div class="quiz-result">
+
+            <h2>
+                Quiz Completed 🎉
+            </h2>
+
+
+            <div
+                id="scoreBig"
+                class="score-big"
+            >
+                0%
+            </div>
+
+
+            <div
+                id="resultMessage"
+                class="result-message"
+            >
+                —
+            </div>
+
+
+            <div
+                class="action-buttons"
+                style="justify-content:center;"
+            >
+
+                <button
+                    id="resultLeaderboardBtn"
+                    class="btn btn-primary"
+                >
+                    View Leaderboard
+                </button>
+
+
+                <button
+                    id="closeResultBtn"
+                    class="btn btn-light"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CERTIFICATE -->
+
+    <section
+        id="certificateSection"
+        class="card certificate-card hidden"
+    >
+
+        <h2>
+            My Certificate
+        </h2>
+
+        <p class="card-subtitle">
+            Your Life Skills Rwanda certificate.
+        </p>
+
+
+        <div
+            id="certificatePrintArea"
+            class="certificate-preview"
+        >
+
+            <div class="certificate-title">
+                CERTIFICATE
+            </div>
+
+
+            <div class="certificate-small">
+                LIFE SKILLS RWANDA
+            </div>
+
+
+            <div class="certificate-small">
+                Learn • Practice • Grow
+            </div>
+
+
+            <div
+                id="certificateStudentName"
+                class="certificate-student"
+            >
                 Student Name
             </div>
 
-            <p>for outstanding achievement in</p>
 
-            <h2>Life Skills Rwanda</h2>
+            <div class="certificate-line"></div>
 
-            <p class="muted">
-                This certificate recognizes successful participation
-                and achievement in the Life Skills Rwanda competition.
+
+            <p>
+                This certificate is proudly presented to the above
+                student for successfully participating in
+                Life Skills Rwanda.
             </p>
 
-            <div class="certificate-signatures">
 
-                <div class="signature">
-                    <div class="signature-line"></div>
-                    <strong id="certificateDirector">TUYISENGE Patrick</strong>
-                    <br>
-                    Director
-                </div>
+            <p style="margin-top:12px;">
 
-                <div class="signature">
-                    <div class="signature-line"></div>
-                    <strong id="certificateDate">-</strong>
-                    <br>
-                    Date
-                </div>
+                Score:
+                <strong id="certificateScore">
+                    —
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                Lessons completed:
+                <strong id="certificateLessons">
+                    —
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                Certificate No:
+                <strong id="certificateNumber">
+                    —
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                Issue date:
+                <strong id="certificateDate">
+                    —
+                </strong>
+
+            </p>
+
+
+            <div class="certificate-director">
+
+                Director<br>
+
+                <strong id="certificateDirector">
+                    TUYISENGE Patrick
+                </strong>
 
             </div>
 
         </div>
-    </div>
 
-    <div class="certificate-actions no-print">
-        <button class="btn btn-primary" onclick="printCertificate()">
-            🖨 Print Certificate
-        </button>
-    </div>
 
-</div>
-```
+        <div class="action-buttons">
 
-</section>
+            <button
+                id="printCertificateBtn"
+                class="btn btn-primary"
+            >
+                Print Certificate
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <div
+        id="globalMessage"
+        class="message info hidden"
+    ></div>
 
 </main>
 
-<footer class="footer">
-    <p>© 2026 Life Skills Rwanda • Learn • Practice • Grow</p>
-</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
-/* =========================================================
-   SUPABASE
-========================================================= */
+    /* =========================================================
+       SUPABASE
+    ========================================================= */
 
-const SUPABASE_URL =
-    "https://wplqgmakucweidurbbjz.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
-
-const db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+    const SUPABASE_URL =
+        "https://wplqgmakucweidurbbjz.supabase.co";
 
 
-/* =========================================================
-   EDGE FUNCTIONS
-========================================================= */
-
-const FUNCTIONS = {
-    getAccess: "get-quiz-access",
-    demoPay: "demo-pay",
-    startQuiz: "start-daily-quiz",
-    submitQuiz: "submit-daily-quiz"
-};
+    const SUPABASE_KEY =
+        "sb_publishable_0m6-8xm4hIl8nxAdcj44UQ_XOkZk10m";
 
 
-/* =========================================================
-   STATE
-========================================================= */
-
-let currentUser = null;
-let currentProfile = null;
-
-let quizQuestions = [];
-let currentQuestionIndex = 0;
-let selectedAnswer = null;
-let quizAnswers = [];
-
-let quizTimerInterval = null;
-let quizSeconds = 300;
-
-let latestScore = 0;
-let latestRank = "-";
-
-let loadingUser = false;
+    const db =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
 
 
-/* =========================================================
-   HELPERS
-========================================================= */
+    /* =========================================================
+       STATE
+    ========================================================= */
 
-function $(id) {
-    return document.getElementById(id);
-}
+    let currentUser = null;
+    let currentProfile = null;
 
+    let quizAccess = null;
 
-function escapeHtml(value) {
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-}
+    let quizAttemptId = null;
 
+    let quizQuestions = [];
 
-function showAlert(id,message,type="error") {
+    let currentQuestionIndex = 0;
 
-    const element = $(id);
+    let quizAnswers = {};
 
-    if (!element) return;
+    let quizTimerInterval = null;
 
-    element.innerHTML = message;
-    element.className = "alert show " + type;
-}
+    let quizSeconds = 15;
+
+    let quizSubmitting = false;
+
+    let myPayment = null;
+
+    let paymentStatusAvailable = false;
 
 
-function clearAlert(id) {
+    /* =========================================================
+       DOM
+    ========================================================= */
 
-    const element = $(id);
+    function $(id) {
 
-    if (!element) return;
+        return document.getElementById(id);
 
-    element.innerHTML = "";
-    element.className = "alert";
-}
-
-
-/* =========================================================
-   AUTH ERROR
-========================================================= */
-
-function formatAuthError(message) {
-
-    const text =
-        String(message || "").toLowerCase();
-
-    if (text.includes("user already registered")) {
-        return "Iyi email isanzwe ifite account. Gerageza Login.";
     }
 
-    if (text.includes("invalid login credentials")) {
-        return "Email cyangwa password ntabwo ari byo.";
-    }
 
-    if (text.includes("email not confirmed")) {
-        return "Account yakozwe, ariko email ntiraremezwa. Reba inbox ya email yawe cyangwa uzime Confirm email muri Supabase.";
-    }
-
-    if (text.includes("password")) {
-        return "Password igomba kuba nibura characters 6.";
-    }
-
-    if (text.includes("rate limit")) {
-        return "Wagerageje inshuro nyinshi. Tegereza akanya wongere ugerageze.";
-    }
-
-    if (text.includes("email")) {
-        return escapeHtml(message || "Email ntabwo yemerewe.");
-    }
-
-    return escapeHtml(
-        message ||
-        "Hari ikibazo cyabaye. Ongera ugerageze."
-    );
-}
-
-
-/* =========================================================
-   AUTH UI
-========================================================= */
-
-function showLogin() {
-
-    $("loginBox").classList.remove("hidden");
-    $("registerBox").classList.add("hidden");
-
-    clearAlert("loginAlert");
-    clearAlert("registerAlert");
-}
-
-
-function showRegister() {
-
-    $("loginBox").classList.add("hidden");
-    $("registerBox").classList.remove("hidden");
-
-    clearAlert("loginAlert");
-    clearAlert("registerAlert");
-}
-
-
-/* =========================================================
-   REGISTER — FIXED
-========================================================= */
-
-async function registerStudent() {
-
-    const name =
-        $("registerName").value.trim();
-
-    const phone =
-        $("registerPhone").value.trim();
-
-    const email =
-        $("registerEmail").value.trim().toLowerCase();
-
-    const password =
-        $("registerPassword").value;
-
-    const confirm =
-        $("registerConfirm").value;
-
-
-    clearAlert("registerAlert");
-
-
-    if (
-        !name ||
-        !phone ||
-        !email ||
-        !password ||
-        !confirm
+    function showMessage(
+        elementId,
+        text,
+        type = "info"
     ) {
 
-        showAlert(
-            "registerAlert",
-            "Please fill in all fields."
+        const element = $(elementId);
+
+        if (!element) {
+            return;
+        }
+
+        element.className =
+            "message " + type;
+
+        element.textContent =
+            text;
+
+        element.classList.remove(
+            "hidden"
         );
 
-        return;
     }
 
 
-    if (password.length < 6) {
+    function hideMessage(elementId) {
 
-        showAlert(
-            "registerAlert",
-            "Password must contain at least 6 characters."
+        const element = $(elementId);
+
+        if (!element) {
+            return;
+        }
+
+        element.classList.add(
+            "hidden"
         );
 
-        return;
     }
 
 
-    if (password !== confirm) {
+    /* =========================================================
+       RWANDA LOCAL DATE
+       Avoid UTC date problems.
+    ========================================================= */
 
-        showAlert(
-            "registerAlert",
-            "Passwords do not match."
-        );
+    function getRwandaDate() {
 
-        return;
-    }
-
-
-    const button =
-        document.querySelector(
-            "#registerBox .btn-success"
-        );
-
-
-    button.disabled = true;
-    button.textContent = "Creating account...";
-
-
-    try {
-
-        /*
-         * IMPORTANT:
-         * DO NOT automatically call signInWithPassword
-         * after signUp.
-         *
-         * This was the source of the misleading
-         * "Email cyangwa password ntabwo ari byo"
-         * message.
-         */
-
-        const {
-            data,
-            error
-        } = await db.auth.signUp({
-
-            email: email,
-
-            password: password,
-
-            options: {
-
-                data: {
-                    full_name: name,
-                    phone: phone
+        const formatter =
+            new Intl.DateTimeFormat(
+                "en-CA",
+                {
+                    timeZone: "Africa/Kigali",
+                    year: "numeric",
+                    month: "2-digit",
+                    day: "2-digit"
                 }
-
-            }
-
-        });
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data || !data.user) {
-
-            throw new Error(
-                "Account could not be created."
             );
 
-        }
-
-
-        /*
-         * CASE 1:
-         * Supabase returned a session.
-         *
-         * This normally happens when
-         * Confirm email is OFF.
-         */
-
-        if (data.session) {
-
-            currentUser =
-                data.session.user;
-
-
-            showAlert(
-                "registerAlert",
-                `
-                <strong>Account created successfully! 🎉</strong><br>
-                Welcome, <strong>${escapeHtml(name)}</strong>!<br>
-                Opening your dashboard...
-                `,
-                "success"
-            );
-
-
-            await loadUser(
-                data.session.user
-            );
-
-
-            return;
-        }
-
-
-        /*
-         * CASE 2:
-         * Account was created but Supabase
-         * did not return a session.
-         *
-         * DO NOT try password login here.
-         */
-
-        showAlert(
-            "registerAlert",
-            `
-            <strong>Account created successfully! 🎉</strong><br>
-            Your account has been created for
-            <strong>${escapeHtml(name)}</strong>.<br><br>
-
-            If email confirmation is enabled,
-            check your email and confirm your account
-            before logging in.
-            <br><br>
-
-            <button
-                class="btn btn-primary"
-                onclick="showLogin()"
-            >
-                Go to Login
-            </button>
-            `,
-            "success"
+        return formatter.format(
+            new Date()
         );
 
-
-    } catch (error) {
-
-        console.error(
-            "Registration error:",
-            error
-        );
-
-
-        showAlert(
-            "registerAlert",
-            formatAuthError(error.message)
-        );
-
-
-    } finally {
-
-        button.disabled = false;
-        button.textContent = "Create Account";
-
-    }
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function loginStudent() {
-
-    const email =
-        $("loginEmail").value.trim().toLowerCase();
-
-    const password =
-        $("loginPassword").value;
-
-
-    clearAlert("loginAlert");
-
-
-    if (!email || !password) {
-
-        showAlert(
-            "loginAlert",
-            "Please enter email and password."
-        );
-
-        return;
     }
 
 
-    const button =
-        document.querySelector(
-            "#loginBox .btn-primary"
-        );
-
-
-    button.disabled = true;
-    button.textContent = "Logging in...";
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await db.auth.signInWithPassword({
-
-            email: email,
-            password: password
-
-        });
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        if (!data || !data.user) {
-
-            throw new Error(
-                "Login failed."
-            );
-
-        }
-
-
-        currentUser =
-            data.user;
-
-
-        await loadUser(
-            data.user
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "Login error:",
-            error
-        );
-
-
-        showAlert(
-            "loginAlert",
-            formatAuthError(
-                error.message
-            )
-        );
-
-
-    } finally {
-
-        button.disabled = false;
-        button.textContent = "Login";
-
-    }
-}
-
-
-/* =========================================================
-   LOAD USER
-========================================================= */
-
-async function loadUser(user) {
-
-    if (!user || loadingUser) {
-        return;
-    }
-
-
-    loadingUser = true;
-    currentUser = user;
-
-
-    try {
-
-        let {
-            data: profile,
-            error
-        } = await db
-            .from("profiles")
-            .select(
-                "id,full_name,email,phone,owner"
-            )
-            .eq("id",user.id)
-            .maybeSingle();
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        /*
-         * If trigger did not create profile,
-         * create it here.
-         */
-
-        if (!profile) {
-
-            const name =
-                user.user_metadata?.full_name ||
-                "";
-
-            const phone =
-                user.user_metadata?.phone ||
-                "";
-
-
-            const {
-                data: insertedProfile,
-                error: insertError
-            } = await db
-                .from("profiles")
-                .insert({
-
-                    id:user.id,
-
-                    full_name:name,
-
-                    email:user.email,
-
-                    phone:phone,
-
-                    owner:false
-
-                })
-                .select()
-                .single();
-
-
-            if (insertError) {
-                throw insertError;
-            }
-
-
-            profile =
-                insertedProfile;
-        }
-
-
-        currentProfile =
-            profile;
-
-
-        /*
-         * OWNER
-         */
-
-        if (profile.owner === true) {
-
-            alert(
-                "This account is an Owner/Admin account. Opening Admin Dashboard..."
-            );
-
-            window.location.href =
-                "admin.html";
-
-            return;
-        }
-
-
-        /*
-         * STUDENT PORTAL
-         */
-
-        $("authPage")
-            .classList.remove("active");
-
-        $("dashboardPage")
-            .classList.add("active");
-
-        $("mainNav")
-            .classList.remove("hidden");
-
-
-        $("studentName")
-            .textContent =
-            profile.full_name ||
-            user.email ||
-            "Student";
-
-
-        await loadLeaderboard();
-
-        await loadStudentStats();
-
-        await loadCertificate();
-
-
-    } catch (error) {
-
-        console.error(
-            "loadUser error:",
-            error
-        );
-
-
-        showAlert(
-            "loginAlert",
-            "Profile ntishoboye gufunguka: " +
-            escapeHtml(error.message)
-        );
-
-
-    } finally {
-
-        loadingUser = false;
-
-    }
-}
-
-
-/* =========================================================
-   SESSION
-========================================================= */
-
-async function checkSession() {
-
-    try {
+    /* =========================================================
+       AUTH
+    ========================================================= */
+
+    async function checkAuth() {
 
         const {
             data,
@@ -1120,1409 +1633,2453 @@ async function checkSession() {
 
 
         if (error) {
-            throw error;
-        }
 
+            console.error(error);
 
-        if (
-            data &&
-            data.session &&
-            data.session.user
-        ) {
+            window.location.href =
+                "index.html";
 
-            await loadUser(
-                data.session.user
-            );
-
-        } else {
-
-            showLogin();
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Session error:",
-            error
-        );
-
-        showLogin();
-
-    }
-}
-
-
-/* =========================================================
-   AUTH STATE
-========================================================= */
-
-db.auth.onAuthStateChange(
-    (event,session) => {
-
-        console.log(
-            "Auth event:",
-            event
-        );
-
-
-        /*
-         * Do not call loadUser immediately
-         * from every auth event.
-         *
-         * checkSession() handles initial login.
-         * This avoids duplicate profile loading.
-         */
-
-        if (
-            event === "SIGNED_OUT"
-        ) {
-
-            currentUser = null;
-            currentProfile = null;
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   PAGE NAVIGATION
-========================================================= */
-
-function showPage(page,button=null) {
-
-    const pages = [
-        "dashboard",
-        "lessons",
-        "quiz",
-        "leaderboard",
-        "certificate"
-    ];
-
-
-    pages.forEach(name => {
-
-        const element =
-            $(name + "Page");
-
-        if (element) {
-            element.classList.remove("active");
-        }
-
-    });
-
-
-    const selected =
-        $(page + "Page");
-
-
-    if (selected) {
-        selected.classList.add("active");
-    }
-
-
-    document
-        .querySelectorAll("#mainNav button")
-        .forEach(btn => {
-
-            btn.classList.remove("active");
-
-        });
-
-
-    if (button) {
-        button.classList.add("active");
-    }
-
-
-    if (page === "leaderboard") {
-        loadLeaderboard();
-    }
-
-
-    if (page === "certificate") {
-        loadCertificate();
-    }
-
-
-    if (page === "quiz") {
-        prepareQuiz();
-    }
-
-}
-
-
-/* =========================================================
-   STUDENT STATS
-========================================================= */
-
-async function loadStudentStats() {
-
-    if (!currentUser) return;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await db.rpc(
-            "get_student_stats",
-            {
-                p_student_id:
-                    currentUser.id
-            }
-        );
-
-
-        if (!error && data) {
-
-            const stats =
-                Array.isArray(data)
-                    ? data[0]
-                    : data;
-
-
-            if (stats) {
-
-                $("scoreMetric").textContent =
-                    stats.total_score ??
-                    stats.score ??
-                    latestScore ??
-                    0;
-
-                $("attemptMetric").textContent =
-                    stats.attempts ??
-                    stats.quiz_attempts ??
-                    0;
-
-                $("rankMetric").textContent =
-                    stats.rank ??
-                    latestRank ??
-                    "-";
-
-                return;
-            }
-        }
-
-
-        $("scoreMetric").textContent =
-            latestScore || 0;
-
-        $("attemptMetric").textContent =
-            "-";
-
-        $("rankMetric").textContent =
-            latestRank || "-";
-
-
-    } catch (error) {
-
-        console.log(
-            "Student stats unavailable:",
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   LEADERBOARD
-========================================================= */
-
-async function loadLeaderboard() {
-
-    const loading =
-        $("leaderboardLoading");
-
-    const container =
-        $("leaderboardTableContainer");
-
-
-    if (!loading || !container) {
-        return;
-    }
-
-
-    loading.style.display = "block";
-    container.innerHTML = "";
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await db.rpc(
-            "get_leaderboard"
-        );
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        loading.style.display = "none";
-
-
-        if (!data || data.length === 0) {
-
-            container.innerHTML = `
-                <div class="loading">
-                    No leaderboard data available yet.
-                </div>
-            `;
-
-            return;
-        }
-
-
-        let html = `
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Student</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-        `;
-
-
-        data.forEach((student,index) => {
-
-            const id =
-                student.id ||
-                student.student_id;
-
-            const isCurrent =
-                currentUser &&
-                id === currentUser.id;
-
-            const name =
-                student.full_name ||
-                student.name ||
-                "Student";
-
-            const score =
-                student.score ??
-                student.total_score ??
-                0;
-
-
-            html += `
-                <tr class="${isCurrent ? "current-student" : ""}">
-                    <td>${student.rank || index + 1}</td>
-                    <td>${escapeHtml(name)}</td>
-                    <td>${score}</td>
-                </tr>
-            `;
-
-
-            if (isCurrent) {
-
-                latestRank =
-                    student.rank ||
-                    index + 1;
-
-                latestScore =
-                    score;
-
-            }
-
-        });
-
-
-        html += `
-                </tbody>
-            </table>
-        `;
-
-
-        container.innerHTML =
-            html;
-
-
-        $("rankMetric").textContent =
-            latestRank;
-
-        $("scoreMetric").textContent =
-            latestScore;
-
-
-    } catch (error) {
-
-        console.error(
-            "Leaderboard error:",
-            error
-        );
-
-
-        loading.style.display = "none";
-
-
-        container.innerHTML = `
-            <div class="alert show error">
-                Leaderboard is not available yet.
-            </div>
-        `;
-
-    }
-
-}
-
-
-/* =========================================================
-   QUIZ ACCESS
-========================================================= */
-
-async function getQuizAccess() {
-
-    if (!currentUser) {
-
-        throw new Error(
-            "Please login first."
-        );
-
-    }
-
-
-    const {
-        data,
-        error
-    } = await db.functions.invoke(
-        FUNCTIONS.getAccess,
-        {
-            body:{
-                user_id:
-                    currentUser.id
-            }
-        }
-    );
-
-
-    if (error) {
-
-        console.error(
-            "get-quiz-access:",
-            error
-        );
-
-
-        return {
-            quiz_enabled:true,
-            payment_required:false,
-            quiz_fee:0,
-            mtn_payment_number:""
-        };
-
-    }
-
-
-    return data || {};
-
-}
-
-
-/* =========================================================
-   PREPARE QUIZ
-========================================================= */
-
-async function prepareQuiz() {
-
-    if (!currentUser) {
-        return;
-    }
-
-
-    $("quizStartBox")
-        .classList.remove("hidden");
-
-    $("quizBox")
-        .classList.add("hidden");
-
-    $("quizResultBox")
-        .classList.add("hidden");
-
-
-    try {
-
-        const access =
-            await getQuizAccess();
-
-
-        if (
-            access.quiz_enabled === false
-        ) {
-
-            showAlert(
-                "quizAlert",
-                "The quiz is currently disabled by the administrator."
-            );
-
-
-            $("startQuizButton")
-                .disabled = true;
-
-
-            return;
-        }
-
-
-        $("startQuizButton")
-            .disabled = false;
-
-
-        if (
-            access.payment_required === true
-        ) {
-
-            $("paymentBox")
-                .classList.remove("hidden");
-
-
-            $("quizFee")
-                .textContent =
-                Number(
-                    access.quiz_fee || 0
-                ).toLocaleString() +
-                " RWF";
-
-
-            $("mtnNumber")
-                .textContent =
-                access.mtn_payment_number ||
-                "Not configured";
-
-
-        } else {
-
-            $("paymentBox")
-                .classList.add("hidden");
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Quiz access error:",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   PAYMENT
-========================================================= */
-
-async function makePayment() {
-
-    if (!currentUser) {
-        return;
-    }
-
-
-    const reference =
-        $("paymentReference")
-            .value
-            .trim();
-
-
-    if (!reference) {
-
-        showAlert(
-            "quizAlert",
-            "Enter the payment reference first."
-        );
-
-        return;
-    }
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await db.functions.invoke(
-            FUNCTIONS.demoPay,
-            {
-                body:{
-                    user_id:
-                        currentUser.id,
-
-                    payment_reference:
-                        reference
-                }
-            }
-        );
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        showAlert(
-            "quizAlert",
-            "Payment recorded successfully. You can now start the quiz.",
-            "success"
-        );
-
-
-        $("paymentBox")
-            .classList.add("hidden");
-
-
-    } catch (error) {
-
-        console.error(
-            "Payment error:",
-            error
-        );
-
-
-        showAlert(
-            "quizAlert",
-            escapeHtml(
-                error.message ||
-                "Payment could not be processed."
-            )
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   START SERVER QUIZ
-========================================================= */
-
-async function startQuizFromServer() {
-
-    const {
-        data,
-        error
-    } = await db.functions.invoke(
-        FUNCTIONS.startQuiz,
-        {
-            body:{
-                user_id:
-                    currentUser.id
-            }
-        }
-    );
-
-
-    if (error) {
-        throw error;
-    }
-
-
-    return data;
-}
-
-
-/* =========================================================
-   LOCAL QUESTIONS
-========================================================= */
-
-function getLocalQuestions() {
-
-    return [
-
-        {
-            question:"What is a good reason to save money?",
-            options:[
-                "To prepare for future needs",
-                "To waste it",
-                "To lose it",
-                "To avoid planning"
-            ],
-            answer:0
-        },
-
-        {
-            question:"Which is an example of good communication?",
-            options:[
-                "Listening carefully",
-                "Always shouting",
-                "Ignoring others",
-                "Insulting people"
-            ],
-            answer:0
-        },
-
-        {
-            question:"What should you do before making an important decision?",
-            options:[
-                "Think about the possible consequences",
-                "Choose randomly",
-                "Ignore all information",
-                "Ask nobody and think nothing"
-            ],
-            answer:0
-        },
-
-        {
-            question:"Which is a safe internet habit?",
-            options:[
-                "Protecting your passwords",
-                "Sharing passwords publicly",
-                "Opening every unknown link",
-                "Giving strangers personal information"
-            ],
-            answer:0
-        },
-
-        {
-            question:"What is teamwork?",
-            options:[
-                "Working together toward a goal",
-                "One person doing everything",
-                "Refusing to communicate",
-                "Competing against your team"
-            ],
-            answer:0
-        },
-
-        {
-            question:"Why is cleanliness important?",
-            options:[
-                "It helps protect health",
-                "It makes people sick",
-                "It wastes time",
-                "It is never useful"
-            ],
-            answer:0
-        },
-
-        {
-            question:"What should you do when you disagree respectfully with someone?",
-            options:[
-                "Listen and explain your view calmly",
-                "Insult them",
-                "Shout",
-                "Leave without listening"
-            ],
-            answer:0
-        },
-
-        {
-            question:"What is a budget?",
-            options:[
-                "A plan for how money will be used",
-                "A type of phone",
-                "A game",
-                "A password"
-            ],
-            answer:0
-        },
-
-        {
-            question:"What should you do with an important deadline?",
-            options:[
-                "Plan your time",
-                "Ignore it",
-                "Wait until the last second",
-                "Forget it"
-            ],
-            answer:0
-        },
-
-        {
-            question:"Which action helps protect the environment?",
-            options:[
-                "Properly disposing of waste",
-                "Throwing rubbish everywhere",
-                "Wasting water",
-                "Destroying trees unnecessarily"
-            ],
-            answer:0
-        }
-
-    ];
-
-}
-
-
-/* =========================================================
-   START QUIZ
-========================================================= */
-
-async function startQuiz() {
-
-    if (!currentUser) {
-
-        showLogin();
-
-        return;
-    }
-
-
-    clearAlert("quizAlert");
-
-
-    $("startQuizButton")
-        .disabled = true;
-
-    $("startQuizButton")
-        .textContent = "Starting...";
-
-
-    try {
-
-        let result = null;
-
-
-        try {
-
-            result =
-                await startQuizFromServer();
-
-        } catch (serverError) {
-
-            console.warn(
-                "Server quiz unavailable. Using local questions.",
-                serverError
-            );
+            return false;
 
         }
 
 
         if (
-            result &&
-            Array.isArray(result.questions) &&
-            result.questions.length
+            !data.session ||
+            !data.session.user
         ) {
 
-            quizQuestions =
-                result.questions;
+            window.location.href =
+                "index.html";
 
-        } else {
-
-            quizQuestions =
-                getLocalQuestions();
+            return false;
 
         }
 
 
-        quizAnswers =
-            new Array(
-                quizQuestions.length
-            ).fill(null);
+        currentUser =
+            data.session.user;
 
 
-        currentQuestionIndex = 0;
-        selectedAnswer = null;
-
-
-        $("quizStartBox")
-            .classList.add("hidden");
-
-        $("quizBox")
-            .classList.remove("hidden");
-
-        $("quizResultBox")
-            .classList.add("hidden");
-
-
-        quizSeconds = 300;
-
-        startQuizTimer();
-
-        renderQuestion();
-
-
-    } catch (error) {
-
-        console.error(
-            "Start quiz error:",
-            error
-        );
-
-
-        showAlert(
-            "quizAlert",
-            escapeHtml(
-                error.message ||
-                "Quiz could not start."
-            )
-        );
-
-
-    } finally {
-
-        $("startQuizButton")
-            .disabled = false;
-
-        $("startQuizButton")
-            .textContent = "Start Quiz";
+        return true;
 
     }
 
-}
 
+    /* =========================================================
+       PROFILE
+    ========================================================= */
 
-/* =========================================================
-   RENDER QUESTION
-========================================================= */
-
-function renderQuestion() {
-
-    if (
-        !quizQuestions ||
-        !quizQuestions.length
-    ) {
-        return;
-    }
-
-
-    const question =
-        quizQuestions[
-            currentQuestionIndex
-        ];
-
-
-    selectedAnswer =
-        quizAnswers[
-            currentQuestionIndex
-        ];
-
-
-    $("questionNumber")
-        .textContent =
-        `${currentQuestionIndex + 1} / ${quizQuestions.length}`;
-
-
-    $("questionText")
-        .textContent =
-        question.question ||
-        question.text ||
-        "";
-
-
-    const answers =
-        $("answersContainer");
-
-
-    answers.innerHTML = "";
-
-
-    const options =
-        question.options ||
-        question.answers ||
-        [];
-
-
-    options.forEach(
-        (option,index) => {
-
-            const button =
-                document.createElement("button");
-
-
-            button.className =
-                "answer-btn";
-
-
-            if (
-                selectedAnswer === index
-            ) {
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-
-            button.textContent =
-                option;
-
-
-            button.onclick =
-                () => selectAnswer(index);
-
-
-            answers.appendChild(button);
-
-        }
-    );
-
-
-    $("nextQuestionButton")
-        .textContent =
-        currentQuestionIndex ===
-        quizQuestions.length - 1
-            ? "Finish Quiz"
-            : "Next Question";
-
-}
-
-
-/* =========================================================
-   SELECT ANSWER
-========================================================= */
-
-function selectAnswer(index) {
-
-    selectedAnswer =
-        index;
-
-
-    quizAnswers[
-        currentQuestionIndex
-    ] = index;
-
-
-    document
-        .querySelectorAll(".answer-btn")
-        .forEach(
-            (button,i) => {
-
-                button.classList.toggle(
-                    "selected",
-                    i === index
-                );
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   NEXT QUESTION
-========================================================= */
-
-async function nextQuestion() {
-
-    if (
-        selectedAnswer === null
-    ) {
-
-        showAlert(
-            "quizAlert",
-            "Please select an answer."
-        );
-
-        return;
-    }
-
-
-    if (
-        currentQuestionIndex <
-        quizQuestions.length - 1
-    ) {
-
-        currentQuestionIndex++;
-
-        renderQuestion();
-
-        return;
-    }
-
-
-    await finishQuiz();
-
-}
-
-
-/* =========================================================
-   TIMER
-========================================================= */
-
-function startQuizTimer() {
-
-    clearInterval(
-        quizTimerInterval
-    );
-
-
-    updateTimer();
-
-
-    quizTimerInterval =
-        setInterval(
-            () => {
-
-                quizSeconds--;
-
-                updateTimer();
-
-
-                if (
-                    quizSeconds <= 0
-                ) {
-
-                    clearInterval(
-                        quizTimerInterval
-                    );
-
-                    finishQuiz();
-
-                }
-
-            },
-            1000
-        );
-
-}
-
-
-function updateTimer() {
-
-    const minutes =
-        Math.floor(
-            quizSeconds / 60
-        );
-
-    const seconds =
-        quizSeconds % 60;
-
-
-    $("quizTimer")
-        .textContent =
-        String(minutes).padStart(2,"0") +
-        ":" +
-        String(seconds).padStart(2,"0");
-
-}
-
-
-/* =========================================================
-   FINISH QUIZ
-========================================================= */
-
-async function finishQuiz() {
-
-    clearInterval(
-        quizTimerInterval
-    );
-
-
-    if (
-        !quizQuestions.length
-    ) {
-        return;
-    }
-
-
-    let score = 0;
-
-
-    quizQuestions.forEach(
-        (question,index) => {
-
-            const correct =
-                question.answer ??
-                question.correct_answer ??
-                question.correctAnswer;
-
-
-            if (
-                quizAnswers[index] ===
-                correct
-            ) {
-
-                score++;
-
-            }
-
-        }
-    );
-
-
-    latestScore =
-        score;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } = await db.functions.invoke(
-            FUNCTIONS.submitQuiz,
-            {
-                body:{
-
-                    user_id:
-                        currentUser.id,
-
-                    answers:
-                        quizAnswers,
-
-                    questions:
-                        quizQuestions,
-
-                    score:
-                        score
-                }
-            }
-        );
-
-
-        if (!error && data) {
-
-            if (
-                data.score !== undefined
-            ) {
-
-                latestScore =
-                    data.score;
-
-            }
-
-
-            if (
-                data.rank !== undefined
-            ) {
-
-                latestRank =
-                    data.rank;
-
-            }
-
-        }
-
-
-    } catch (error) {
-
-        console.warn(
-            "Submit quiz server unavailable:",
-            error
-        );
-
-    }
-
-
-    $("quizBox")
-        .classList.add("hidden");
-
-    $("quizResultBox")
-        .classList.remove("hidden");
-
-
-    $("finalScore")
-        .textContent =
-        `${latestScore} / ${quizQuestions.length}`;
-
-
-    $("scoreMetric")
-        .textContent =
-        latestScore;
-
-
-    await loadLeaderboard();
-
-    await loadStudentStats();
-
-}
-
-
-/* =========================================================
-   CERTIFICATE
-========================================================= */
-
-async function loadCertificate() {
-
-    if (!currentUser) {
-        return;
-    }
-
-
-    const container =
-        $("certificateContainer");
-
-
-    try {
+    async function loadProfile() {
 
         const {
             data,
             error
         } = await db
-            .from("certificates")
-            .select("*")
+            .from("profiles")
+            .select(
+                "id,full_name,email,phone,owner"
+            )
             .eq(
-                "student_id",
+                "id",
                 currentUser.id
             )
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
-            .limit(1)
             .maybeSingle();
 
 
         if (error) {
-            throw error;
+
+            console.error(
+                "Profile error:",
+                error
+            );
+
+            showMessage(
+                "globalMessage",
+                "Could not load your profile.",
+                "error"
+            );
+
+            return;
+
         }
 
 
         if (!data) {
 
-            container
-                .classList.add("hidden");
+            showMessage(
+                "globalMessage",
+                "Student profile was not found.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-            showAlert(
-                "certificateAlert",
-                "Your certificate has not been issued yet.",
-                "info"
+        currentProfile =
+            data;
+
+
+        const name =
+            data.full_name ||
+            "Student";
+
+
+        $("studentName").textContent =
+            name;
+
+
+        $("studentEmail").textContent =
+            data.email ||
+            currentUser.email ||
+            "";
+
+
+        $("avatarInitial").textContent =
+            name
+                .trim()
+                .charAt(0)
+                .toUpperCase();
+
+
+        if (data.owner === true) {
+
+            $("ownerBadge")
+                .classList
+                .remove("hidden");
+
+        }
+
+    }
+
+
+    /* =========================================================
+       QUIZ ACCESS
+    ========================================================= */
+
+    async function getQuizAccess() {
+
+        const {
+            data,
+            error
+        } = await db
+            .from("app_settings")
+            .select(
+                "quiz_enabled,payment_required,quiz_fee,mtn_payment_number"
+            )
+            .eq(
+                "id",
+                1
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Access error:",
+                error
+            );
+
+            quizAccess =
+                null;
+
+            paymentStatusAvailable =
+                false;
+
+
+            $("quizStatus").textContent =
+                "Unavailable";
+
+            $("quizStatus").className =
+                "access-value status-off";
+
+
+            $("paymentStatus").textContent =
+                "Unavailable";
+
+
+            $("quizFee").textContent =
+                "—";
+
+
+            $("myPaymentStatus").textContent =
+                "Unavailable";
+
+
+            $("startQuizBtn").disabled =
+                true;
+
+
+            $("paymentBox")
+                .classList
+                .add("hidden");
+
+
+            showMessage(
+                "accessMessage",
+                "Quiz settings could not be loaded. Please try again.",
+                "error"
             );
 
 
+            return null;
+
+        }
+
+
+        if (!data) {
+
+            quizAccess =
+                null;
+
+
+            $("startQuizBtn").disabled =
+                true;
+
+
+            $("paymentBox")
+                .classList
+                .add("hidden");
+
+
+            showMessage(
+                "accessMessage",
+                "Quiz settings are not configured.",
+                "error"
+            );
+
+
+            return null;
+
+        }
+
+
+        quizAccess =
+            data;
+
+
+        /* QUIZ STATUS */
+
+        if (data.quiz_enabled === true) {
+
+            $("quizStatus").textContent =
+                "Enabled";
+
+            $("quizStatus").className =
+                "access-value status-on";
+
+        }
+        else {
+
+            $("quizStatus").textContent =
+                "Disabled";
+
+            $("quizStatus").className =
+                "access-value status-off";
+
+        }
+
+
+        /* PAYMENT REQUIRED */
+
+        $("paymentStatus").textContent =
+            data.payment_required === true
+                ? "Required"
+                : "Not required";
+
+
+        $("paymentStatus").className =
+            "access-value";
+
+
+        /* FEE */
+
+        const fee =
+            Number(
+                data.quiz_fee || 0
+            );
+
+
+        $("quizFee").textContent =
+            fee.toLocaleString() +
+            " RWF";
+
+
+        $("paymentAmount").textContent =
+            fee.toLocaleString() +
+            " RWF";
+
+
+        /* MTN NUMBER */
+
+        $("mtnPaymentNumber").textContent =
+            data.mtn_payment_number ||
+            "Not configured";
+
+
+        /*
+         * Load payment status before
+         * deciding whether the quiz
+         * can start.
+         */
+
+        await loadMyPaymentStatus();
+
+        await checkTodayAttempt();
+
+
+        /*
+         * Payment box is shown only
+         * when Owner requires payment.
+         */
+
+        if (
+            data.payment_required === true
+        ) {
+
+            $("paymentBox")
+                .classList
+                .remove("hidden");
+
+        }
+        else {
+
+            $("paymentBox")
+                .classList
+                .add("hidden");
+
+        }
+
+
+        updateQuizButton();
+
+
+        return data;
+
+    }
+
+
+    /* =========================================================
+       PAYMENT STATUS
+    ========================================================= */
+
+    async function loadMyPaymentStatus() {
+
+        paymentStatusAvailable =
+            false;
+
+
+        const {
+            data,
+            error
+        } = await db.rpc(
+            "get_my_payment_status"
+        );
+
+
+        if (error) {
+
+            console.error(
+                "Payment status error:",
+                error
+            );
+
+            myPayment =
+                null;
+
+
+            $("myPaymentStatus").textContent =
+                "Unavailable";
+
+            $("myPaymentStatus").className =
+                "access-value status-unknown";
+
+
+            $("paymentStatusBox")
+                .classList
+                .add("hidden");
+
+
+            /*
+             * Fail closed:
+             * payment cannot be trusted,
+             * so quiz cannot start.
+             */
+
+            updateQuizButton();
+
+            return false;
+
+        }
+
+
+        paymentStatusAvailable =
+            true;
+
+
+        let payment =
+            data;
+
+
+        if (
+            Array.isArray(data)
+        ) {
+
+            payment =
+                data[0] ||
+                null;
+
+        }
+
+
+        myPayment =
+            payment;
+
+
+        if (!payment) {
+
+            $("myPaymentStatus").textContent =
+                "Not paid";
+
+            $("myPaymentStatus").className =
+                "access-value status-off";
+
+
+            $("paymentStatusBox")
+                .classList
+                .add("hidden");
+
+
+            $("paymentBtn").disabled =
+                false;
+
+            $("paymentBtn").textContent =
+                "Submit Payment";
+
+
+            updateQuizButton();
+
+            return true;
+
+        }
+
+
+        const status =
+            String(
+                payment.status ||
+                ""
+            ).toLowerCase();
+
+
+        if (status === "verified") {
+
+            $("myPaymentStatus").textContent =
+                "Verified";
+
+            $("myPaymentStatus").className =
+                "access-value status-verified";
+
+        }
+        else if (status === "pending") {
+
+            $("myPaymentStatus").textContent =
+                "Pending";
+
+            $("myPaymentStatus").className =
+                "access-value status-pending";
+
+        }
+        else if (status === "rejected") {
+
+            $("myPaymentStatus").textContent =
+                "Rejected";
+
+            $("myPaymentStatus").className =
+                "access-value status-rejected";
+
+        }
+        else {
+
+            $("myPaymentStatus").textContent =
+                status || "Unknown";
+
+            $("myPaymentStatus").className =
+                "access-value status-unknown";
+
+        }
+
+
+        $("paymentStatusBox")
+            .classList
+            .remove("hidden");
+
+
+        $("paymentStatusDetail").textContent =
+            status
+                ? status.toUpperCase()
+                : "UNKNOWN";
+
+
+        $("paymentReferenceDetail").textContent =
+            payment.reference
+                ? "Reference: " +
+                  payment.reference
+                : "";
+
+
+        /*
+         * Verified = no more submission.
+         */
+
+        if (status === "verified") {
+
+            $("paymentBtn").disabled =
+                true;
+
+            $("paymentBtn").textContent =
+                "Payment Verified";
+
+        }
+
+        /*
+         * Pending = prevent duplicate
+         * payment submissions.
+         */
+
+        else if (status === "pending") {
+
+            $("paymentBtn").disabled =
+                true;
+
+            $("paymentBtn").textContent =
+                "Waiting for Verification";
+
+        }
+
+        /*
+         * Rejected = allow a new
+         * reference to be submitted.
+         */
+
+        else {
+
+            $("paymentBtn").disabled =
+                false;
+
+            $("paymentBtn").textContent =
+                "Submit Payment";
+
+        }
+
+
+        updateQuizButton();
+
+        return true;
+
+    }
+
+
+    /* =========================================================
+       UPDATE QUIZ BUTTON
+    ========================================================= */
+
+    function updateQuizButton() {
+
+        const button =
+            $("startQuizBtn");
+
+
+        button.disabled =
+            true;
+
+
+        button.textContent =
+            "Start Today's Quiz";
+
+
+        if (!quizAccess) {
             return;
         }
 
 
-        container
-            .classList.remove("hidden");
+        if (
+            quizAccess.quiz_enabled !== true
+        ) {
+
+            showMessage(
+                "accessMessage",
+                "The quiz is currently disabled by the Owner.",
+                "info"
+            );
+
+            return;
+
+        }
 
 
-        clearAlert(
-            "certificateAlert"
-        );
+        if (
+            $("todayAttempt").textContent ===
+            "Completed"
+        ) {
+
+            return;
+
+        }
 
 
-        $("certificateStudentName")
-            .textContent =
-            data.student_name ||
-            currentProfile?.full_name ||
-            currentUser.email;
+        /*
+         * If payment is not required,
+         * quiz can start directly.
+         */
+
+        if (
+            quizAccess.payment_required !== true
+        ) {
+
+            button.disabled =
+                false;
+
+            return;
+
+        }
 
 
-        $("certificateDirector")
-            .textContent =
-            data.director_name ||
-            "TUYISENGE Patrick";
+        /*
+         * Payment required.
+         * If status could not be loaded,
+         * fail closed.
+         */
+
+        if (!paymentStatusAvailable) {
+
+            return;
+
+        }
 
 
-        $("certificateDate")
-            .textContent =
-            data.certificate_date ||
-            data.created_at?.split("T")[0] ||
-            new Date()
-                .toISOString()
-                .split("T")[0];
+        if (
+            myPayment &&
+            String(
+                myPayment.status
+            ).toLowerCase() ===
+            "verified"
+        ) {
+
+            button.disabled =
+                false;
+
+            hideMessage(
+                "accessMessage"
+            );
+
+            return;
+
+        }
 
 
-    } catch (error) {
+        if (
+            myPayment &&
+            String(
+                myPayment.status
+            ).toLowerCase() ===
+            "pending"
+        ) {
 
-        console.error(
-            "Certificate error:",
-            error
-        );
+            showMessage(
+                "accessMessage",
+                "Your MTN MoMo payment is pending Owner verification.",
+                "info"
+            );
+
+            return;
+
+        }
 
 
-        container
-            .classList.add("hidden");
+        if (
+            myPayment &&
+            String(
+                myPayment.status
+            ).toLowerCase() ===
+            "rejected"
+        ) {
+
+            showMessage(
+                "accessMessage",
+                "Your payment was rejected. You can submit a new MTN MoMo reference.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-        showAlert(
-            "certificateAlert",
-            "Certificate record has not been issued yet.",
+        showMessage(
+            "accessMessage",
+            "Please complete the MTN MoMo payment before starting the quiz.",
             "info"
         );
 
     }
 
-}
+
+    /* =========================================================
+       TODAY'S ATTEMPT
+    ========================================================= */
+
+    async function checkTodayAttempt() {
+
+        const today =
+            getRwandaDate();
 
 
-/* =========================================================
-   PRINT
-========================================================= */
-
-function printCertificate() {
-    window.print();
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logoutStudent() {
-
-    try {
-
-        await db.auth.signOut();
-
-    } catch (error) {
-
-        console.error(
-            "Logout error:",
+        const {
+            data,
             error
-        );
+        } = await db
+            .from("quiz_attempts")
+            .select(
+                "id,score,correct,total,time_seconds,quiz_date,created_at"
+            )
+            .eq(
+                "student_id",
+                currentUser.id
+            )
+            .eq(
+                "quiz_date",
+                today
+            )
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.error(
+                "Today attempt:",
+                error
+            );
+
+
+            $("todayAttempt").textContent =
+                "Unknown";
+
+
+            $("startQuizBtn").disabled =
+                true;
+
+
+            return;
+
+        }
+
+
+        if (data) {
+
+            $("todayAttempt").textContent =
+                "Completed";
+
+
+            $("startQuizBtn").disabled =
+                true;
+
+
+            showMessage(
+                "accessMessage",
+                "You have already completed today's quiz.",
+                "info"
+            );
+
+        }
+        else {
+
+            $("todayAttempt").textContent =
+                "Not completed";
+
+
+            updateQuizButton();
+
+        }
 
     }
 
 
-    currentUser = null;
-    currentProfile = null;
+    /* =========================================================
+       PAYMENT SUBMISSION
+    ========================================================= */
+
+    async function submitPayment() {
+
+        const reference =
+            $("paymentReference")
+                .value
+                .trim();
 
 
-    clearInterval(
-        quizTimerInterval
-    );
+        if (!reference) {
+
+            showMessage(
+                "paymentMessage",
+                "Enter your MTN MoMo payment reference.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-    $("mainNav")
-        .classList.add("hidden");
+        if (!quizAccess) {
+
+            showMessage(
+                "paymentMessage",
+                "Quiz settings are unavailable.",
+                "error"
+            );
+
+            return;
+
+        }
 
 
-    document
-        .querySelectorAll(".page")
-        .forEach(
-            page => {
-                page.classList.remove("active");
+        if (
+            quizAccess.payment_required !== true
+        ) {
+
+            showMessage(
+                "paymentMessage",
+                "Payment is not currently required.",
+                "info"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Prevent duplicate pending
+         * submissions.
+         */
+
+        if (
+            myPayment &&
+            String(
+                myPayment.status
+            ).toLowerCase() ===
+            "pending"
+        ) {
+
+            showMessage(
+                "paymentMessage",
+                "Your previous payment is still pending Owner verification.",
+                "info"
+            );
+
+            return;
+
+        }
+
+
+        $("paymentBtn").disabled =
+            true;
+
+        $("paymentBtn").textContent =
+            "Submitting...";
+
+
+        hideMessage(
+            "paymentMessage"
+        );
+
+
+        try {
+
+            const {
+                data,
+                error
+            } = await db.rpc(
+                "request_mtn_payment",
+                {
+                    p_reference:
+                        reference
+                }
+            );
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+            /*
+             * IMPORTANT:
+             * request_mtn_payment()
+             * returns a TABLE, therefore
+             * Supabase gives us an array.
+             */
+
+            let result =
+                data;
+
+
+            if (
+                Array.isArray(data)
+            ) {
+
+                result =
+                    data[0] ||
+                    null;
+
+            }
+
+
+            if (!result) {
+
+                throw new Error(
+                    "Payment request was not created."
+                );
+
+            }
+
+
+            $("paymentReference")
+                .value = "";
+
+
+            showMessage(
+                "paymentMessage",
+                "Payment submitted successfully. It is now pending Owner verification.",
+                "success"
+            );
+
+
+            await loadMyPaymentStatus();
+
+            updateQuizButton();
+
+        }
+        catch (error) {
+
+            console.error(
+                "Payment error:",
+                error
+            );
+
+
+            let message =
+                error.message ||
+                "Payment submission failed.";
+
+
+            /*
+             * Supabase sometimes returns
+             * PostgreSQL messages with
+             * extra text.
+             */
+
+            if (
+                message.includes(
+                    "already been submitted"
+                )
+            ) {
+
+                message =
+                    "This MTN MoMo reference has already been submitted.";
+
+            }
+
+
+            showMessage(
+                "paymentMessage",
+                message,
+                "error"
+            );
+
+        }
+        finally {
+
+            const status =
+                myPayment &&
+                String(
+                    myPayment.status ||
+                    ""
+                ).toLowerCase();
+
+
+            if (
+                status === "verified"
+            ) {
+
+                $("paymentBtn").disabled =
+                    true;
+
+                $("paymentBtn").textContent =
+                    "Payment Verified";
+
+            }
+            else if (
+                status === "pending"
+            ) {
+
+                $("paymentBtn").disabled =
+                    true;
+
+                $("paymentBtn").textContent =
+                    "Waiting for Verification";
+
+            }
+            else {
+
+                $("paymentBtn").disabled =
+                    false;
+
+                $("paymentBtn").textContent =
+                    "Submit Payment";
+
+            }
+
+        }
+
+    }
+
+
+    /* =========================================================
+       START SECURE QUIZ
+    ========================================================= */
+
+    async function startSecureQuiz() {
+
+        if (!quizAccess) {
+
+            showMessage(
+                "accessMessage",
+                "Quiz settings are unavailable.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            quizAccess.quiz_enabled !== true
+        ) {
+
+            showMessage(
+                "accessMessage",
+                "The quiz is currently disabled by the Owner.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            quizAccess.payment_required === true
+        ) {
+
+            if (
+                !paymentStatusAvailable
+            ) {
+
+                showMessage(
+                    "accessMessage",
+                    "Payment status could not be verified. Please refresh and try again.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (
+                !myPayment ||
+                String(
+                    myPayment.status
+                ).toLowerCase() !==
+                "verified"
+            ) {
+
+                showMessage(
+                    "accessMessage",
+                    "Your MTN MoMo payment must be verified by the Owner before starting the quiz.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        $("startQuizBtn").disabled =
+            true;
+
+        $("startQuizBtn").textContent =
+            "Starting...";
+
+
+        try {
+
+            const {
+                data,
+                error
+            } = await db.rpc(
+                "start_secure_quiz"
+            );
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+            if (!data) {
+
+                throw new Error(
+                    "Quiz attempt was not created."
+                );
+
+            }
+
+
+            let result =
+                data;
+
+
+            if (
+                Array.isArray(data)
+            ) {
+
+                result =
+                    data[0] ||
+                    {};
+
+            }
+
+
+            quizAttemptId =
+                result.attempt_id ||
+                result.id;
+
+
+            if (!quizAttemptId) {
+
+                throw new Error(
+                    "Quiz attempt ID was not returned."
+                );
+
+            }
+
+
+            await loadSecureQuizQuestions();
+
+        }
+        catch (error) {
+
+            console.error(
+                "Start quiz error:",
+                error
+            );
+
+
+            showMessage(
+                "accessMessage",
+                error.message ||
+                "Unable to start the quiz.",
+                "error"
+            );
+
+
+            updateQuizButton();
+
+        }
+        finally {
+
+            $("startQuizBtn").textContent =
+                "Start Today's Quiz";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LOAD SECURE QUESTIONS
+    ========================================================= */
+
+    async function loadSecureQuizQuestions() {
+
+        if (!quizAttemptId) {
+
+            throw new Error(
+                "No quiz attempt."
+            );
+
+        }
+
+
+        const {
+            data,
+            error
+        } = await db.rpc(
+            "get_secure_quiz_questions",
+            {
+                p_attempt_id:
+                    quizAttemptId
             }
         );
 
 
-    $("authPage")
-        .classList.add("active");
+        if (error) {
+
+            throw error;
+
+        }
 
 
-    showLogin();
+        if (
+            !data ||
+            !Array.isArray(data) ||
+            data.length === 0
+        ) {
+
+            throw new Error(
+                "No quiz questions were returned."
+            );
+
+        }
 
 
-    $("loginEmail").value = "";
-    $("loginPassword").value = "";
+        quizQuestions =
+            data.map(
+                q => ({
 
-}
+                    id:
+                        q.id,
+
+                    question:
+                        q.question,
+
+                    options: [
+                        q.option_a,
+                        q.option_b,
+                        q.option_c,
+                        q.option_d
+                    ],
+
+                    question_order:
+                        q.question_order
+
+                })
+            );
 
 
-/* =========================================================
-   START APP
-========================================================= */
+        quizAnswers =
+            {};
 
-window.addEventListener(
-    "load",
-    async () => {
 
-        await checkSession();
+        currentQuestionIndex =
+            0;
+
+
+        quizSubmitting =
+            false;
+
+
+        $("quizPanel")
+            .classList
+            .remove("hidden");
+
+
+        $("quizResult")
+            .classList
+            .add("hidden");
+
+
+        $("quizPanel")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+        renderQuestion();
 
     }
-);
+
+
+    /* =========================================================
+       RENDER QUESTION
+    ========================================================= */
+
+    function renderQuestion() {
+
+        if (
+            !quizQuestions.length
+        ) {
+
+            return;
+
+        }
+
+
+        const question =
+            quizQuestions[
+                currentQuestionIndex
+            ];
+
+
+        $("quizCounter").textContent =
+            "Question " +
+            (currentQuestionIndex + 1) +
+            " of " +
+            quizQuestions.length;
+
+
+        $("questionText").textContent =
+            question.question;
+
+
+        const container =
+            $("optionsContainer");
+
+
+        container.innerHTML =
+            "";
+
+
+        const letters =
+            [
+                "A",
+                "B",
+                "C",
+                "D"
+            ];
+
+
+        question.options.forEach(
+            (option, index) => {
+
+                const button =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                button.type =
+                    "button";
+
+
+                button.className =
+                    "option-btn";
+
+
+                const letter =
+                    letters[index];
+
+
+                button.textContent =
+                    letter +
+                    ". " +
+                    option;
+
+
+                if (
+                    quizAnswers[
+                        question.id
+                    ] ===
+                    letter
+                ) {
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+                }
+
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        selectAnswer(
+                            letter
+                        );
+
+                    }
+                );
+
+
+                container.appendChild(
+                    button
+                );
+
+            }
+        );
+
+
+        $("nextQuestionBtn").disabled =
+            !quizAnswers[
+                question.id
+            ];
+
+
+        if (
+            currentQuestionIndex ===
+            quizQuestions.length - 1
+        ) {
+
+            $("nextQuestionBtn")
+                .textContent =
+                "Finish Quiz";
+
+        }
+        else {
+
+            $("nextQuestionBtn")
+                .textContent =
+                "Next";
+
+        }
+
+
+        startQuestionTimer();
+
+    }
+
+
+    /* =========================================================
+       SELECT ANSWER
+    ========================================================= */
+
+    function selectAnswer(letter) {
+
+        if (
+            quizSubmitting
+        ) {
+
+            return;
+
+        }
+
+
+        const question =
+            quizQuestions[
+                currentQuestionIndex
+            ];
+
+
+        quizAnswers[
+            question.id
+        ] =
+            letter;
+
+
+        const buttons =
+            document.querySelectorAll(
+                ".option-btn"
+            );
+
+
+        buttons.forEach(
+            button => {
+
+                button.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        buttons.forEach(
+            button => {
+
+                if (
+                    button.textContent
+                        .startsWith(
+                            letter + "."
+                        )
+                ) {
+
+                    button.classList.add(
+                        "selected"
+                    );
+
+                }
+
+            }
+        );
+
+
+        $("nextQuestionBtn").disabled =
+            false;
+
+    }
+
+
+    /* =========================================================
+       TIMER
+    ========================================================= */
+
+    function startQuestionTimer() {
+
+        clearInterval(
+            quizTimerInterval
+        );
+
+
+        quizSeconds =
+            15;
+
+
+        updateTimer();
+
+
+        quizTimerInterval =
+            setInterval(
+                () => {
+
+                    quizSeconds--;
+
+                    updateTimer();
+
+
+                    if (
+                        quizSeconds <= 0
+                    ) {
+
+                        clearInterval(
+                            quizTimerInterval
+                        );
+
+
+                        autoNextQuestion();
+
+                    }
+
+                },
+                1000
+            );
+
+    }
+
+
+    function updateTimer() {
+
+        $("quizTimer").textContent =
+            quizSeconds +
+            "s";
+
+
+        if (
+            quizSeconds <= 5
+        ) {
+
+            $("quizTimer")
+                .style.background =
+                "#ffe0e0";
+
+
+            $("quizTimer")
+                .style.color =
+                "#b00000";
+
+        }
+        else {
+
+            $("quizTimer")
+                .style.background =
+                "#fff1f1";
+
+
+            $("quizTimer")
+                .style.color =
+                "#d93025";
+
+        }
+
+    }
+
+
+    /* =========================================================
+       AUTO NEXT
+    ========================================================= */
+
+    function autoNextQuestion() {
+
+        if (
+            quizSubmitting
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            currentQuestionIndex <
+            quizQuestions.length - 1
+        ) {
+
+            currentQuestionIndex++;
+
+            renderQuestion();
+
+        }
+        else {
+
+            finishQuiz();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       NEXT
+    ========================================================= */
+
+    function nextQuestion() {
+
+        if (
+            quizSubmitting
+        ) {
+
+            return;
+
+        }
+
+
+        const question =
+            quizQuestions[
+                currentQuestionIndex
+            ];
+
+
+        if (
+            !quizAnswers[
+                question.id
+            ]
+        ) {
+
+            return;
+
+        }
+
+
+        clearInterval(
+            quizTimerInterval
+        );
+
+
+        if (
+            currentQuestionIndex <
+            quizQuestions.length - 1
+        ) {
+
+            currentQuestionIndex++;
+
+            renderQuestion();
+
+        }
+        else {
+
+            finishQuiz();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       SUBMIT SECURE QUIZ
+    ========================================================= */
+
+    async function finishQuiz() {
+
+        if (
+            quizSubmitting
+        ) {
+
+            return;
+
+        }
+
+
+        quizSubmitting =
+            true;
+
+
+        clearInterval(
+            quizTimerInterval
+        );
+
+
+        $("nextQuestionBtn")
+            .disabled =
+            true;
+
+
+        showMessage(
+            "quizMessage",
+            "Submitting your answers...",
+            "info"
+        );
+
+
+        try {
+
+            /*
+             * The SERVER calculates:
+             *
+             * - correct answers
+             * - score
+             * - percentage
+             * - total
+             * - elapsed time
+             *
+             * p_time_seconds is only kept
+             * for compatibility.
+             */
+
+            const {
+                data,
+                error
+            } = await db.rpc(
+                "submit_secure_quiz",
+                {
+
+                    p_attempt_id:
+                        quizAttemptId,
+
+                    p_answers:
+                        quizAnswers,
+
+                    p_time_seconds:
+                        150
+
+                }
+            );
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+            if (!data) {
+
+                throw new Error(
+                    "No quiz result was returned."
+                );
+
+            }
+
+
+            let result =
+                data;
+
+
+            if (
+                Array.isArray(data)
+            ) {
+
+                result =
+                    data[0] ||
+                    {};
+
+            }
+
+
+            const score =
+                Number(
+                    result.score ||
+                    0
+                );
+
+
+            const correct =
+                Number(
+                    result.correct ||
+                    0
+                );
+
+
+            const total =
+                Number(
+                    result.total ||
+                    quizQuestions.length
+                );
+
+
+            const percentage =
+                Number(
+                    result.percentage ??
+                    score
+                );
+
+
+            $("quizPanel")
+                .classList
+                .add("hidden");
+
+
+            $("quizResult")
+                .classList
+                .remove("hidden");
+
+
+            $("scoreBig").textContent =
+                percentage.toFixed(2) +
+                "%";
+
+
+            $("resultMessage").textContent =
+                "You got " +
+                correct +
+                " out of " +
+                total +
+                " questions correct.";
+
+
+            $("quizResult")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+
+            await loadStats();
+
+            await loadLeaderboard();
+
+            await checkTodayAttempt();
+
+            await loadCertificate();
+
+        }
+        catch (error) {
+
+            console.error(
+                "Submit quiz error:",
+                error
+            );
+
+
+            showMessage(
+                "quizMessage",
+                error.message ||
+                "Quiz submission failed.",
+                "error"
+            );
+
+
+            quizSubmitting =
+                false;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       STUDENT STATS
+    ========================================================= */
+
+    async function loadStats() {
+
+        try {
+
+            const {
+                data,
+                error
+            } = await db.rpc(
+                "get_student_stats"
+            );
+
+
+            if (error) {
+
+                console.error(
+                    "Stats error:",
+                    error
+                );
+
+                return;
+
+            }
+
+
+            if (!data) {
+
+                return;
+
+            }
+
+
+            let stats =
+                data;
+
+
+            if (
+                Array.isArray(data)
+            ) {
+
+                stats =
+                    data[0] ||
+                    {};
+
+            }
+
+
+            $("attemptCount").textContent =
+                stats.attempt_count ??
+                stats.total_attempts ??
+                0;
+
+
+            const best =
+                Number(
+                    stats.best_score ??
+                    stats.best_percentage ??
+                    0
+                );
+
+
+            $("bestScore").textContent =
+                best.toFixed(2) +
+                "%";
+
+
+            $("studentRank").textContent =
+                stats.rank ??
+                "—";
+
+        }
+        catch (error) {
+
+            console.error(
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       LEADERBOARD
+    ========================================================= */
+
+    async function loadLeaderboard() {
+
+        const container =
+            $("leaderboardList");
+
+
+        container.innerHTML =
+            '<div class="loading">Loading leaderboard...</div>';
+
+
+        try {
+
+            const {
+                data,
+                error
+            } = await db.rpc(
+                "get_leaderboard"
+            );
+
+
+            if (error) {
+
+                throw error;
+
+            }
+
+
+            if (
+                !data ||
+                !Array.isArray(data) ||
+                data.length === 0
+            ) {
+
+                container.innerHTML =
+                    '<div class="loading">No leaderboard data yet.</div>';
+
+                return;
+
+            }
+
+
+            container.innerHTML =
+                "";
+
+
+            data
+                .slice(0, 10)
+                .forEach(
+                    (row, index) => {
+
+                        const div =
+                            document.createElement(
+                                "div"
+                            );
+
+
+                        div.className =
+                            "leader-row";
+
+
+                        const name =
+                            row.full_name ||
+                            row.student_name ||
+                            row.name ||
+                            "Student";
+
+
+                        const score =
+                            Number(
+                                row.score ??
+                                row.percentage ??
+                                0
+                            );
+
+
+                        const rank =
+                            row.rank ??
+                            index + 1;
+
+
+                        div.innerHTML = `
+                            <div class="rank">
+                                #${escapeHtml(rank)}
+                            </div>
+
+                            <div class="leader-name">
+                                ${escapeHtml(name)}
+                            </div>
+
+                            <div class="leader-score">
+                                ${score.toFixed(2)}%
+                            </div>
+                        `;
+
+
+                        container.appendChild(
+                            div
+                        );
+
+                    }
+                );
+
+        }
+        catch (error) {
+
+            console.error(
+                "Leaderboard error:",
+                error
+            );
+
+
+            container.innerHTML =
+                '<div class="loading">Leaderboard unavailable.</div>';
+
+        }
+
+    }
+
+
+    /* =========================================================
+       CERTIFICATE
+    ========================================================= */
+
+    async function loadCertificate() {
+
+        if (!currentProfile) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const {
+                data,
+                error
+            } = await db
+                .from("certificates")
+                .select(
+                    "id,student_id,certificate_number,score,lessons_completed,issue_date,director_name,created_at"
+                )
+                .eq(
+                    "student_id",
+                    currentUser.id
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: false
+                    }
+                )
+                .limit(1)
+                .maybeSingle();
+
+
+            if (error) {
+
+                console.error(
+                    "Certificate error:",
+                    error
+                );
+
+
+                $("certificateStatus")
+                    .textContent =
+                    "—";
+
+
+                return;
+
+            }
+
+
+            if (!data) {
+
+                $("certificateStatus")
+                    .textContent =
+                    "No";
+
+
+                $("certificateSection")
+                    .classList
+                    .add("hidden");
+
+
+                return;
+
+            }
+
+
+            $("certificateStatus")
+                .textContent =
+                "Yes";
+
+
+            $("certificateSection")
+                .classList
+                .remove("hidden");
+
+
+            $("certificateStudentName")
+                .textContent =
+                currentProfile.full_name ||
+                "Student";
+
+
+            $("certificateScore")
+                .textContent =
+                Number(
+                    data.score || 0
+                ).toFixed(2) +
+                "%";
+
+
+            $("certificateLessons")
+                .textContent =
+                data.lessons_completed ?? 0;
+
+
+            $("certificateNumber")
+                .textContent =
+                data.certificate_number ||
+                "—";
+
+
+            $("certificateDate")
+                .textContent =
+                formatDate(
+                    data.issue_date
+                );
+
+
+            $("certificateDirector")
+                .textContent =
+                data.director_name ||
+                "TUYISENGE Patrick";
+
+        }
+        catch (error) {
+
+            console.error(
+                "Certificate loading error:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       DATE
+    ========================================================= */
+
+    function formatDate(value) {
+
+        if (!value) {
+
+            return "—";
+
+        }
+
+
+        const date =
+            new Date(value);
+
+
+        if (
+            Number.isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return value;
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-RW",
+            {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                timeZone: "Africa/Kigali"
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    async function logout() {
+
+        clearInterval(
+            quizTimerInterval
+        );
+
+
+        await db.auth.signOut();
+
+
+        window.location.href =
+            "index.html";
+
+    }
+
+
+    /* =========================================================
+       PRINT
+    ========================================================= */
+
+    function printCertificate() {
+
+        window.print();
+
+    }
+
+
+    /* =========================================================
+       EVENT LISTENERS
+    ========================================================= */
+
+    $("startQuizBtn")
+        .addEventListener(
+            "click",
+            startSecureQuiz
+        );
+
+
+    $("nextQuestionBtn")
+        .addEventListener(
+            "click",
+            nextQuestion
+        );
+
+
+    $("paymentBtn")
+        .addEventListener(
+            "click",
+            submitPayment
+        );
+
+
+    $("refreshAccessBtn")
+        .addEventListener(
+            "click",
+            async () => {
+
+                hideMessage(
+                    "accessMessage"
+                );
+
+                hideMessage(
+                    "paymentMessage"
+                );
+
+
+                await getQuizAccess();
+
+                await loadStats();
+
+                await loadLeaderboard();
+
+                await loadCertificate();
+
+            }
+        );
+
+
+    $("logoutBtn")
+        .addEventListener(
+            "click",
+            logout
+        );
+
+
+    $("printCertificateBtn")
+        .addEventListener(
+            "click",
+            printCertificate
+        );
+
+
+    $("resultLeaderboardBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                window.location.href =
+                    "leaderboard.html";
+
+            }
+        );
+
+
+    $("closeResultBtn")
+        .addEventListener(
+            "click",
+            () => {
+
+                $("quizResult")
+                    .classList
+                    .add("hidden");
+
+            }
+        );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    async function initializeStudentPage() {
+
+        try {
+
+            const loggedIn =
+                await checkAuth();
+
+
+            if (!loggedIn) {
+
+                return;
+
+            }
+
+
+            await loadProfile();
+
+            await getQuizAccess();
+
+            await loadStats();
+
+            await loadLeaderboard();
+
+            await loadCertificate();
+
+        }
+        catch (error) {
+
+            console.error(
+                "Initialization error:",
+                error
+            );
+
+
+            showMessage(
+                "globalMessage",
+                "Something went wrong while loading your dashboard.",
+                "error"
+            );
+
+        }
+
+    }
+
+
+    initializeStudentPage();
 
 </script>
 
